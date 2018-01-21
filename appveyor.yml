@@ -1,0 +1,14 @@
+image: Visual Studio 2017
+
+before_build:
+- nuget restore Src\Castalia.sln
+
+build:
+  project: Src\Castalia.sln
+  verbosity: minimal
+
+test_script:
+- Src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -returntargetcode -target:"C:\projects\Castalia\Src\packages\xunit.runner.console.2.3.1\tools\net452\xunit.console.exe" "-filter:+[*]* -[Castalia.Tests*]*" -log:Verbose -output:"coverage.xml" -targetdir:"C:\projects\Castalia\Src\Castalia.Tests\bin\Debug" -targetargs:"C:\projects\Castalia\Src\Castalia.Tests\bin\Debug\Castalia.Tests.dll -noshadow -appveyor -parallel none"
+
+after_test:
+- Src\packages\Codecov.1.0.3\tools\codecov.exe -f "coverage.xml"
