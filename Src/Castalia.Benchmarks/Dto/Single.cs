@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ZeroFormatter;
 
 namespace Castalia.Benchmarks
 {
@@ -184,6 +185,7 @@ namespace Castalia.Benchmarks
             }
         }
 
+        
         public class WithArray
         {
             public int[] Items = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
@@ -191,8 +193,7 @@ namespace Castalia.Benchmarks
 
         public class WithHashSet
         {
-            public HashSet<int> Items =
-                new HashSet<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+            public HashSet<int> Items = new HashSet<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
         }
 
         public class WithDictionary

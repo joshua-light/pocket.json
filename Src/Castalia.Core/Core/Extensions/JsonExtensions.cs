@@ -31,9 +31,6 @@ namespace Castalia
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of JSON object, to which string will be converted.</typeparam>
         /// <returns>Object created from string representation.</returns>
-        public static T AsJson<T>(this string self)
-        {
-            return Json<T>.Unwrap(new StringSpan(self));
-        }
+        public static T AsJson<T>(this string self) => Json<T>.Unwrap(new StringSpan(self));
     }
 }

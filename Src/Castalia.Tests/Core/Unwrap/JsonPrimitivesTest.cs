@@ -5,38 +5,6 @@ namespace Castalia.Tests.Core.Unwrap
 {
     public class JsonPrimitivesTest
     {
-        private static UnwrapsFluent Unwraps(string json)
-        {
-            return new UnwrapsFluent(json);
-        }
-
-        private struct UnwrapsFluent
-        {
-            private readonly string _json;
-
-            public UnwrapsFluent(string json)
-            {
-                _json = json;
-            }
-
-            public void To<T>(T value)
-            {
-                Assert.Equal(value, _json.AsJson<T>());
-            }
-
-            public void To(int value)
-            {
-                Assert.Equal(value, _json.AsJson<int>());
-                Assert.Equal(-value, ("-" + _json).AsJson<int>());
-            }
-
-            public void To(long value)
-            {
-                Assert.Equal(value, _json.AsJson<long>());
-                Assert.Equal(-value, ("-" + _json).AsJson<long>());
-            }
-        }
-
         [Fact]
         public void Bool()
         {
@@ -475,6 +443,38 @@ namespace Castalia.Tests.Core.Unwrap
             Unwraps("\"0\"").To("0");
             Unwraps("\"Hello\"").To("Hello");
             Unwraps("\"Hello, guys!\"").To("Hello, guys!");
+        }
+        
+        private static UnwrapsFluent Unwraps(string json)
+        {
+            return new UnwrapsFluent(json);
+        }
+
+        private struct UnwrapsFluent
+        {
+            private readonly string _json;
+
+            public UnwrapsFluent(string json)
+            {
+                _json = json;
+            }
+
+            public void To<T>(T value)
+            {
+                Assert.Equal(value, _json.AsJson<T>());
+            }
+
+            public void To(int value)
+            {
+                Assert.Equal(value, _json.AsJson<int>());
+                Assert.Equal(-value, ("-" + _json).AsJson<int>());
+            }
+
+            public void To(long value)
+            {
+                Assert.Equal(value, _json.AsJson<long>());
+                Assert.Equal(-value, ("-" + _json).AsJson<long>());
+            }
         }
     }
 }

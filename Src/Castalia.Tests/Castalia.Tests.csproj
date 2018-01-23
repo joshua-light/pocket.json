@@ -64,6 +64,7 @@
     <Compile Include="Core\Append\JsonCollectionsTest.cs" />
     <Compile Include="Core\Append\JsonPrimitivesTest.cs" />
     <Compile Include="Core\Append\JsonStructsTest.cs" />
+    <Compile Include="Core\Unwrap\JsonCollectionsTest.cs" />
     <Compile Include="Core\Unwrap\JsonPrimitivesTest.cs" />
     <Compile Include="Core\Unwrap\JsonStructsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

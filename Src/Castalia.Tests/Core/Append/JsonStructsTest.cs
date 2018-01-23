@@ -4,30 +4,6 @@ namespace Castalia.Tests.Core.Append
 {
     public class JsonStructsTest
     {
-        public class Item
-        {
-            public int Data;
-        }
-
-        public class Item2
-        {
-            public int Data;
-            public int Data2;
-        }
-
-        public class BothItems
-        {
-            public bool Data;
-
-            public Item Item;
-            public Item2 Item2;
-        }
-
-        private static void Represents<T>(T item, string representation)
-        {
-            Assert.Equal(representation, item.AsJson());
-        }
-
         [Fact]
         public void NestedItems()
         {
@@ -56,6 +32,30 @@ namespace Castalia.Tests.Core.Append
             Represents(new Item2 { Data = 5, Data2 = 6 }, "{\"Data\":5,\"Data2\":6}");
             Represents(new Item2 { Data = 1, Data2 = 2 }, "{\"Data\":1,\"Data2\":2}");
             Represents(new Item2 { Data = -15, Data2 = 155 }, "{\"Data\":-15,\"Data2\":155}");
+        }
+        
+        private static void Represents<T>(T item, string representation)
+        {
+            Assert.Equal(representation, item.AsJson());
+        }
+        
+        public class Item
+        {
+            public int Data;
+        }
+
+        public class Item2
+        {
+            public int Data;
+            public int Data2;
+        }
+
+        public class BothItems
+        {
+            public bool Data;
+
+            public Item Item;
+            public Item2 Item2;
         }
     }
 }

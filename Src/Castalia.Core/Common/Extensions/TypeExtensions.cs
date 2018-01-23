@@ -3,11 +3,14 @@ using System.Reflection;
 
 namespace Castalia
 {
-    public static class TypeExtensions
+    internal static class TypeExtensions
     {
-        public static bool IsNullable(this Type self)
+        public static bool IsNullable(this Type self) => self.IsGeneric(typeof(Nullable<>));
+
+        public static bool IsGeneric(this Type self, Type genericType)
         {
-            return self.GetTypeInfo().IsGenericType && self.GetGenericTypeDefinition() == typeof(Nullable<>);
+            var type = self.GetTypeInfo();
+            return type.IsGenericType && type.GetGenericTypeDefinition() == genericType;
         }
     }
 }

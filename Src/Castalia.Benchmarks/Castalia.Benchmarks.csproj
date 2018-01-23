@@ -1,12 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Castalia.Benchmarks.csproj.DotSettings" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Castalia.Core\Castalia.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Utf8Json" Version="1.3.6.1" />
+    <PackageReference Include="ZeroFormatter" Version="1.6.4" />
   </ItemGroup>
 </Project>

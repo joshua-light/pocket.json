@@ -87,127 +87,13 @@ namespace Castalia
 
         #region Unwrap
 
-        private class JsonReader
-        {
-            public StringSpan Json;
-
-            public bool NextName(ref StringSpan span)
-            {
-                if (Json.Length <= 0)
-                    return false;
-
-                Json.SkipMutable(1); // Skips '"'.
-
-                var json = Json;
-                var remainder = json.Length % 2;
-                var length = json.Length - remainder;
-
-                for (var i = 0; i < length; i += 2)
-                {
-                    var a = json.Source[json.Offset + i];
-                    if (a == '"')
-                    {
-                        json.Length = i;
-                        span = json;
-                        break;
-                    }
-
-                    var b = json.Source[json.Offset + i + 1];
-                    if (b == '"')
-                    {
-                        json.Length = i + 1;
-                        span = json;
-                        break;
-                    }
-                }
-
-                Json.SkipMutable(span.Length + 1);
-
-                return true;
-            }
-
-            public StringSpan NextField()
-            {
-                var json = Json;
-                json.SkipMutable(1); // Skips ':'.
-
-                var span = json;
-                var ch = span.Source[span.Offset];
-
-                if (ch == '{')
-                    NextObject(ref span);
-                else if (ch == '"')
-                    NextString(ref span);
-                else
-                    NextValue(ref span);
-
-                json.SkipMutable(span.Length + 1); // Skip ','.
-
-                Json = json;
-
-                return span;
-            }
-
-            private static void NextObject(ref StringSpan json)
-            {
-                var stack = 0;
-
-                for (var i = 0; i < json.Length; i++)
-                    if (json[i] == '{')
-                    {
-                        stack++;
-                    }
-                    else if (json[i] == '}' && stack-- == 1)
-                    {
-                        json = json.SubSpan(i + 1);
-                        break;
-                    }
-            }
-
-            private static void NextString(ref StringSpan json)
-            {
-                for (var i = 1; i < json.Length; i++)
-                {
-                    if (json[i] != '"')
-                        continue;
-
-                    json = json.SubSpan(i + 1);
-                    break;
-                }
-            }
-
-            private static void NextValue(ref StringSpan json)
-            {
-                var remainder = json.Length % 2;
-                var length = json.Length - remainder;
-
-                for (var i = 0; i < length; i += 2)
-                {
-                    var a = json.Source[json.Offset + i];
-                    if (a == ',')
-                    {
-                        json.Length = i;
-                        break;
-                    }
-
-                    var b = json.Source[json.Offset + i + 1];
-                    if (b == ',')
-                    {
-                        json.Length = i + 1;
-                        break;
-                    }
-                }
-            }
-        }
-
         // Static instance that is used only in `Unwrap` method.
         private static readonly JsonReader Reader = new JsonReader();
 
         public static T Unwrap(StringSpan json)
         {
             if (json[0] != '{' || json[json.Length - 1] != '}')
-                throw new ArgumentException(
-                    "Specified json \"" + json + "\" must have open '{' and close '}' brackets.", nameof(json));
+                throw new ArgumentException($"Specified json \"{json}\" must have open {'{'} and close {'}'} brackets.", nameof(json));
 
             var result = Constructor();
 
@@ -223,7 +109,9 @@ namespace Castalia
             {
                 var hashCode = span.GetHashCode();
                 var field = fieldByName[hashCode];
-                var value = reader.NextField();
+                
+                reader.Json.SkipMutable(1); // Skip ':'.
+                var value = reader.NextValue();
 
                 field.Write(result, value);
             }

@@ -5,11 +5,6 @@ namespace Castalia.Tests.Core.Append
 {
     public class JsonCollectionsTest
     {
-        private static void Represents<T>(T item, string representation)
-        {
-            Assert.Equal(representation, item.AsJson());
-        }
-
         [Fact]
         public void Array()
         {
@@ -44,6 +39,11 @@ namespace Castalia.Tests.Core.Append
             Represents(new List<int>(), "[]");
             Represents(new List<string> { "Hello" }, "[\"Hello\"]");
             Represents(new List<int> { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
+        }
+        
+        private static void Represents<T>(T item, string representation)
+        {
+            Assert.Equal(representation, item.AsJson());
         }
     }
 }

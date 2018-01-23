@@ -57,13 +57,11 @@ namespace Castalia
             if (type.IsArray)
                 return JsonArray.GenerateAppend<T>();
 
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            if (type.IsGeneric(typeof(List<>)))
                 return JsonList.GenerateAppend<T>();
-
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>)
-                || type.GetTypeInfo().ImplementedInterfaces
-                    .Any(x => x.GetTypeInfo().IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>)))
-                return JsonDictionary.GenerateAppend<T>();
+            
+            if (type.IsGeneric(typeof(Dictionary<,>)))
+                return JsonList.GenerateAppend<T>();
 
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 || type.GetTypeInfo().ImplementedInterfaces
@@ -100,6 +98,9 @@ namespace Castalia
 
             if (type == typeof(string))
                 return (Unwrap<string>) JsonString.Unwrap;
+            
+            if (type.IsArray)
+                return JsonArray.GenerateUnwrap<T>();
 
             return (Unwrap<T>) JsonObject<T>.Unwrap;
         }
