@@ -1,6 +1,4 @@
-﻿using ZeroFormatter;
-
-namespace Castalia.Benchmarks
+﻿namespace Castalia.Benchmarks
 {
     public class TenFields
     {
@@ -100,21 +98,6 @@ namespace Castalia.Benchmarks
             public double Data7 = 123412356123478.1212341235678;
             public double Data8 = 123412356789.1234123123456789;
             public double Data9 = 123423567891.1234123123567891;
-        }
-        
-        [ZeroFormattable]
-        public class DoubleZeroFormatter
-        {
-            [Index(0)] public virtual double Data { get; set; } = 1141512312412423.1231241241231;
-            [Index(1)] public virtual double Data10 { get; set; } = 1234123567891.12341235678912;
-            [Index(2)] public virtual double Data2 { get; set; } = 11123123123123232.11231233312;
-            [Index(3)] public virtual double Data3 { get; set; } = 1211231231231231231232233.123;
-            [Index(4)] public virtual double Data4 { get; set; } = 12123312312414.11231231234234;
-            [Index(5)] public virtual double Data5 { get; set; } = 1231234114123445.123412312315;
-            [Index(6)] public virtual double Data6 { get; set; } = 1231123133234567.121234123456;
-            [Index(7)] public virtual double Data7 { get; set; } = 123412356123478.1212341235678;
-            [Index(8)] public virtual double Data8 { get; set; } = 123412356789.1234123123456789;
-            [Index(9)] public virtual double Data9 { get; set; } = 123423567891.1234123123567891;
         }
     }
 }
