@@ -21,7 +21,7 @@ namespace Castalia
         
         #region Unwrap
         
-        public static T[] Unwrap(StringSpan json)
+        public static List<T> Unwrap(StringSpan json)
         {
             json = json.Cut(1, 1); // Cut '[' and ']'.
 
@@ -33,13 +33,13 @@ namespace Castalia
                 length++;
             
             reader.Json = json;
-            
-            var result = new T[length];
+
+            var result = new List<T>(length);
             var i = 0;
             
             var span = StringSpan.Zero;
             while ((span = reader.NextValue()).Length != 0)
-                result[i++] = span.ToString().AsJson<T>();
+                result.Add(span.ToString().AsJson<T>());
             
             return result;
         }
@@ -59,7 +59,7 @@ namespace Castalia
         
         public static Unwrap<T> GenerateUnwrap<T>()
         {
-            var type = typeof(JsonList<>).MakeGenericType(typeof(T).GetElementType());
+            var type = typeof(JsonList<>).MakeGenericType(typeof(T).GetTypeInfo().GenericTypeArguments[0]);
             var method = type.GetTypeInfo().GetDeclaredMethod("Unwrap");
 
             return (Unwrap<T>) method.CreateDelegate(typeof(Unwrap<T>));

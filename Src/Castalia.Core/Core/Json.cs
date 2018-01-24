@@ -101,6 +101,9 @@ namespace Castalia
             
             if (type.IsArray)
                 return JsonArray.GenerateUnwrap<T>();
+            
+            if (type.IsGeneric(typeof(List<>)))
+                return JsonList.GenerateUnwrap<T>();
 
             return (Unwrap<T>) JsonObject<T>.Unwrap;
         }
