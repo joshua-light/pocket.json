@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Tests", "Castalia.Tests\Castalia.Tests.csproj", "{598703FF-AFEF-4C76-9C04-C6C48C51327E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Tests", "Tests\Castalia.Tests.csproj", "{598703FF-AFEF-4C76-9C04-C6C48C51327E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Core", "Castalia.Core\Castalia.Core.csproj", "{AB177CA3-471B-4D8B-B8B4-8D56C7A0EE33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Core", "Core\Castalia.Core.csproj", "{AB177CA3-471B-4D8B-B8B4-8D56C7A0EE33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Benchmarks", "Castalia.Benchmarks\Castalia.Benchmarks.csproj", "{45E7E058-60E8-435B-85A5-D4E901547479}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Castalia.Benchmarks", "Benchmarks\Castalia.Benchmarks.csproj", "{45E7E058-60E8-435B-85A5-D4E901547479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
