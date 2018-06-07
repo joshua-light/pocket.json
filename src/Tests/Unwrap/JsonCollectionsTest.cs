@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 
-namespace Castalia.Tests.Unwrap
+namespace Pocket.Json.Tests.Unwrap
 {
     public class JsonCollectionsTest
     {

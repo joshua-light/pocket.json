@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace Castalia.Tests.Append
+namespace Pocket.Json.Tests.Append
 {
     public class JsonStructsTest
     {

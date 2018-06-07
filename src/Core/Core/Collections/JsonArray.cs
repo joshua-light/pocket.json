@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class JsonArray<T>
     {

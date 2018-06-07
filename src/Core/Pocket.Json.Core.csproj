@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <AssemblyName>Castalia</AssemblyName>
-    <RootNamespace>Castalia</RootNamespace>
+    <AssemblyName>Pocket.Json</AssemblyName>
+    <RootNamespace>Pocket.Json</RootNamespace>
     <TargetFrameworks>netcoreapp2.0;net461;net471</TargetFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -11,7 +11,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Castalia.Core.csproj.DotSettings" />
+    <None Remove="Pocket.Json.Core.csproj.DotSettings" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />

@@ -9,6 +9,11 @@ Assets/AssetStoreTools*
 JetBrains/
 Internal/
 
+# Cake files.
+tools/**
+!tools/packages.config
+artifacts/
+
 # Visual Studio and Rider Folders.
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -46,3 +51,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Project specific.
+*/Eternity.Unity/*.csproj
+*/Eternity.Unity/*.sln

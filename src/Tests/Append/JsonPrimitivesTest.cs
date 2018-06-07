@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Castalia.Tests.Append
+namespace Pocket.Json.Tests.Append
 {
     public class JsonPrimitivesTest
     {

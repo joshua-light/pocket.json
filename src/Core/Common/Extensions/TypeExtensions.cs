@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class TypeExtensions
     {

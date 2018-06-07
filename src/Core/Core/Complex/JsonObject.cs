@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class JsonObject<T>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal sealed class StringBuffer
     {

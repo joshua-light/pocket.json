@@ -1,4 +1,4 @@
-﻿namespace Castalia
+﻿namespace Pocket.Json
 {
     internal class JsonReader
     {

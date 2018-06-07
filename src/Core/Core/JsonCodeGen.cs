@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class JsonCodeGen
     {

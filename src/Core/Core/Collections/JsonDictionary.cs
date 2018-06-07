@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class JsonDictionary<TKey, TValue>
     {

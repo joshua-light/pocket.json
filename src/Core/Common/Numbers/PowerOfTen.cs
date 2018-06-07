@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal static class PowerOfTen
     {

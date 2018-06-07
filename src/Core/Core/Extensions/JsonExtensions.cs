@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Castalia
+namespace Pocket.Json
 {
     public static class JsonExtensions
     {

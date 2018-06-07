@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Castalia
+namespace Pocket.Json
 {
     internal delegate void Append<T>(T value, StringBuffer buffer);
 
@@ -61,7 +61,7 @@ namespace Castalia
                 return JsonList.GenerateAppend<T>();
             
             if (type.IsGeneric(typeof(Dictionary<,>)))
-                return JsonList.GenerateAppend<T>();
+                return JsonDictionary.GenerateAppend<T>();
 
             if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 || type.GetTypeInfo().ImplementedInterfaces
