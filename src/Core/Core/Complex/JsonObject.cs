@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Pocket.Common;
 
 namespace Pocket.Json
 {
@@ -13,7 +14,7 @@ namespace Pocket.Json
 
         static JsonObject()
         {
-            Constructor = JsonCodeGen.NewObj<T>();
+            Constructor = Emit.Ctor<T>();
 
             var fields = typeof(T).GetTypeInfo().DeclaredFields
                 .Where(x => x.IsPublic && !x.IsStatic)
@@ -61,11 +62,11 @@ namespace Pocket.Json
                 Name = field.Name;
                 _formattedFieldName = $"\"{field.Name}\":";
 
-                _readField = JsonCodeGen.ReadField<T>(field);
-                _writeField = JsonCodeGen.WriteField<T>(field);
+                _readField = Emit.GetField<T>(field);
+                _writeField = Emit.SetField<T>(field);
 
-                _append = JsonCodeGen.Append(field.FieldType);
-                _unwrap = JsonCodeGen.Unwrap(field.FieldType);
+                _append = Generate.Append(field.FieldType);
+                _unwrap = Generate.Unwrap(field.FieldType);
             }
 
             public string Name { get; }
