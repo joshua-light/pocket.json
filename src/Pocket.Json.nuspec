@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Pocket.Json</id>
+    <authors>Joshua Light</authors>
+    <owners>Joshua Light</owners>
+    <licenseUrl>https://github.com/JoshuaLight/Pocket.Json/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/JoshuaLight/Pocket.Json/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Pocket JSON serialization library.</description>
+    <copyright>Copyright © 2018 JoshuaLight</copyright>
+    <tags>Json Serialization</tags>
+  </metadata>
+  <files>
+    <file src="..\artifacts\out\lib\net461\Pocket.Json*" target="lib\net461"/>
+    <file src="..\artifacts\out\lib\net471\Pocket.Json*" target="lib\net471"/>
+    <file src="..\artifacts\out\lib\netcoreapp2.0\Pocket.Json*" target="lib\netcoreapp2.0"/>
+  </files>
+</package>
