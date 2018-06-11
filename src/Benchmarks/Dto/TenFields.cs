@@ -1,4 +1,4 @@
-﻿namespace Castalia.Benchmarks
+﻿namespace Pocket.Json.Benchmarks
 {
     public class TenFields
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Pocket.Json;
 
-namespace Castalia.Benchmarks
+namespace Pocket.Json.Benchmarks
 {
     public class Program
     {

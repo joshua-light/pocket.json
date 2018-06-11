@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Castalia.Benchmarks
+namespace Pocket.Json.Benchmarks
 {
     public static class Single
     {
