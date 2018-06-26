@@ -60,8 +60,9 @@ namespace Pocket.Json
             public JsonField(FieldInfo field)
             {
                 Name = field.Name;
+                
                 _formattedFieldName = $"\"{field.Name}\":";
-
+                
                 _readField = Emit.GetField<T>(field);
                 _writeField = Emit.SetField<T>(field);
 
