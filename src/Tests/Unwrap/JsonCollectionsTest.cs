@@ -21,6 +21,18 @@ namespace Pocket.Json.Tests.Unwrap
             Represents("[\"Hello\"]", new List<string> { "Hello" });
             Represents("[1,2,3,4,5]", new List<int> { 1, 2, 3, 4, 5 });
         }
+
+        [Fact]
+        public void Dictionary()
+        {
+            Represents("{}", new Dictionary<int, int>());
+            Represents("{1:1,2:1,3:1}", new Dictionary<int, int>
+            {
+                { 1, 1 },
+                { 2, 1 },
+                { 3, 1 }
+            });
+        }
         
         private static void Represents<T>(string representation, T item)
         {

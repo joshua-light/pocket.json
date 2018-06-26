@@ -49,6 +49,15 @@
             return new StringSpan(Source, Offset + start, Length - start - end);
         }
 
+        public int IndexOf(char c)
+        {
+            for (var i = 0; i < Length; i++)
+                if (this[i] == c)
+                    return i;
+            
+            return -1;
+        }
+
         #region Mutable
 
         public void SkipMutable(int count)

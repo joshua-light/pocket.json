@@ -104,6 +104,9 @@ namespace Pocket.Json
             
             if (type.IsGeneric(typeof(List<>)))
                 return JsonList.GenerateUnwrap<T>();
+            
+            if (type.IsGeneric(typeof(Dictionary<,>)))
+                return JsonDictionary.GenerateUnwrap<T>();
 
             return (Unwrap<T>) JsonObject<T>.Unwrap;
         }
