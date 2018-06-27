@@ -2,6 +2,9 @@
 
 namespace Pocket.Json
 {
+    /// <summary>
+    ///     Represents JSON serialization/deserialization extension-methods for all objects.
+    /// </summary>
     public static class JsonExtensions
     {
         [ThreadStatic] private static StringBuffer _buffer;
