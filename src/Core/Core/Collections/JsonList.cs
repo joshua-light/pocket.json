@@ -25,7 +25,7 @@ namespace Pocket.Json
         {
             json = json.Cut(1, 1); // Cut '[' and ']'.
 
-            var reader = JsonList.Reader;
+            var reader = JsonList.JsonSpan;
             reader.Json = json;
 
             var length = 0;
@@ -49,7 +49,7 @@ namespace Pocket.Json
 
     internal static class JsonList
     {
-        public static readonly JsonReader Reader = new JsonReader();
+        public static readonly JsonStringSpan JsonSpan = new JsonStringSpan();
         
         public static Append<T> GenerateAppend<T>()
         {

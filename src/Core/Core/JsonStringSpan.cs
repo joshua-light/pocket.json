@@ -1,6 +1,6 @@
 ﻿namespace Pocket.Json
 {
-    internal class JsonReader
+    internal class JsonStringSpan
     {
         public StringSpan Json;
 

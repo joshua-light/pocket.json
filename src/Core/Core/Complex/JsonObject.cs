@@ -90,7 +90,7 @@ namespace Pocket.Json
         #region Unwrap
 
         // Static instance that is used only in `Unwrap` method.
-        private static readonly JsonReader Reader = new JsonReader();
+        private static readonly JsonStringSpan JsonSpan = new JsonStringSpan();
 
         public static T Unwrap(StringSpan json)
         {
@@ -101,9 +101,9 @@ namespace Pocket.Json
 
             json = json.Cut(1, 1); // Skip '{' and '}'.
 
-            Reader.Json = json;
+            JsonSpan.Json = json;
 
-            var reader = Reader;
+            var reader = JsonSpan;
             var fieldByName = FieldByNameHashCode;
 
             var span = StringSpan.Zero;
