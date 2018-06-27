@@ -62,6 +62,21 @@
             return span;
         }
 
+        public bool NextNameAndValue(out StringSpan name, out StringSpan value)
+        {
+            name = StringSpan.Zero;
+            value = StringSpan.Zero;
+
+            if (!NextName(ref name))
+                return false;
+            
+            Json.SkipMutable(1); // Skip ':'.
+
+            value = NextValue();
+
+            return true;
+        }
+
         private static void NextObject(ref StringSpan json)
         {
             var stack = 0;
