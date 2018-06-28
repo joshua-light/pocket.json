@@ -8,6 +8,8 @@ namespace Pocket.Json.Tests.Append
         [Fact]
         public void Array()
         {
+            var a = typeof(IEnumerable<>).IsAssignableFrom(typeof(HashSet<>));
+            
             Represents(new int[0], "[]");
             Represents(new[] { "Hello" }, "[\"Hello\"]");
             Represents(new[] { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");

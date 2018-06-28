@@ -63,9 +63,8 @@ namespace Pocket.Json
             if (type.IsGeneric(typeof(Dictionary<,>)))
                 return JsonDictionary.GenerateAppend<T>();
 
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
-                || type.GetTypeInfo().ImplementedInterfaces
-                    .Any(x => x.GetTypeInfo().IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+            if (type.IsGeneric(typeof(IEnumerable<>))
+                || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
                 return JsonEnumerable.GenerateAppend<T>();
 
             return (Append<T>) JsonObject<T>.Append;
