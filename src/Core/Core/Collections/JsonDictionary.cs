@@ -39,13 +39,11 @@ namespace Pocket.Json
             reader.Json = json;
 
             var result = new Dictionary<TKey, TValue>(length);
-            var span = StringSpan.Zero;
+            var key = StringSpan.Zero;
             
-            while ((span = reader.NextValue()).Length != 0)
+            while ((key = reader.NextValue()).Length != 0)
             {
-                var pointsIndex = span.IndexOf(':');
-                var key = span.SubSpan(pointsIndex);
-                var value = span.SubSpan(pointsIndex + 1, span.Length - (pointsIndex + 1));
+                var value = reader.NextValue();
                 
                 result.Add(key.ToString().AsJson<TKey>(), value.ToString().AsJson<TValue>());
             }

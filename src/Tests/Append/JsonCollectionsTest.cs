@@ -8,8 +8,6 @@ namespace Pocket.Json.Tests.Append
         [Fact]
         public void Array()
         {
-            var a = typeof(IEnumerable<>).IsAssignableFrom(typeof(HashSet<>));
-            
             Represents(new int[0], "[]");
             Represents(new[] { "Hello" }, "[\"Hello\"]");
             Represents(new[] { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
@@ -25,6 +23,12 @@ namespace Pocket.Json.Tests.Append
                 { 2, 1 },
                 { 3, 1 }
             }, "{1:1,2:1,3:1}");
+            Represents(new Dictionary<string, Item>
+            {
+                { "1", new Item{ Data1 = 1, Data2 = 2 } },
+                { "2", new Item{            Data2 = 20 } },
+                { "3", new Item{ Data1 = 100 } },
+            }, "{\"1\":{\"Data1\":1,\"Data2\":2},\"2\":{\"Data1\":0,\"Data2\":20},\"3\":{\"Data1\":100,\"Data2\":0}}");
         }
 
         [Fact]
@@ -42,10 +46,20 @@ namespace Pocket.Json.Tests.Append
             Represents(new List<string> { "Hello" }, "[\"Hello\"]");
             Represents(new List<int> { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
         }
-        
+
+        #region Helpers
+
+        public class Item
+        {
+            public int Data1;
+            public int Data2;
+        }
+
         private static void Represents<T>(T item, string representation)
         {
             Assert.Equal(representation, item.AsJson());
         }
+
+        #endregion
     }
 }

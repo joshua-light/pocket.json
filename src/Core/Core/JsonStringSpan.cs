@@ -113,14 +113,14 @@
             for (var i = 0; i < length; i += 2)
             {
                 var a = json.Source[json.Offset + i];
-                if (a == ',')
+                if (a == ',' || a == ':')
                 {
                     json.Length = i;
                     break;
                 }
 
                 var b = json.Source[json.Offset + i + 1];
-                if (b == ',')
+                if (b == ',' || b == ':')
                 {
                     json.Length = i + 1;
                     break;
