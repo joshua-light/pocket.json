@@ -21,10 +21,13 @@ namespace Pocket.Json.Tests
             public bool Equals(IntAndString other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
-        protected class IntAndAnotherIntAndInt
+        protected class IntAndAnotherIntAndInt : IEquatable<IntAndAnotherIntAndInt>
         {
             public int Item1;
             public IntAndInt Item2;
+
+            public bool Equals(IntAndAnotherIntAndInt other) =>
+                Item1 == other.Item1 && (Item2?.Equals(other.Item2) ?? false);
         }
         
         #region Appends
@@ -60,11 +63,6 @@ namespace Pocket.Json.Tests
             {
                 _json = json;
             }
-
-            public UnwrapsFluentWhere<T> As<T>()
-            {
-                return new UnwrapsFluentWhere<T>(_json.AsJson<T>());
-            }
             
             public void As<T>(T value)
             {
@@ -81,39 +79,6 @@ namespace Pocket.Json.Tests
             {
                 Assert.Equal(value, _json.AsJson<long>());
                 Assert.Equal(-value, ("-" + _json).AsJson<long>());
-            }
-        }
-
-        protected struct UnwrapsFluentWhere<T>
-        {
-            private readonly T _item;
-
-            public UnwrapsFluentWhere(T item)
-            {
-                _item = item;
-            }
-
-            public UnwrapsFluentIs<T, TData> Where<TData>(Func<T, TData> getData)
-            {
-                return new UnwrapsFluentIs<T, TData>(this, getData(_item));
-            }
-        }
-
-        protected struct UnwrapsFluentIs<T, TData>
-        {
-            private readonly UnwrapsFluentWhere<T> _where;
-            private readonly TData _actual;
-
-            public UnwrapsFluentIs(UnwrapsFluentWhere<T> where, TData actual)
-            {
-                _where = where;
-                _actual = actual;
-            }
-
-            public UnwrapsFluentWhere<T> Is(TData expected)
-            {
-                Assert.Equal(expected, _actual);
-                return _where;
             }
         }
         
