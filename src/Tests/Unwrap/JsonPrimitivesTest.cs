@@ -6,13 +6,6 @@ namespace Pocket.Json.Tests.Unwrap
     public class JsonPrimitivesTest
     {
         [Fact]
-        public void Bool()
-        {
-            Unwraps("0").To(false);
-            Unwraps("1").To(true);
-        }
-
-        [Fact]
         public void Byte()
         {
             for (var i = 0; i < 256; i++)
