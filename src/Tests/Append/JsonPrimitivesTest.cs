@@ -6,33 +6,6 @@ namespace Pocket.Json.Tests.Append
     public class JsonPrimitivesTest
     {
         [Fact]
-        public void Long()
-        {
-            Represents(1L, "1");
-            Represents(11L, "11");
-            Represents(111L, "111");
-            Represents(1111L, "1111");
-            Represents(11111L, "11111");
-            Represents(111111L, "111111");
-            Represents(1111111L, "1111111");
-            Represents(11111111L, "11111111");
-            Represents(111111111L, "111111111");
-            Represents(1111111111L, "1111111111");
-            Represents(11111111111L, "11111111111");
-            Represents(111111111111L, "111111111111");
-            Represents(1111111111111L, "1111111111111");
-            Represents(11111111111111L, "11111111111111");
-            Represents(111111111111111L, "111111111111111");
-            Represents(1111111111111111L, "1111111111111111");
-            Represents(11111111111111111L, "11111111111111111");
-            Represents(111111111111111111L, "111111111111111111");
-            Represents(1111111111111111111L, "1111111111111111111");
-
-            Assert.Equal(long.MaxValue.ToString(), long.MaxValue.AsJson());
-            Assert.Equal(long.MinValue.ToString(), long.MinValue.AsJson());
-        }
-
-        [Fact]
         public void String()
         {
             Represents("Hello", "\"Hello\"");
