@@ -6,24 +6,6 @@ namespace Pocket.Json.Tests.Append
     public class JsonCollectionsTest
     {
         [Fact]
-        public void Dictionary()
-        {
-            Represents(new Dictionary<int, int>(), "{}");
-            Represents(new Dictionary<int, int>
-            {
-                { 1, 1 },
-                { 2, 1 },
-                { 3, 1 }
-            }, "{1:1,2:1,3:1}");
-            Represents(new Dictionary<string, Item>
-            {
-                { "1", new Item{ Data1 = 1, Data2 = 2 } },
-                { "2", new Item{            Data2 = 20 } },
-                { "3", new Item{ Data1 = 100 } },
-            }, "{\"1\":{\"Data1\":1,\"Data2\":2},\"2\":{\"Data1\":0,\"Data2\":20},\"3\":{\"Data1\":100,\"Data2\":0}}");
-        }
-
-        [Fact]
         public void HashSet()
         {
             Represents(new HashSet<int>(), "[]");

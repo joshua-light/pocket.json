@@ -13,10 +13,12 @@ namespace Pocket.Json.Tests
             public bool Equals(IntAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
-        protected class IntAndString
+        protected class IntAndString : IEquatable<IntAndString>
         {
             public int Item1;
             public string Item2;
+
+            public bool Equals(IntAndString other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
         protected class IntAndAnotherIntAndInt
