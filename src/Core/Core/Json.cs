@@ -98,6 +98,9 @@ namespace Pocket.Json
             if (type == typeof(string))
                 return (Unwrap<string>) JsonString.Unwrap;
             
+            if (type.IsNullable())
+                return JsonNullable.GenerateUnwrap<T>();
+            
             if (type.IsArray)
                 return JsonArray.GenerateUnwrap<T>();
             
