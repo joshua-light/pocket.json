@@ -6,14 +6,6 @@ namespace Pocket.Json.Tests.Append
     public class JsonCollectionsTest
     {
         [Fact]
-        public void Array()
-        {
-            Represents(new int[0], "[]");
-            Represents(new[] { "Hello" }, "[\"Hello\"]");
-            Represents(new[] { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
-        }
-
-        [Fact]
         public void Dictionary()
         {
             Represents(new Dictionary<int, int>(), "{}");

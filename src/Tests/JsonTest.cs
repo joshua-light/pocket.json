@@ -5,6 +5,26 @@ namespace Pocket.Json.Tests
 {
     public class JsonTest
     {
+        protected class IntAndInt : IEquatable<IntAndInt>
+        {
+            public int Item1;
+            public int Item2;
+
+            public bool Equals(IntAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
+        }
+
+        protected class IntAndString
+        {
+            public int Item1;
+            public string Item2;
+        }
+
+        protected class IntAndAnotherIntAndInt
+        {
+            public int Item1;
+            public IntAndInt Item2;
+        }
+        
         #region Appends
         
         protected static AppendsFluent<T> Appends<T>(T instance) => new AppendsFluent<T>(instance);
