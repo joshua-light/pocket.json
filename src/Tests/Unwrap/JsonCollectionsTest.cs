@@ -13,6 +13,7 @@ namespace Pocket.Json.Tests.Unwrap
             Represents("[\"Hello\"]", new[] { "Hello" });
             Represents("[\"Hello\",\"Hello1\"]", new[] { "Hello", "Hello1" });
             Represents("[1,2,3,4,5]", new[] { 1, 2, 3, 4, 5 });
+            Represents("[{\"Data1\":1,\"Data2\":2}]", new [] { new Item{ Data1 = 1, Data2 = 2 } });
         }
         
         [Fact]
