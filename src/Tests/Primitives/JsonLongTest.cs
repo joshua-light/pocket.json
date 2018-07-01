@@ -29,6 +29,9 @@ namespace Pocket.Json.Tests.Primitives
 
             Assert.Equal(long.MaxValue.ToString(), long.MaxValue.AsJson());
             Assert.Equal(long.MinValue.ToString(), long.MinValue.AsJson());
+            
+            Assert.Equal((long.MaxValue - 1).ToString(), (long.MaxValue - 1).AsJson());
+            Assert.Equal((long.MinValue + 1).ToString(), (long.MinValue + 1).AsJson());
         }
 
         [Fact]
