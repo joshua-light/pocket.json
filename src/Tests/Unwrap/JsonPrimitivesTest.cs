@@ -6,34 +6,6 @@ namespace Pocket.Json.Tests.Unwrap
     public class JsonPrimitivesTest
     {
         [Fact]
-        public void Integer()
-        {
-            Unwraps("1").To(1);
-            Unwraps("11").To(11);
-            Unwraps("111").To(111);
-            Unwraps("1111").To(1111);
-            Unwraps("11111").To(11111);
-            Unwraps("111111").To(111111);
-            Unwraps("1111111").To(1111111);
-            Unwraps("11111111").To(11111111);
-            Unwraps("111111111").To(111111111);
-            Unwraps("1111111111").To(1111111111);
-
-            Assert.Equal(int.MaxValue - 1, (int.MaxValue - 1).ToString().AsJson<int>());
-            Assert.Equal(int.MinValue + 1, (int.MinValue + 1).ToString().AsJson<int>());
-
-            Assert.Equal(int.MaxValue, int.MaxValue.ToString().AsJson<int>());
-            Assert.Equal(int.MinValue, int.MinValue.ToString().AsJson<int>());
-
-            var rand = new Random(1111);
-            for (var i = 0; i < 1000; i++)
-            {
-                var number = rand.Next();
-                Assert.Equal(number, number.ToString().AsJson<int>());
-            }
-        }
-
-        [Fact]
         public void Long()
         {
             Unwraps("1").To(1L);
