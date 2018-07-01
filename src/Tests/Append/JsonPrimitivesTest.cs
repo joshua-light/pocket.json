@@ -6,37 +6,6 @@ namespace Pocket.Json.Tests.Append
     public class JsonPrimitivesTest
     {
         [Fact]
-        public void Bool()
-        {
-            Represents(false, "0");
-            Represents(true, "1");
-
-            Represents<bool?>(null, "");
-            Represents<bool?>(false, "0");
-            Represents<bool?>(true, "1");
-        }
-
-        [Fact]
-        public void Byte()
-        {
-            for (var i = 0; i <= byte.MaxValue; i++)
-                Represents((byte) i, i.ToString());
-        }
-
-        [Fact]
-        public void Char()
-        {
-            Represents('a', "a");
-            Represents('\r', "\r");
-            Represents('\n', "\n");
-            Represents('Ş', "Ş");
-            Represents('ğ', "ğ");
-
-            Represents<char?>(null, "");
-            Represents<char?>('a', "a");
-        }
-
-        [Fact]
         public void Double()
         {
             Represents(0.0, "0");

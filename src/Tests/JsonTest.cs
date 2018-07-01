@@ -39,23 +39,23 @@ namespace Pocket.Json.Tests
                 _json = json;
             }
 
-            public UnwrapsFluentWhere<T> To<T>()
+            public UnwrapsFluentWhere<T> As<T>()
             {
                 return new UnwrapsFluentWhere<T>(_json.AsJson<T>());
             }
             
-            public void To<T>(T value)
+            public void As<T>(T value)
             {
                 Assert.Equal(value, _json.AsJson<T>());
             }
 
-            public void To(int value)
+            public void As(int value)
             {
                 Assert.Equal(value, _json.AsJson<int>());
                 Assert.Equal(-value, ("-" + _json).AsJson<int>());
             }
 
-            public void To(long value)
+            public void As(long value)
             {
                 Assert.Equal(value, _json.AsJson<long>());
                 Assert.Equal(-value, ("-" + _json).AsJson<long>());

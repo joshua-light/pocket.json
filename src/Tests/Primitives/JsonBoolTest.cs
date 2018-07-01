@@ -11,9 +11,9 @@ namespace Pocket.Json.Tests.Primitives
         public void Append_ShouldConvertFalseTo0() => Appends(false).As("0");
 
         [Fact]
-        public void Unwrap_ShouldConvert1ToTrue() => Unwraps("1").To(true);
+        public void Unwrap_ShouldConvert1ToTrue() => Unwraps("1").As(true);
         
         [Fact]
-        public void Unwrap_ShouldConvert0ToFalse() => Unwraps("0").To(false);
+        public void Unwrap_ShouldConvert0ToFalse() => Unwraps("0").As(false);
     }
 }
