@@ -7,14 +7,6 @@ namespace Pocket.Json.Tests.Unwrap
     public class JsonCollectionsTest
     {
         [Fact]
-        public void List()
-        {
-            Represents("[]", new List<int>());
-            Represents("[\"Hello\"]", new List<string> { "Hello" });
-            Represents("[1,2,3,4,5]", new List<int> { 1, 2, 3, 4, 5 });
-        }
-
-        [Fact]
         public void Dictionary()
         {
             Represents("{}", new Dictionary<int, int>());

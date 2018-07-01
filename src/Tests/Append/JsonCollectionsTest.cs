@@ -31,14 +31,6 @@ namespace Pocket.Json.Tests.Append
             Represents(new HashSet<int> { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
         }
 
-        [Fact]
-        public void List()
-        {
-            Represents(new List<int>(), "[]");
-            Represents(new List<string> { "Hello" }, "[\"Hello\"]");
-            Represents(new List<int> { 1, 2, 3, 4, 5 }, "[1,2,3,4,5]");
-        }
-
         #region Helpers
 
         public class Item
