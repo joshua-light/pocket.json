@@ -105,8 +105,11 @@ namespace Pocket.Json.Benchmarks
 //            Deserialize<TenFields.Float>();
 //            Deserialize<TenFields.Double>();
             
-//            Serialize<Single.WithArray>();
+            Serialize<Single.WithArray>();
             Deserialize<Single.WithArray>();
+            
+            Serialize<Single.WithList>();
+            Deserialize<Single.WithList>();
         }
 
         private static void Serialize<T>() where T : new()
