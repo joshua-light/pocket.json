@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace Pocket.Json
@@ -39,7 +40,7 @@ namespace Pocket.Json
             
             var span = StringSpan.Zero;
             while ((span = reader.NextValue()).Length != 0)
-                result.Add(span.ToString().AsJson<T>());
+                result.Add(span.AsJson<T>());
             
             return result;
         }
@@ -49,7 +50,9 @@ namespace Pocket.Json
 
     internal static class JsonList
     {
-        public static readonly JsonStringSpan JsonSpan = new JsonStringSpan();
+        [ThreadStatic]
+        private static JsonStringSpan _jsonSpan;
+        public static JsonStringSpan JsonSpan => _jsonSpan ?? (_jsonSpan = new JsonStringSpan());
         
         public static Append<T> GenerateAppend<T>()
         {

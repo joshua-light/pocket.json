@@ -6,7 +6,7 @@ namespace Pocket.Json.Tests
 {
     public class JsonTest
     {
-        protected class IntAndInt : IEquatable<IntAndInt>
+        public class IntAndInt : IEquatable<IntAndInt>
         {
             public int Item1;
             public int Item2;
@@ -14,7 +14,7 @@ namespace Pocket.Json.Tests
             public bool Equals(IntAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
-        protected class IntAndString : IEquatable<IntAndString>
+        public class IntAndString : IEquatable<IntAndString>
         {
             public int Item1;
             public string Item2;
@@ -22,7 +22,7 @@ namespace Pocket.Json.Tests
             public bool Equals(IntAndString other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
-        protected class IntAndAnotherIntAndInt : IEquatable<IntAndAnotherIntAndInt>
+        public class IntAndAnotherIntAndInt : IEquatable<IntAndAnotherIntAndInt>
         {
             public int Item1;
             public IntAndInt Item2;
@@ -31,7 +31,7 @@ namespace Pocket.Json.Tests
                 Item1 == other.Item1 && (Item2?.Equals(other.Item2) ?? false);
         }
 
-        protected class IntArray : IEquatable<IntArray>
+        public class IntArray : IEquatable<IntArray>
         {
             public int[] Items;
 

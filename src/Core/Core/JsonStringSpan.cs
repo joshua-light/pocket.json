@@ -48,14 +48,14 @@
             var span = json;
             var ch = span.Source[span.Offset];
 
-            if (ch == '{')
-                NextObject(ref span);
-            else if (ch == '[')
-                NextArray(ref span);
-            else if (ch == '"')
-                NextString(ref span);
-            else
-                NextPrimitive(ref span);
+            switch (ch)
+            {
+                case '{': NextObject(ref span); break;
+                case '[': NextArray(ref span); break;
+                case '"': NextString(ref span); break;
+                
+                default: NextPrimitive(ref span); break;
+            }
 
             json.SkipMutable(span.Length + 1); // Skip ','.
 
@@ -79,7 +79,7 @@
             return true;
         }
 
-        private static void NextObject(ref StringSpan json)
+        public void NextObject(ref StringSpan json)
         {
             var stack = 0;
 
@@ -97,7 +97,7 @@
             }
         }
         
-        private static void NextArray(ref StringSpan json)
+        public void NextArray(ref StringSpan json)
         {
             var stack = 0;
 
@@ -115,7 +115,7 @@
             } 
         }
 
-        private static void NextString(ref StringSpan json)
+        public void NextString(ref StringSpan json)
         {
             for (var i = 1; i < json.Length; i++)
             {
@@ -127,7 +127,7 @@
             }
         }
 
-        private static void NextPrimitive(ref StringSpan json)
+        public void NextPrimitive(ref StringSpan json)
         {
             var remainder = json.Length % 2;
             var length = json.Length - remainder;
