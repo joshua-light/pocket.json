@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xunit;
 
 namespace Pocket.Json.Tests
@@ -28,6 +29,13 @@ namespace Pocket.Json.Tests
 
             public bool Equals(IntAndAnotherIntAndInt other) =>
                 Item1 == other.Item1 && (Item2?.Equals(other.Item2) ?? false);
+        }
+
+        protected class IntArray : IEquatable<IntArray>
+        {
+            public int[] Items;
+
+            public bool Equals(IntArray other) => Items.SequenceEqual(other.Items);
         }
         
         #region Appends

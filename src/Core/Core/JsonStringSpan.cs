@@ -50,6 +50,8 @@
 
             if (ch == '{')
                 NextObject(ref span);
+            else if (ch == '[')
+                NextArray(ref span);
             else if (ch == '"')
                 NextString(ref span);
             else
@@ -82,6 +84,7 @@
             var stack = 0;
 
             for (var i = 0; i < json.Length; i++)
+            {
                 if (json[i] == '{')
                 {
                     stack++;
@@ -91,6 +94,25 @@
                     json = json.SubSpan(i + 1);
                     break;
                 }
+            }
+        }
+        
+        private static void NextArray(ref StringSpan json)
+        {
+            var stack = 0;
+
+            for (var i = 0; i < json.Length; i++)
+            {
+                if (json[i] == '[')
+                {
+                    stack++;
+                }
+                else if (json[i] == ']' && stack-- == 1)
+                {
+                    json = json.SubSpan(i + 1);
+                    break;
+                }
+            } 
         }
 
         private static void NextString(ref StringSpan json)
