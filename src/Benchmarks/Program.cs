@@ -111,11 +111,11 @@ namespace Pocket.Json.Benchmarks
 //            Serialize<Single.WithList>();
 //            Deserialize<Single.WithList>();
 
-            Serialize<Single.WithHashSet>();
-            Deserialize<Single.WithHashSet>();
+//            Serialize<Single.WithHashSet>();
+//            Deserialize<Single.WithHashSet>();
 //      
-//            Serialize<Single.WithDictionary>();
-//            Deserialize<Single.WithDictionary>();
+            Serialize<Single.WithDictionary>();
+            Deserialize<Single.WithDictionary>();
         }
 
         private static void Serialize<T>() where T : new()

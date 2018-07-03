@@ -202,7 +202,7 @@ namespace Pocket.Json.Benchmarks
 
         public class WithDictionary
         {
-            public Dictionary<int, int> Items = Enumerable.Range(0, 100).ToDictionary(x => x, x => x);
+            public Dictionary<int, int> Items = Enumerable.Range(0, 50).ToDictionary(x => x, x => x);
         }
     }
 }

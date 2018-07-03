@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace Pocket.Json.Tests
@@ -74,7 +77,11 @@ namespace Pocket.Json.Tests
             
             public void As<T>(T value)
             {
-                Assert.Equal(value, _json.AsJson<T>());
+                var type = typeof(T);
+                if (type.IsGeneric(typeof(IEnumerable<>)) || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
+                    Assert.Equal((IEnumerable) value, (IEnumerable) _json.AsJson<T>());
+                else
+                    Assert.Equal(value, _json.AsJson<T>());
             }
 
             public void As(int value)

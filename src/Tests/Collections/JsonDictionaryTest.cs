@@ -33,7 +33,7 @@ namespace Pocket.Json.Tests.Collections
         }
         
         [Fact]
-        public void Unwraps_ShouldConvertBracketsToEmptyArray() =>
+        public void Unwraps_ShouldConvertBracketsToEmptyDictionary() =>
             Unwraps("{}").As(new Dictionary<int, string>());
 
         [Fact]
