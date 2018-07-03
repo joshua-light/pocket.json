@@ -25,6 +25,8 @@ namespace Pocket.Json
 
             buffer.Append(']');
         }
+        
+
     }
 
     internal static class JsonEnumerable
