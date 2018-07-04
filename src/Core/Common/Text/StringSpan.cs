@@ -1,6 +1,8 @@
-﻿namespace Pocket.Json
+﻿using System;
+
+namespace Pocket.Json
 {
-    internal unsafe struct StringSpan
+    public unsafe struct StringSpan : IEquatable<StringSpan>
     {
         public static StringSpan Zero = new StringSpan();
 
@@ -68,6 +70,18 @@
 
         #endregion
 
+        public bool Equals(StringSpan other)
+        {
+            if (Length != other.Length)
+                return false;
+            
+            for (var i = 0; i < Length; i++)
+                if (this[i] != other[i])
+                    return false;
+
+            return true;
+        }
+
         public override int GetHashCode()
         {
             fixed (char* sourcePtr = Source)
@@ -85,10 +99,21 @@
         }
 
         private static int GetHashCode(char* sourcePtr, int length)
-        {
+        {            
             var num1 = 352654597;
             var num2 = num1;
             var numPtr = (int*) sourcePtr;
+//            
+//            for (var i = length; i > 0; i -= 4)
+//            {
+//                num1 = ((num1 << 5) + num1 + (num1 >> 27)) ^ numPtr[0];
+//                
+//                if (i <= 2)
+//                    break;
+//                
+//                num2 = ((num2 << 5) + num2 + (num2 >> 27)) ^ numPtr[1];
+//                numPtr += 2;
+//            }
 
             while (length > 0)
             {
