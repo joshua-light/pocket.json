@@ -1,4 +1,6 @@
-﻿namespace Pocket.Json.Benchmarks
+﻿using System.Linq;
+
+namespace Pocket.Json.Benchmarks
 {
     public class TenFields
     {
@@ -98,6 +100,20 @@
             public double Data7 = 123412356123478.1212341235678;
             public double Data8 = 123412356789.1234123123456789;
             public double Data9 = 123423567891.1234123123567891;
+        }
+
+        public class String
+        {
+            public string Data = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data2 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data3 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data4 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data5 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data6 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data7 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data8 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data9 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
+            public string Data10 = Enumerable.Range(0, 10).Aggregate("", (cur, next) => cur + next);
         }
     }
 }

@@ -99,40 +99,32 @@ namespace Pocket.Json
         }
 
         private static int GetHashCode(char* sourcePtr, int length)
-        {            
-            var num1 = 352654597;
-            var num2 = num1;
-            var numPtr = (int*) sourcePtr;
-//            
-//            for (var i = length; i > 0; i -= 4)
-//            {
-//                num1 = ((num1 << 5) + num1 + (num1 >> 27)) ^ numPtr[0];
-//                
-//                if (i <= 2)
-//                    break;
-//                
-//                num2 = ((num2 << 5) + num2 + (num2 >> 27)) ^ numPtr[1];
-//                numPtr += 2;
-//            }
+        {
+            if (length <= 2)
+                return sourcePtr[0];
+            if (length <= 4)
+                return (sourcePtr[0] * 9733) ^ sourcePtr[1];
+            
+            var ptr = sourcePtr;
+            var hash = (int) ptr[0];
+
+            ptr++;
+            length -= 2;
 
             while (length > 0)
             {
-                var val = (char) *numPtr;
-                num1 = ((num1 << 5) + num1 + (num1 >> 27)) ^ val;
-                if (length > 2)
-                {
-                    val = (char) numPtr[1];
-                    num2 = ((num2 << 5) + num2 + (num2 >> 27)) ^ val;
-                    numPtr += 2;
-                    length -= 4;
-                }
-                else
-                {
-                    break;
-                }
-            }
+                hash = (hash * 9733) ^ ptr[0];
 
-            return num1 + num2 * 1566083941;
+                if (length <= 2)
+                    return hash;
+
+                hash = (hash * 9733) ^ ptr[1];
+                
+                ptr++;
+                length -= 2;
+            }
+            
+            return hash;
         }
     }
 }
