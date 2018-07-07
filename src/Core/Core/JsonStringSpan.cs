@@ -126,24 +126,16 @@
 
         public void NextPrimitive(ref StringSpan json)
         {
-            // In object there is ALWAYS something that comes after primitive value.
-            // So we can unroll loop by the factor of 2 because we don't care if 1 character will be missed.
-            var remainder = json.Length % 2;
-            var length = json.Length - remainder;
+            var start = json.Offset;
+            var length = start + json.Length;
+            var source = json.Source;
 
-            for (var i = 0; i < length; i += 2)
+            for (var i = start; i < length; i++)
             {
-                var a = json.Source[json.Offset + i];
+                var a = source[i];
                 if (a == ',' || a == ':')
                 {
-                    json.Length = i;
-                    break;
-                }
-
-                var b = json.Source[json.Offset + i + 1];
-                if (b == ',' || b == ':')
-                {
-                    json.Length = i + 1;
+                    json.Length = i - start;
                     break;
                 }
             }
