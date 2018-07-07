@@ -64,21 +64,6 @@
             return span;
         }
 
-        public bool NextNameAndValue(out StringSpan name, out StringSpan value)
-        {
-            name = StringSpan.Zero;
-            value = StringSpan.Zero;
-
-            if (!NextName(ref name))
-                return false;
-            
-            Json.SkipMutable(1); // Skip ':'.
-
-            value = NextValue();
-
-            return true;
-        }
-
         public void NextObject(ref StringSpan json)
         {
             // We already know that first character is '{'.
