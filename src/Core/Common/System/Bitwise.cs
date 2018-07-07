@@ -18,7 +18,7 @@ namespace Pocket.Json
             // By using `>>` we reduce any negative value to just -1 or leaving 0 (if `result` is 0).
             result >>= 31;
             
-            return 1 + result;
+            return result + 1;
         }
     }
 }
