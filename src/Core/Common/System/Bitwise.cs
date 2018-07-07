@@ -10,8 +10,8 @@ namespace Pocket.Json
             // Found this as an answer to 4161656 StackOverflow question written by Fabian Giesen.
             
             // So, basically we just take the concept of difference between numbers.
-            // It can be either 0 or some X and -X.
-            // X | -X will result in some negative value (`-` bit will be stolen).
+            // It can be either 0 or some pair X and -X.
+            // X | -X will result in some negative value (`-` bit will be transfered from one to another).
             // 0 | 0 will result in 0.
             var result = (a - b) | (b - a);
             
