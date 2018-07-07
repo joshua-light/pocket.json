@@ -91,10 +91,10 @@
             for (var i = start + 1; i < length; i++)
             {
                 var ch = source[i];
+                var open = Bitwise.Equals(ch, '{');
+                var end = Bitwise.Equals(ch, '}');
 
-                stack += Bitwise.Equals(ch, '{');
-                stack -= Bitwise.Equals(ch, '}');
-                
+                stack += open - end;
                 if (stack == 0)
                 {
                     json = json.SubSpan(i - start + 1);
