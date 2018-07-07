@@ -100,28 +100,32 @@ namespace Pocket.Json
 
         private static int GetHashCode(char* sourcePtr, int length)
         {
-            if (length <= 2)
-                return sourcePtr[0];
-            if (length <= 4)
-                return (sourcePtr[0] * 9733) ^ sourcePtr[1];
+            switch (length)
+            {
+                case 1: return sourcePtr[0];
+                case 2: return sourcePtr[0] * 9733 ^ sourcePtr[1];
+                case 3: return (sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2];
+                case 4: return ((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3];
+                case 5: return (((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4];
+                case 6: return ((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5];
+                case 7: return (((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6];
+                case 8: return ((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7];
+                case 9: return (((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7]) * 9733 ^ sourcePtr[8];
+                case 10: return ((((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7]) * 9733 ^ sourcePtr[8]) * 9733 ^ sourcePtr[9];
+            }
             
-            var ptr = sourcePtr;
+            length *= 2;
+            
+            var ptr = (byte*) sourcePtr;
             var hash = (int) ptr[0];
 
-            ptr++;
-            length -= 2;
+            ptr += 2;
 
-            while (length > 0)
+            for (var i = 2; i < length; i += 2)
             {
                 hash = (hash * 9733) ^ ptr[0];
-
-                if (length <= 2)
-                    return hash;
-
-                hash = (hash * 9733) ^ ptr[1];
                 
-                ptr++;
-                length -= 2;
+                ptr += 2;
             }
             
             return hash;

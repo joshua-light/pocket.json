@@ -81,17 +81,23 @@
 
         public void NextObject(ref StringSpan json)
         {
-            var stack = 0;
+            // We already know that first character is '{'.
+            var stack = 1;
+            
+            var start = json.Offset;
+            var length = start + json.Length - 1;
+            var source = json.Source;
 
-            for (var i = 0; i < json.Length; i++)
+            for (var i = start + 1; i < length; i++)
             {
-                if (json[i] == '{')
+                var ch = source[i];
+
+                stack += Bitwise.Equals(ch, '{');
+                stack -= Bitwise.Equals(ch, '}');
+                
+                if (stack == 0)
                 {
-                    stack++;
-                }
-                else if (json[i] == '}' && stack-- == 1)
-                {
-                    json = json.SubSpan(i + 1);
+                    json = json.SubSpan(i - start + 1);
                     break;
                 }
             }

@@ -10,7 +10,7 @@ namespace Pocket.Json
     {
         private static readonly JsonField[] Fields;
         private static readonly Func<T> Constructor;
-        private static readonly Dictionary<StringSpan, JsonField> FieldByNameHashCode;
+        private static readonly Dictionary<int, JsonField> FieldByNameHashCode;
 
         static JsonObject()
         {
@@ -24,9 +24,9 @@ namespace Pocket.Json
             for (var i = 0; i < fields.Length; i++)
                 Fields[i] = new JsonField(fields[i]);
 
-            FieldByNameHashCode = new Dictionary<StringSpan, JsonField>(Fields.Length);
+            FieldByNameHashCode = new Dictionary<int, JsonField>(Fields.Length);
             for (var i = 0; i < Fields.Length; i++)
-                FieldByNameHashCode[new StringSpan(Fields[i].Name)] = Fields[i];
+                FieldByNameHashCode[StringSpan.GetHashCode(Fields[i].Name)] = Fields[i];
         }
 
         #region Append
@@ -108,9 +108,7 @@ namespace Pocket.Json
 
             while (jsonSpan.NextNameAndValue(out var name, out var value))
             {
-                var hash1 = name.GetHashCode();
-                var hash2 = fieldByName.Keys.First().GetHashCode();
-                var field = fieldByName[name];
+                var field = fieldByName[name.GetHashCode()];
                 
                 field.Write(result, value);
             }
