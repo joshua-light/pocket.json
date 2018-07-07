@@ -14,10 +14,11 @@
             var json = Json;
             var remainder = json.Length % 2;
             var length = json.Length - remainder;
+            var source = json.Source;
 
             for (var i = 0; i < length; i += 2)
             {
-                var a = json.Source[json.Offset + i];
+                var a = source[json.Offset + i];
                 if (a == '"')
                 {
                     json.Length = i;
@@ -25,7 +26,7 @@
                     break;
                 }
 
-                var b = json.Source[json.Offset + i + 1];
+                var b = source[json.Offset + i + 1];
                 if (b == '"')
                 {
                     json.Length = i + 1;
