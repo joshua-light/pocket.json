@@ -91,12 +91,12 @@ namespace Pocket.Json
 
         // Static instance that is used only in `Unwrap` method.
         [ThreadStatic]
-        private static JsonStringSpan JsonSpan;
+        private static JsonStringSpan _jsonSpan;
 
         public static T Unwrap(StringSpan json)
         {
-            if (JsonSpan == null)
-                JsonSpan = new JsonStringSpan();
+            if (_jsonSpan == null)
+                _jsonSpan = new JsonStringSpan();
             if (json[0] != '{' || json[json.Length - 1] != '}')
                 throw new ArgumentException($"Specified json \"{json}\" must have open {'{'} and close {'}'} brackets.", nameof(json));
 
@@ -104,9 +104,9 @@ namespace Pocket.Json
 
             json = json.Cut(1, 1); // Skip '{' and '}'.
 
-            JsonSpan.Json = json;
+            _jsonSpan.Json = json;
 
-            var jsonSpan = JsonSpan;
+            var jsonSpan = _jsonSpan;
             var fieldByName = FieldByNameHashCode;
 
             while (jsonSpan.NextNameAndValue(out var name, out var value))

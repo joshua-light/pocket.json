@@ -105,20 +105,26 @@
         
         public void NextArray(ref StringSpan json)
         {
-            var stack = 0;
+            // We already know that first character is '['.
+            var stack = 1;
+            
+            var start = json.Offset;
+            var length = start + json.Length - 1;
+            var source = json.Source;
 
-            for (var i = 0; i < json.Length; i++)
+            for (var i = start + 1; i < length; i++)
             {
-                if (json[i] == '[')
+                var ch = source[i];
+
+                stack += Bitwise.Equals(ch, '[');
+                stack -= Bitwise.Equals(ch, ']');
+                
+                if (stack == 0)
                 {
-                    stack++;
-                }
-                else if (json[i] == ']' && stack-- == 1)
-                {
-                    json = json.SubSpan(i + 1);
+                    json = json.SubSpan(i - start + 1);
                     break;
                 }
-            } 
+            }
         }
 
         public void NextString(ref StringSpan json)
@@ -135,6 +141,8 @@
 
         public void NextPrimitive(ref StringSpan json)
         {
+            // In object there is ALWAYS something that comes after primitive value.
+            // So we can unroll loop by the factor of 2 because we don't care if 1 character will be missed.
             var remainder = json.Length % 2;
             var length = json.Length - remainder;
 
