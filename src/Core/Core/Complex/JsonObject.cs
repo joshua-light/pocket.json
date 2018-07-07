@@ -109,8 +109,12 @@ namespace Pocket.Json
             var jsonSpan = _jsonSpan;
             var fieldByName = FieldByNameHashCode;
 
-            while (jsonSpan.NextNameAndValue(out var name, out var value))
+            var name = StringSpan.Zero;
+            while (jsonSpan.NextName(ref name))
             {
+                jsonSpan.Json.SkipMutable(1);
+                
+                var value = jsonSpan.NextValue();
                 var field = fieldByName[name.GetHashCode()];
                 
                 field.Write(result, value);

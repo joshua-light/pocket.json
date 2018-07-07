@@ -15,6 +15,7 @@ namespace Pocket.Json.Benchmarks
         private static void DefaultRun()
         {
             _iterationsCount = 100000;
+            
             Serialize<Single.WithBool.True>();
             Serialize<Single.WithBool.False>();
 
