@@ -5,6 +5,8 @@ namespace Pocket.Json.Benchmarks
 {
     public class Program
     {
+        private static int _iterationsCount;
+        
         public static void Main(string[] args)
         {
             BigObjectOnlyRun();
@@ -12,6 +14,7 @@ namespace Pocket.Json.Benchmarks
 
         private static void DefaultRun()
         {
+            _iterationsCount = 100000;
             Serialize<Single.WithBool.True>();
             Serialize<Single.WithBool.False>();
 
@@ -119,6 +122,8 @@ namespace Pocket.Json.Benchmarks
 
         private static void BigObjectOnlyRun()
         {
+            _iterationsCount = 500;
+            
             Serialize<BigObject>();
             Deserialize<BigObject>();
         }
@@ -129,9 +134,9 @@ namespace Pocket.Json.Benchmarks
 
             Console.WriteLine("---------------------" + typeof(T).FullName);
 
-            Run("Newtonsoft.Json", 1000, () => Newtonsoft.Json.JsonConvert.SerializeObject(item));
-            Run("Ut8Json", 1000, () => Utf8Json.JsonSerializer.ToJsonString(item));
-            Run("Castalia", 1000, () => item.AsJson());
+            Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.SerializeObject(item));
+            Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.ToJsonString(item));
+            Run("Castalia", _iterationsCount, () => item.AsJson());
 
             Console.WriteLine("---------------------");
         }
@@ -149,9 +154,9 @@ namespace Pocket.Json.Benchmarks
 
             Console.WriteLine("---------------------" + typeof(T).FullName);
 
-            Run("Newtonsoft.Json", 1000, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
-            Run("Ut8Json", 1000, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
-            Run("Castalia", 1000, () => json.AsJson<T>());
+            Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
+            Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
 
             Console.WriteLine("---------------------");
         }
