@@ -12,24 +12,25 @@
             Json.SkipMutable(1); // Skips '"'.
 
             var json = Json;
+            var start = json.Offset;
             var remainder = json.Length % 2;
-            var length = json.Length - remainder;
+            var length = start + json.Length - remainder;
             var source = json.Source;
 
-            for (var i = 0; i < length; i += 2)
+            for (var i = start; i < length; i += 2)
             {
-                var a = source[json.Offset + i];
+                var a = source[i];
                 if (a == '"')
                 {
-                    json.Length = i;
+                    json.Length = i - start;
                     span = json;
                     break;
                 }
 
-                var b = source[json.Offset + i + 1];
+                var b = source[i + 1];
                 if (b == '"')
                 {
-                    json.Length = i + 1;
+                    json.Length = i - start + 1;
                     span = json;
                     break;
                 }
