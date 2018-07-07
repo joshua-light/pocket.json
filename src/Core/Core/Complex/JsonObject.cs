@@ -90,10 +90,13 @@ namespace Pocket.Json
         #region Unwrap
 
         // Static instance that is used only in `Unwrap` method.
-        private static readonly JsonStringSpan JsonSpan = new JsonStringSpan();
+        [ThreadStatic]
+        private static JsonStringSpan JsonSpan;
 
         public static T Unwrap(StringSpan json)
         {
+            if (JsonSpan == null)
+                JsonSpan = new JsonStringSpan();
             if (json[0] != '{' || json[json.Length - 1] != '}')
                 throw new ArgumentException($"Specified json \"{json}\" must have open {'{'} and close {'}'} brackets.", nameof(json));
 
