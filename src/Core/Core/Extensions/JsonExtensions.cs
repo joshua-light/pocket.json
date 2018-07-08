@@ -34,15 +34,6 @@ namespace Pocket.Json
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of JSON object, to which string will be converted.</typeparam>
         /// <returns>Object created from string representation.</returns>
-        public static T AsJson<T>(this string self) => Json<T>.Unwrap(new StringSpan(self));
-
-        /// <summary>
-        ///     Represents string as JSON object.
-        /// </summary>
-        /// <param name="self"><code>this</code> object.</param>
-        /// <typeparam name="T">Type of JSON object, to which string will be converted.</typeparam>
-        /// <returns>Object created from string representation.</returns>
-        /// <remarks>This internal version of method is used for optimization purposes.</remarks>
-        internal static T AsJson<T>(this StringSpan self) => Json<T>.Unwrap(self);
+        public static T AsJson<T>(this string self) => Json<T>.Unwrap(new JsonSpan(self));
     }
 }

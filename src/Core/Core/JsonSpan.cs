@@ -6,9 +6,9 @@ namespace Pocket.Json
     {
         public StringSpan Span;
 
-        public JsonSpan(StringSpan span)
+        public JsonSpan(string span)
         {
-            Span = span;
+            Span = new StringSpan(span);
         }
 
         public char Char => Span[0];
@@ -25,78 +25,70 @@ namespace Pocket.Json
                 return StringSpan.Zero;
 
             Span.SkipMutable(1); // Skips '"'.
+            
+            var span = Span;
+            
+            var start = span.Offset;
+            var source = span.Source;
+            var length = start + span.Length;
 
-            var span = StringSpan.Zero;
-            var json = Span;
-            var start = json.Offset;
-            var source = json.Source;
-
-            var i = start;
-            while (true)
+            for (var i = start; i < length; i++)
             {
-                var a = source[i];
-                if (a == '"')
+                if (source[i] == '"')
                 {
-                    json.Length = i - start;
-                    span = json;
-                    break;
+                    span.Length = i  - start;
+                    Span.SkipMutable(i - start + 1);
+                    return span;
                 }
-                
-                i++;
             }
             
-            Span.SkipMutable(span.Length + 1);
-
-            return span;
+            return StringSpan.Zero;
         }
         
         public StringSpan NextString()
         {
             var span = Span;
             
-            var start = Span.Offset;
-            var source = Span.Source;
-            var i = start + 1;
-            
-            while (i < start + Span.Length)
+            var start = span.Offset;
+            var source = span.Source;
+            var length = start + span.Length;
+
+            for (var i = start + 1; i < length; i++)
             {
                 if (source[i] == '"')
                 {
-                    span = span.SubSpan(i + 1 - start);
-                    break;
+                    span.Length = i + 1 - start;
+                    Span.SkipMutable(i + 1 - start);
+                    return span;
                 }
-
-                i++;
             }
-
-            Span.SkipMutable(span.Length);
             
-            return span;
+            return StringSpan.Zero;
         }
 
         public StringSpan NextPrimitive()
         {
             var span = Span;
             
-            var start = Span.Offset;
-            var source = Span.Source;
-            var i = start;
-            
-            while (i < start + Span.Length)
+            var start = span.Offset;
+            var source = span.Source;
+            var length = start + span.Length;
+
+            for (var i = start; i < length; i++)
             {
-                var a = source[i];
-                if (a == ',' || a == ':' || a == '}' || a == ']')
+                switch (source[i])
                 {
-                    span.Length = i - start;
-                    break;
+                    case ',':
+                    case ':':
+                    case '}':
+                    case ']':
+                        span.Length = i - start;
+                        Span.SkipMutable(i - start);
+                        return span;
                 }
-                
-                i++;
             }
             
-            Span.SkipMutable(span.Length);
-
-            return span;
+            return StringSpan.Zero;
         }
     }
 }

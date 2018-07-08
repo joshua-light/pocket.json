@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Pocket.Json
 {
@@ -26,42 +27,33 @@ namespace Pocket.Json
 
         public char this[int i] => Source[Offset + i];
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool IsEmpty()
         {
             return Length <= 0;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return Source.Substring(Offset, Length);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StringSpan SubSpan(int startIndex, int length)
         {
             return new StringSpan(Source, Offset + startIndex, length);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public StringSpan SubSpan(int length)
         {
             return new StringSpan(Source, Offset, length);
         }
 
-        public StringSpan Cut(int start, int end)
-        {
-            return new StringSpan(Source, Offset + start, Length - start - end);
-        }
-
-        public int IndexOf(char c)
-        {
-            for (var i = 0; i < Length; i++)
-                if (this[i] == c)
-                    return i;
-            
-            return -1;
-        }
-
         #region Mutable
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SkipMutable(int count)
         {
             Offset += count;

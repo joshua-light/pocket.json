@@ -18,7 +18,6 @@ namespace Pocket.Json
             _append(value, buffer);
         }
 
-        public static T Unwrap(StringSpan json) => Unwrap(new JsonSpan(json));
         public static T Unwrap(JsonSpan json) => _unwrap(json);
 
         private static object NewAppend()
