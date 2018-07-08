@@ -28,6 +28,7 @@ namespace Pocket.Json.Tests.Complex
             Unwraps("{\"Item1\":1,\"Item2\":2}").As(new IntAndInt{ Item1 = 1, Item2 = 2 });
             
             Unwraps("{\"Items\":[1,2,3,4,5]}").As(new IntArray{ Items = new [] { 1, 2, 3, 4, 5 } });
+            Unwraps("{\"Items\":[]}").As(new IntArray{ Items = new int[0] });
             Unwraps("{\"Item_1\":1}").As(new UnderscoredInt{ Item_1 = 1 });
             Unwraps("{\"Item_1\":{},\"Item_2\":{}}").As(new UnderscoredEmptyAndEmpty
             {

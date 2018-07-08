@@ -7,6 +7,8 @@
             buffer.Append(value);
         }
 
+        public static byte Unwrap(JsonSpan json) => Unwrap(json.NextPrimitive());
+
         public static byte Unwrap(StringSpan json)
         {
             if (json.Length == 1)

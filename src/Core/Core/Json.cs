@@ -6,7 +6,7 @@ namespace Pocket.Json
 {
     internal delegate void Append<T>(T value, StringBuffer buffer);
 
-    internal delegate T Unwrap<T>(StringSpan json);
+    internal delegate T Unwrap<T>(JsonSpan json);
 
     internal static class Json<T>
     {
@@ -18,10 +18,8 @@ namespace Pocket.Json
             _append(value, buffer);
         }
 
-        public static T Unwrap(StringSpan json)
-        {
-            return _unwrap(json);
-        }
+        public static T Unwrap(StringSpan json) => Unwrap(new JsonSpan(json));
+        public static T Unwrap(JsonSpan json) => _unwrap(json);
 
         private static object NewAppend()
         {

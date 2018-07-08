@@ -9,10 +9,10 @@ namespace Pocket.Json
         {
             if (nullable != null) Json<T>.Append(nullable.Value, buffer);
         }
-        
-        public static T? Unwrap(StringSpan json)
+
+        public static T? Unwrap(JsonSpan json)
         {
-            if (json.Length == 0)
+            if (json.Span.Length == 0)
                 return null;
 
             return Json<T>.Unwrap(json);

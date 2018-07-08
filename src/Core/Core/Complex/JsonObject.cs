@@ -28,26 +28,7 @@ namespace Pocket.Json
             for (var i = 0; i < Fields.Length; i++)
                 FieldByNameHashCode[StringSpan.GetHashCode(Fields[i].Name)] = Fields[i];
         }
-
-        #region Append
-
-        public static void Append(T value, StringBuffer buffer)
-        {
-            buffer.Append('{');
-
-            var fields = Fields;
-            for (int i = 0, length = fields.Length; i < length; i++)
-            {
-                fields[i].Append(value, buffer);
-                if (i != fields.Length - 1)
-                    buffer.Append(',');
-            }
-
-            buffer.Append('}');
-        }
-
-        #endregion
-
+        
         private class JsonField
         {
             private readonly Append<object> _append;
@@ -79,50 +60,65 @@ namespace Pocket.Json
                 var fieldValue = _readField(value);
                 _append(fieldValue, buffer);
             }
-
-            public void Write(T value, StringSpan json)
+            
+            public void Write(T value, JsonSpan json)
             {
                 var field = _unwrap(json);
                 _writeField(value, field);
             }
         }
 
-        #region Unwrap
-
-        // Static instance that is used only in `Unwrap` method.
-        [ThreadStatic]
-        private static JsonStringSpan _jsonSpan;
-
-        public static T Unwrap(StringSpan json)
+        public static void Append(T value, StringBuffer buffer)
         {
-            if (_jsonSpan == null)
-                _jsonSpan = new JsonStringSpan();
-            if (json[0] != '{' || json[json.Length - 1] != '}')
-                throw new ArgumentException($"Specified json \"{json}\" must have open {'{'} and close {'}'} brackets.", nameof(json));
+            buffer.Append('{');
 
-            var result = Constructor();
-
-            json = json.Cut(1, 1); // Skip '{' and '}'.
-
-            _jsonSpan.Json = json;
-
-            var jsonSpan = _jsonSpan;
-            var fieldByName = FieldByNameHashCode;
-
-            var name = StringSpan.Zero;
-            while (jsonSpan.NextName(ref name))
+            var fields = Fields;
+            for (int i = 0, length = fields.Length; i < length; i++)
             {
-                jsonSpan.Json.SkipMutable(1);
-                
-                var value = jsonSpan.NextValue();
-                var field = fieldByName[name.GetHashCode()];
-                
-                field.Write(result, value);
+                fields[i].Append(value, buffer);
+                if (i != fields.Length - 1)
+                    buffer.Append(',');
             }
 
-            return result;
+            buffer.Append('}');
         }
 
-        #endregion
+        public static T Unwrap(JsonSpan json)
+        {
+            if (json.Span[0] == '{' && json.Span[1] == '}')
+            {
+                json.Skip(2);
+                return Constructor();
+            }
+            
+            var fieldByName = FieldByNameHashCode;
+            var instance = Constructor();
+            
+            json.Skip(1); // Skip '{'.
+
+            while (true)
+            {
+                var name = json.NextName();
+                
+                if (!fieldByName.ContainsKey(name.GetHashCode()))
+                    throw new Exception($"Couldn't find {name} field.");
+                
+                var field = fieldByName[name.GetHashCode()];
+
+                json.Skip(1); // Skip ':'.
+
+                field.Write(instance, json);
+
+                if (json.Char == '}')
+                {
+                    json.Skip(1);
+                    break;
+                }
+
+                json.Skip(1); // Skip ','.
+            }
+
+            return instance;
+        }
     }
 }

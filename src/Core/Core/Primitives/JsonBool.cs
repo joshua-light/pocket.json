@@ -8,10 +8,10 @@ namespace Pocket.Json
         {
             buffer.Append(value ? '1' : '0');
         }
-
-        public static bool Unwrap(StringSpan json)
+        
+        public static bool Unwrap(JsonSpan json)
         {
-            var ch = json.Source[json.Offset];
+            var ch = json.NextPrimitive()[0];
             if (ch == '1') return true;
             if (ch == '0') return false;
 

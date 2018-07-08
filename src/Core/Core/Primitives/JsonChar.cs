@@ -9,11 +9,13 @@ namespace Pocket.Json
             buffer.Append(value);
         }
 
-        public static char Unwrap(StringSpan json)
+        public static char Unwrap(JsonSpan json)
         {
-            if (json.Length == 1) return json[0];
+            var span = json.NextPrimitive();
+            if (span.Length == 1)
+                return span[0];
 
-            throw new ArgumentException("Specified string \"" + json + "\" is not a single character.", nameof(json));
+            throw new ArgumentException("Specified string \"" + span + "\" is not a single character.", nameof(span));
         }
     }
 }

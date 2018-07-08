@@ -6,6 +6,8 @@
         {
             buffer.Append(value);
         }
+        
+        public static long Unwrap(JsonSpan json) => Unwrap(json.NextPrimitive());
 
         public static long Unwrap(StringSpan json)
         {

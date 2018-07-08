@@ -9,20 +9,22 @@ namespace Pocket.Json
             buffer.Append(value);
         }
 
-        public static double Unwrap(StringSpan json)
+        public static double Unwrap(JsonSpan json)
         {
             const int precision = 15 + 1; // Double precision and '.' symbol.
-
+            
+            var span = json.NextPrimitive();
+            
             var result = 0.0;
             var dotIndex = -1;
 
-            for (var i = 0; i < (json.Length > precision ? precision : json.Length); i++)
+            for (var i = 0; i < (span.Length > precision ? precision : span.Length); i++)
             {
-                var ch = json[i];
+                var ch = span[i];
                 if (ch != '.')
                     continue;
 
-                result += JsonLong.Unwrap(json.SubSpan(i));
+                result += JsonLong.Unwrap(span.SubSpan(i));
 
                 if (i == precision - 1)
                     return result;
@@ -33,13 +35,13 @@ namespace Pocket.Json
 
             if (dotIndex == -1)
             {
-                if (json.Length < precision)
-                    return JsonLong.Unwrap(json);
+                if (span.Length < precision)
+                    return JsonLong.Unwrap(span);
 
                 var eIndex = -1;
-                for (var i = precision - 1; i < json.Length; i++)
+                for (var i = precision - 1; i < span.Length; i++)
                 {
-                    var ch = json[i];
+                    var ch = span[i];
                     if (ch != 'E')
                         continue;
 
@@ -49,22 +51,22 @@ namespace Pocket.Json
 
                 if (eIndex == -1)
                     throw new ArgumentException(
-                        "Cannot deserialize " + json +
+                        "Cannot deserialize " + span +
                         " because it looks like it's too long and must have the exponent part."
                     );
 
-                var ePart = json.SubSpan(eIndex + 1, json.Length - eIndex - 1);
-                json.Length = eIndex;
+                var ePart = span.SubSpan(eIndex + 1, span.Length - eIndex - 1);
+                span.Length = eIndex;
 
-                var integralPart = JsonLong.Unwrap(json);
+                var integralPart = JsonLong.Unwrap(span);
 
                 return integralPart * Math.Pow(10, JsonByte.Unwrap(ePart));
             }
 
-            if (json.Length > precision)
-                json.Length = precision;
+            if (span.Length > precision)
+                span.Length = precision;
 
-            var fractionalPart = json.SubSpan(dotIndex + 1, json.Length - dotIndex - 1);
+            var fractionalPart = span.SubSpan(dotIndex + 1, span.Length - dotIndex - 1);
             result += (double) (decimal) (JsonLong.Unwrap(fractionalPart) * Math.Pow(10, -fractionalPart.Length));
 
             return result;
