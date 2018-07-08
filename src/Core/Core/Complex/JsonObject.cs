@@ -99,10 +99,6 @@ namespace Pocket.Json
             while (true)
             {
                 var name = json.NextName();
-                
-                if (!fieldByName.ContainsKey(name.GetHashCode()))
-                    throw new Exception($"Couldn't find {name} field.");
-                
                 var field = fieldByName[name.GetHashCode()];
 
                 json.Skip(1); // Skip ':'.
