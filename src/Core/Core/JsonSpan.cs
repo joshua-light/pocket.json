@@ -27,19 +27,21 @@ namespace Pocket.Json
             
             var start = span.Offset;
             var source = span.Source;
-            var length = start + span.Length;
-
-            for (var i = start; i < length; i++)
-            {
-                if (source[i] == '"')
-                {
-                    span.Length = i  - start;
-                    Span.SkipMutable(i - start + 1);
-                    return span;
-                }
-            }
             
-            return StringSpan.Zero;
+            var i = start;
+            
+            LOOP:
+
+            if (source[i] == '"')
+            {
+                span.Length = i  - start;
+                Span.SkipMutable(i - start + 1);
+                return span;
+            }
+
+            i++;
+            
+            goto LOOP;
         }
         
         public StringSpan NextString()
@@ -48,19 +50,21 @@ namespace Pocket.Json
             
             var start = span.Offset;
             var source = span.Source;
-            var length = start + span.Length;
-
-            for (var i = start + 1; i < length; i++)
-            {
-                if (source[i] == '"')
-                {
-                    span.Length = i + 1 - start;
-                    Span.SkipMutable(i + 1 - start);
-                    return span;
-                }
-            }
             
-            return StringSpan.Zero;
+            var i = start + 1;
+            
+            LOOP:
+
+            if (source[i] == '"')
+            {
+                span.Length = i + 1 - start;
+                Span.SkipMutable(i + 1 - start);
+                return span;
+            }
+
+            i++;
+            
+            goto LOOP;
         }
 
         public StringSpan NextPrimitive()

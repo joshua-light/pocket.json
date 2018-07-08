@@ -125,7 +125,7 @@ namespace Pocket.Json.Benchmarks
         {
             _iterationsCount = 500;
             
-            Serialize<BigObject>();
+            // Serialize<BigObject>();
             Deserialize<BigObject>();
         }
 
@@ -155,8 +155,15 @@ namespace Pocket.Json.Benchmarks
 
             Console.WriteLine("---------------------" + typeof(T).FullName);
 
-            Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
-            Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
+            // Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
+            // Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
             Run("Castalia", _iterationsCount, () => json.AsJson<T>());
 
             Console.WriteLine("---------------------");
