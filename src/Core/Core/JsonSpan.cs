@@ -89,7 +89,8 @@ namespace Pocket.Json
                 }
             }
             
-            return StringSpan.Zero;
+            Span.SkipMutable(span.Length);
+            return span;
         }
     }
 }
