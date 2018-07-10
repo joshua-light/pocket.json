@@ -15,7 +15,7 @@ namespace Pocket.Json
             if (ch == '1') return true;
             if (ch == '0') return false;
 
-            throw new ArgumentException("Specified string \"" + json + "\" must be either \"1\" or \"0\".",
+            throw new ArgumentException($"Specified string \"{json}\" must be either \"1\" or \"0\".",
                 nameof(json));
         }
     }

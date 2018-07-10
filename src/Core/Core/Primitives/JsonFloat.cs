@@ -51,8 +51,7 @@ namespace Pocket.Json
 
                 if (eIndex == -1)
                     throw new ArgumentException(
-                        "Cannot deserialize " + span +
-                        " because it looks like it's too long and must have the exponent part."
+                        $"Cannot deserialize {span} because it looks like it\'s too long and must have the exponent part."
                     );
 
                 var ePart = span.SubSpan(eIndex + 1, span.Length - eIndex - 1);

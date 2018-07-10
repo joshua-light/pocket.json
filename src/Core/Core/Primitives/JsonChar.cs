@@ -15,7 +15,7 @@ namespace Pocket.Json
             if (span.Length == 1)
                 return span[0];
 
-            throw new ArgumentException("Specified string \"" + span + "\" is not a single character.", nameof(span));
+            throw new ArgumentException($"Specified string \"{span}\" is not a single character.", nameof(span));
         }
     }
 }
