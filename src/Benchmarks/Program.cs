@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
+using Newtonsoft.Json;
 
 namespace Pocket.Json.Benchmarks
 {
@@ -9,7 +12,23 @@ namespace Pocket.Json.Benchmarks
         
         public static void Main(string[] args)
         {
-            BigObjectOnlyRun();
+            BenchmarkRunner.Run<BigObjectDeserialization>();
+        }
+
+        public class BigObjectDeserialization
+        {
+            private readonly string _newtonsoftJson = JsonConvert.SerializeObject(new BigObject());
+            private readonly byte[] _utf8Json = Utf8Json.JsonSerializer.Serialize(new BigObject());
+            private readonly string _json = new BigObject().AsJson();
+
+            [Benchmark]
+            public BigObject NewtonsoftRun() => JsonConvert.DeserializeObject<BigObject>(_newtonsoftJson);
+            
+            [Benchmark]
+            public BigObject Utf8Run() => Utf8Json.JsonSerializer.Deserialize<BigObject>(_utf8Json);
+            
+            [Benchmark]
+            public BigObject PocketRun() => _json.AsJson<BigObject>();
         }
 
         private static void DefaultRun()
@@ -125,7 +144,7 @@ namespace Pocket.Json.Benchmarks
         {
             _iterationsCount = 500;
             
-            // Serialize<BigObject>();
+            Serialize<BigObject>();
             Deserialize<BigObject>();
         }
 

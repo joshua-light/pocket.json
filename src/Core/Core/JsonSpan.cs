@@ -34,7 +34,7 @@ namespace Pocket.Json
 
             if (source[i] == '"')
             {
-                span.Length = i  - start;
+                span.Length = i - start;
                 Span.SkipMutable(i - start + 1);
                 return span;
             }
@@ -57,8 +57,8 @@ namespace Pocket.Json
 
             if (source[i] == '"')
             {
-                span.Length = i + 1 - start;
-                Span.SkipMutable(i + 1 - start);
+                span.Length = i - start + 1;
+                Span.SkipMutable(i - start + 1);
                 return span;
             }
 
