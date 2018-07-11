@@ -72,21 +72,26 @@ namespace Pocket.Json
 
                 if (eIndex == -1)
                     throw new ArgumentException(
-                        $"Cannot deserialize {span} because it looks like it\'s too long and must have the exponent part."
-                    );
+                        $"Cannot deserialize {span} because it looks like it\'s too long and must have the exponent part.");
 
                 var ePart = span.SubSpan(eIndex + 1, span.Length - eIndex - 1);
                 span.Length = eIndex;
 
-                return JsonInt.Unwrap(span) * (float) Math.Pow(10, JsonByte.Unwrap(ePart));
+                var integralPart = JsonLong.Unwrap(span);
+                var ePartUnwrapped = JsonByte.Unwrap(ePart);
+
+                if (ePartUnwrapped < PowerOfTen.FloatCount)
+                    return integralPart * PowerOfTen.PositiveFloat[ePartUnwrapped];
+
+                return integralPart * (float) Math.Pow(10, JsonByte.Unwrap(ePart));
             }
 
             if (span.Length > precision)
                 span.Length = precision;
 
             var fractionalPart = span.SubSpan(dotIndex + 1, span.Length - dotIndex - 1);
-            result += (float) (decimal) (JsonInt.Unwrap(fractionalPart) *
-                PowerOfTen.NegativeFloat[fractionalPart.Length]);
+            
+            result += JsonInt.Unwrap(fractionalPart) * PowerOfTen.NegativeFloat[fractionalPart.Length];
 
             return result;
         }

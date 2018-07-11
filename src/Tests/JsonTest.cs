@@ -153,6 +153,8 @@ namespace Pocket.Json.Tests
                     Assert.Equal((IEnumerable) value, (IEnumerable) _json.AsJson<T>());
                 else if (type == typeof(double))
                     Assert.Equal((double) (object) value, _json.AsJson<double>(), 15);
+                else if (type == typeof(float))
+                    Assert.Equal((float) (object) value, _json.AsJson<float>(), 7);
                 else
                     Assert.Equal(value, _json.AsJson<T>());
             }
