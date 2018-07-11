@@ -98,7 +98,27 @@ namespace Pocket.Json
 
             while (true)
             {
-                var name = json.NextName();
+                json.Skip(1); // Skips '"'.
+            
+                // This is manually unrolled `JsonSpan.NextName()` method call.
+                var name = json.Span;
+            
+                var start = name.Offset;
+                var source = name.Source;
+                var i = start;
+
+                while (true)
+                {
+                    if (source[i] == '"')
+                    {
+                        name.Length = i - start;
+                        json.Skip(i - start + 1);
+                        break;
+                    }
+
+                    i++;
+                }
+                
                 var field = fieldByName[name.GetHashCode()];
 
                 json.Skip(1); // Skip ':'.

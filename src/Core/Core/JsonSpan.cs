@@ -27,7 +27,6 @@ namespace Pocket.Json
             
             var start = span.Offset;
             var source = span.Source;
-            
             var i = start;
 
             while (true)
@@ -49,7 +48,6 @@ namespace Pocket.Json
             
             var start = span.Offset;
             var source = span.Source;
-            
             var i = start + 1;
 
             while (true)
@@ -75,16 +73,24 @@ namespace Pocket.Json
 
             for (var i = start; i < length; i++)
             {
-                switch (source[i])
+                var ch = source[i];
+                if (ch == ',' || ch == ':' || ch == '}' || ch == ']')
                 {
-                    case ',':
-                    case ':':
-                    case '}':
-                    case ']':
-                        span.Length = i - start;
-                        Span.SkipMutable(i - start);
-                        return span;
+                    span.Length = i - start;
+                    Span.SkipMutable(i - start);
+                    return span;
                 }
+                
+//                switch (source[i])
+//                {
+//                    case ',':
+//                    case ':':
+//                    case '}':
+//                    case ']':
+//                        span.Length = i - start;
+//                        Span.SkipMutable(i - start);
+//                        return span;
+//                }
             }
             
             Span.SkipMutable(span.Length);
