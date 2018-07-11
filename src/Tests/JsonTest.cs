@@ -151,6 +151,8 @@ namespace Pocket.Json.Tests
                 var type = typeof(T);
                 if (type.IsGeneric(typeof(IEnumerable<>)) || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
                     Assert.Equal((IEnumerable) value, (IEnumerable) _json.AsJson<T>());
+                else if (type == typeof(double))
+                    Assert.Equal((double) (object) value, _json.AsJson<double>(), 15);
                 else
                     Assert.Equal(value, _json.AsJson<T>());
             }

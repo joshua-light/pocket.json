@@ -87,7 +87,8 @@ namespace Pocket.Json
                 span.Length = precision;
 
             var fractionalPart = span.SubSpan(dotIndex + 1, span.Length - dotIndex - 1);
-            result += (double) (decimal) (JsonLong.Unwrap(fractionalPart) * Math.Pow(10, -fractionalPart.Length));
+            
+            result += (JsonLong.Unwrap(fractionalPart) * Math.Pow(10, -fractionalPart.Length));
 
             return result;
         }
