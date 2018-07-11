@@ -13,25 +13,46 @@ namespace Pocket.Json
         {
             const int precision = 7 + 1; // Float precision and '.' symbol.
             
-            var span = json.NextPrimitive();
+            var span = json.Span;
             
             var result = 0f;
             var dotIndex = -1;
+            var cycleLength = span.Length;
 
-            for (var i = 0; i < (span.Length > precision ? precision : span.Length); i++)
+            for (var i = 0; i < cycleLength; i++)
             {
                 var ch = span[i];
-                if (ch != '.')
-                    continue;
+                switch (ch)
+                {
+                    case ',':
+                    case ':':
+                    case '}':
+                    case ']':
+                        span = span.SubSpan(i);
+                        goto CYCLE_END;
+                        
+                    case '.':
+                        result += JsonInt.Unwrap(span.SubSpan(i));
 
-                result += JsonInt.Unwrap(span.SubSpan(i));
-
-                if (i == precision - 1)
-                    return result;
-
-                dotIndex = i;
-                break;
+                        if (i == precision - 1)
+                            return result;
+                        
+                        dotIndex = i;
+                        break;
+                        
+                    default:
+                        if (i == cycleLength - 1)
+                        {
+                            span = span.SubSpan(i + 1);
+                            goto CYCLE_END;
+                        }
+                        continue;
+                }
             }
+            
+            CYCLE_END:
+            
+            json.Skip(span.Length);
 
             if (dotIndex == -1)
             {
