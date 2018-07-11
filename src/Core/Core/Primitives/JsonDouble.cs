@@ -79,6 +79,10 @@ namespace Pocket.Json
                 span.Length = eIndex;
 
                 var integralPart = JsonLong.Unwrap(span);
+                var ePartUnwrapped = JsonByte.Unwrap(ePart); // TODO: Consider to use `JsonInt` here.
+
+                if (ePartUnwrapped < PowerOfTen.LongCount)
+                    return (double) integralPart * PowerOfTen.PositiveLong[ePartUnwrapped];
 
                 return integralPart * Math.Pow(10, JsonByte.Unwrap(ePart));
             }
@@ -88,7 +92,7 @@ namespace Pocket.Json
 
             var fractionalPart = span.SubSpan(dotIndex + 1, span.Length - dotIndex - 1);
             
-            result += (JsonLong.Unwrap(fractionalPart) * Math.Pow(10, -fractionalPart.Length));
+            result += JsonLong.Unwrap(fractionalPart) * PowerOfTen.NegativeDouble[fractionalPart.Length];
 
             return result;
         }
