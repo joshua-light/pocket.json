@@ -12,7 +12,22 @@ namespace Pocket.Json.Benchmarks
         
         public static void Main(string[] args)
         {
+            BenchmarkRunner.Run<BigObjectSerialization>();
             BenchmarkRunner.Run<BigObjectDeserialization>();
+        }
+        
+        public class BigObjectSerialization
+        {
+            private static readonly BigObject Object = new BigObject();
+
+            [Benchmark]
+            public string NewtonsoftRun() => JsonConvert.SerializeObject(Object);
+            
+            [Benchmark]
+            public byte[] Utf8Run() => Utf8Json.JsonSerializer.Serialize(Object);
+
+            [Benchmark]
+            public string PocketRun() => Object.AsJson();
         }
 
         public class BigObjectDeserialization
