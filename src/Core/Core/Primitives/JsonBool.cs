@@ -11,7 +11,9 @@ namespace Pocket.Json
         
         public static bool Unwrap(JsonSpan json)
         {
-            var ch = json.NextPrimitive()[0];
+            var ch = json.Char;
+            json.Skip(1);
+            
             if (ch == '1') return true;
             if (ch == '0') return false;
 
