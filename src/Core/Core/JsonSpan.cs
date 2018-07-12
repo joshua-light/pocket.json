@@ -63,9 +63,11 @@ namespace Pocket.Json
             }
         }
 
-        public StringSpan NextPrimitive()
+        public StringSpan NextPrimitive() => NextPrimitive(ref Span);
+
+        private static StringSpan NextPrimitive(ref StringSpan sourceSpan)
         {
-            var span = Span;
+            var span = sourceSpan;
             
             var start = span.Offset;
             var source = span.Source;
@@ -77,23 +79,12 @@ namespace Pocket.Json
                 if (ch == ',' || ch == ':' || ch == '}' || ch == ']')
                 {
                     span.Length = i - start;
-                    Span.SkipMutable(i - start);
+                    sourceSpan.SkipMutable(i - start);
                     return span;
                 }
-                
-//                switch (source[i])
-//                {
-//                    case ',':
-//                    case ':':
-//                    case '}':
-//                    case ']':
-//                        span.Length = i - start;
-//                        Span.SkipMutable(i - start);
-//                        return span;
-//                }
             }
             
-            Span.SkipMutable(span.Length);
+            sourceSpan.SkipMutable(span.Length);
             return span;
         }
     }

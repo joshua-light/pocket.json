@@ -89,14 +89,17 @@ namespace Pocket.Json
         {
             if (span[0] == '{' && span[1] == '}')
             {
-                span.SkipMutable(2);
+                span.Offset += 2;
+                span.Length -= 2;
                 return Constructor();
             }
             
             var fieldByName = FieldByNameHashCode;
             var instance = Constructor();
             
-            span.SkipMutable(2); // Skip '{"' (start of object and field name).
+            // Skip '{"' (start of object and field name).
+            span.Offset += 2;
+            span.Length -= 2;
 
             while (true)
             {
@@ -112,7 +115,10 @@ namespace Pocket.Json
                     if (source[i] == '"')
                     {
                         name.Length = i - start;
-                        span.SkipMutable(i - start + 1 + 1); // Also skip ':'.
+                        
+                        // Skip '":'.
+                        span.Offset += i - start + 1 + 1;
+                        span.Length -= i - start + 1 + 1; 
                         break;
                     }
 
@@ -125,11 +131,14 @@ namespace Pocket.Json
 
                 if (json.Span[0] == '}')
                 {
-                    span.SkipMutable(1);
+                    span.Offset++;
+                    span.Length--; 
                     break;
                 }
 
-                span.SkipMutable(2); // Skip ',"'.
+                // Skip ',"'.
+                span.Offset += 2;
+                span.Length -= 2;
             }
 
             return instance;

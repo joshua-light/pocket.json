@@ -28,11 +28,14 @@ namespace Pocket.Json
                     case ':':
                     case '}':
                     case ']':
-                        span = span.SubSpan(i);
+                        span.Length = i;
                         goto CYCLE_END;
                         
                     case '.':
-                        result += JsonLong.Unwrap(span.SubSpan(i));
+                        var resultSpan = span;
+                        resultSpan.Length = i;
+                        
+                        result += JsonLong.Unwrap(resultSpan);
 
                         if (i == precision - 1)
                             return result;
