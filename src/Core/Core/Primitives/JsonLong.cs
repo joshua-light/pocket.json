@@ -10,17 +10,17 @@
         public static long Unwrap(JsonSpan json) => Unwrap(json.NextPrimitive());
 
         public static long Unwrap(StringSpan json)
-        {
-            var source = json.Source;
-            var offset = json.Offset;
-            
+        {            
             var multiplier = 1;
-            if (source[offset + 0] == '-')
+            if (json.Source[json.Offset + 0] == '-')
             {
                 multiplier = -1;
                 json.SkipMutable(1);
             }
 
+            var source = json.Source;
+            var offset = json.Offset;
+            
             long value;
             switch (json.Length)
             {

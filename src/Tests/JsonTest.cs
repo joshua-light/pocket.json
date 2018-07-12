@@ -164,6 +164,12 @@ namespace Pocket.Json.Tests
                 Assert.Equal(value, _json.AsJson<int>());
                 Assert.Equal(-value, ("-" + _json).AsJson<int>());
             }
+            
+            public void As(byte value)
+            {
+                Assert.Equal(value, _json.AsJson<byte>());
+                Assert.Equal(-value, ("-" + _json).AsJson<byte>());
+            }
 
             public void As(long value)
             {
