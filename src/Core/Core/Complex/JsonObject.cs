@@ -83,22 +83,24 @@ namespace Pocket.Json
             buffer.Append('}');
         }
 
-        public static T Unwrap(JsonSpan json)
+        public static T Unwrap(JsonSpan json) => Unwrap(json, ref json.Span);
+
+        private static T Unwrap(JsonSpan json, ref StringSpan span)
         {
-            if (json.Span[0] == '{' && json.Span[1] == '}')
+            if (span[0] == '{' && span[1] == '}')
             {
-                json.Skip(2);
+                span.SkipMutable(2);
                 return Constructor();
             }
             
             var fieldByName = FieldByNameHashCode;
             var instance = Constructor();
             
-            json.Skip(1); // Skip '{'.
+            span.SkipMutable(1); // Skip '{'.
 
             while (true)
             {
-                json.Skip(1); // Skips '"'.
+                span.SkipMutable(1); // Skips '"'.
             
                 // This is manually unrolled `JsonSpan.NextName()` method call.
                 var name = json.Span;
@@ -112,7 +114,7 @@ namespace Pocket.Json
                     if (source[i] == '"')
                     {
                         name.Length = i - start;
-                        json.Skip(i - start + 1);
+                        span.SkipMutable(i - start + 1);
                         break;
                     }
 
@@ -121,17 +123,17 @@ namespace Pocket.Json
                 
                 var field = fieldByName[name.GetHashCode()];
 
-                json.Skip(1); // Skip ':'.
+                span.SkipMutable(1); // Skip ':'.
 
                 field.Write(instance, json);
 
-                if (json.Char == '}')
+                if (json.Span[0] == '}')
                 {
-                    json.Skip(1);
+                    span.SkipMutable(1);
                     break;
                 }
 
-                json.Skip(1); // Skip ','.
+                span.SkipMutable(1); // Skip ','.
             }
 
             return instance;
