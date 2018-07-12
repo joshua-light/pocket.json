@@ -96,12 +96,10 @@ namespace Pocket.Json
             var fieldByName = FieldByNameHashCode;
             var instance = Constructor();
             
-            span.SkipMutable(1); // Skip '{'.
+            span.SkipMutable(2); // Skip '{"' (start of object and field name).
 
             while (true)
             {
-                span.SkipMutable(1); // Skips '"'.
-            
                 // This is manually unrolled `JsonSpan.NextName()` method call.
                 var name = json.Span;
             
@@ -114,7 +112,7 @@ namespace Pocket.Json
                     if (source[i] == '"')
                     {
                         name.Length = i - start;
-                        span.SkipMutable(i - start + 1);
+                        span.SkipMutable(i - start + 1 + 1); // Also skip ':'.
                         break;
                     }
 
@@ -122,8 +120,6 @@ namespace Pocket.Json
                 }
                 
                 var field = fieldByName[name.GetHashCode()];
-
-                span.SkipMutable(1); // Skip ':'.
 
                 field.Write(instance, json);
 
@@ -133,7 +129,7 @@ namespace Pocket.Json
                     break;
                 }
 
-                span.SkipMutable(1); // Skip ','.
+                span.SkipMutable(2); // Skip ',"'.
             }
 
             return instance;
