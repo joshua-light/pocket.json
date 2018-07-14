@@ -21,7 +21,7 @@ namespace Pocket.Json
 
             for (var i = 0; i < cycleLength; i++)
             {
-                var ch = span[i];
+                var ch = span.CharAt(i);
                 switch (ch)
                 {
                     case ',':
@@ -62,7 +62,7 @@ namespace Pocket.Json
                 var eIndex = -1;
                 for (var i = precision - 1; i < span.Length; i++)
                 {
-                    var ch = span[i];
+                    var ch = span.CharAt(i);
                     if (ch != 'E')
                         continue;
 

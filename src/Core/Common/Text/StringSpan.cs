@@ -24,32 +24,24 @@ namespace Pocket.Json
             Offset = offset;
             Length = length;
         }
-
-        public char this[int i] => Source[Offset + i];
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public char LastCharAt(int i) => Source[Offset + Length - 1 - i];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmpty()
-        {
-            return Length <= 0;
-        }
+        public char CharAt(int i) => Source[Offset + i];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
-        {
-            return Source.Substring(Offset, Length);
-        }
+        public bool IsEmpty() => Length <= 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int startIndex, int length)
-        {
-            return new StringSpan(Source, Offset + startIndex, length);
-        }
-
+        public override string ToString() => Source.Substring(Offset, Length);
+        
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int length)
-        {
-            return new StringSpan(Source, Offset, length);
-        }
+        public StringSpan SubSpan(int startIndex, int length) => new StringSpan(Source, Offset + startIndex, length);
+            
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public StringSpan SubSpan(int length) => new StringSpan(Source, Offset, length);
 
         #region Mutable
 
@@ -68,7 +60,7 @@ namespace Pocket.Json
                 return false;
             
             for (var i = 0; i < Length; i++)
-                if (this[i] != other[i])
+                if (CharAt(i) != other.CharAt(i))
                     return false;
 
             return true;

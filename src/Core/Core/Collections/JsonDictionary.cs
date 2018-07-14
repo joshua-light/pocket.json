@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
 namespace Pocket.Json
@@ -26,7 +25,7 @@ namespace Pocket.Json
 
         public static Dictionary<TKey, TValue> Unwrap(JsonSpan json)
         {
-            if (json.Span[0] == '{' && json.Span[1] == '}')
+            if (json.Span.CharAt(0) == '{' && json.Span.CharAt(1) == '}')
             {
                 json.Skip(2);
                 return new Dictionary<TKey, TValue>();
@@ -44,7 +43,7 @@ namespace Pocket.Json
 
                 result.Add(key, value);
 
-                if (json.Char == '}')
+                if (json.Span.CharAt(0) == '}')
                 {
                     json.Skip(1);
                     break;

@@ -13,7 +13,7 @@ namespace Pocket.Json
         {
             var span = json.NextPrimitive();
             if (span.Length == 1)
-                return span[0];
+                return span.CharAt(0);
 
             throw new ArgumentException($"Specified string \"{span}\" is not a single character.", nameof(span));
         }

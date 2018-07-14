@@ -22,7 +22,7 @@ namespace Pocket.Json
 
         public static List<T> Unwrap(JsonSpan json)
         {
-            if (json.Span[0] == '[' && json.Span[1] == ']')
+            if (json.Span.CharAt(0) == '[' && json.Span.CharAt(1) == ']')
             {
                 json.Skip(2);
                 return new List<T>();
@@ -38,7 +38,7 @@ namespace Pocket.Json
 
                 result.Add(item);
 
-                if (json.Char == ']')
+                if (json.Span.CharAt(0) == ']')
                 {
                     json.Skip(1);
                     break;

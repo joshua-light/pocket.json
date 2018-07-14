@@ -87,7 +87,7 @@ namespace Pocket.Json
 
         private static T Unwrap(JsonSpan json, ref StringSpan span)
         {
-            if (span[0] == '{' && span[1] == '}')
+            if (span.CharAt(0) == '{' && span.CharAt(1) == '}')
             {
                 span.Offset += 2;
                 span.Length -= 2;
@@ -129,7 +129,7 @@ namespace Pocket.Json
 
                 field.Write(instance, json);
 
-                if (json.Span[0] == '}')
+                if (span.CharAt(0) == '}')
                 {
                     span.Offset++;
                     span.Length--; 

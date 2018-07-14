@@ -16,7 +16,7 @@ namespace Pocket.Json
             if (span.IsEmpty()) throw new ArgumentException("Cannot unwrap empty json to string", nameof(span));
             if (span.Length == 1)
                 throw new ArgumentException("Cannot unwrap single character json to string", nameof(span));
-            if (span[0] != '"' || span[span.Length - 1] != '"')
+            if (span.CharAt(0) != '"' || span.LastCharAt(0) != '"')
                 throw new ArgumentException(
                     $"Specified string \"{span}\" must have open and close quotes characters.", nameof(span));
             

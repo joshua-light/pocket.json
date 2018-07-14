@@ -22,7 +22,7 @@ namespace Pocket.Json
 
         public static T[] Unwrap(JsonSpan json)
         {
-            if (json.Span[0] == '[' && json.Span[1] == ']')
+            if (json.Span.CharAt(0) == '[' && json.Span.CharAt(1) == ']')
             {
                 json.Skip(2);
                 return Array.Empty<T>();
