@@ -18,7 +18,6 @@ namespace Pocket.Json
             
             var span = json.Span;
             var source = span.Source;
-            var end = span.End;
             var start = span.Start;
 
             for (var i = start; i < span.End; i++)
@@ -61,7 +60,7 @@ namespace Pocket.Json
                 var eIndex = -1;
                 for (var i = precision - 1; i < length; i++)
                 {
-                    var ch = span.CharAt(i);
+                    var ch = source[span.Start + i];
                     if (ch != 'E')
                         continue;
 
