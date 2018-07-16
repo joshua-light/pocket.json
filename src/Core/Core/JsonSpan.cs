@@ -16,14 +16,14 @@ namespace Pocket.Json
         
         public StringSpan NextName()
         {
-            if (Span.Length <= 0)
+            if (Span.End == Span.Start)
                 return StringSpan.Zero;
 
             Span.SkipMutable(1); // Skips '"'.
             
             var span = Span;
             
-            var start = span.Offset;
+            var start = span.Start;
             var source = span.Source;
             var i = start;
 
@@ -31,8 +31,8 @@ namespace Pocket.Json
             {
                 if (source[i] == '"')
                 {
-                    span.Length = i - start;
-                    Span.SkipMutable(i - start + 1);
+                    span.End = i;
+                    Span.Start = i + 1;
                     return span;
                 }
 
@@ -44,7 +44,7 @@ namespace Pocket.Json
         {
             var span = Span;
             
-            var start = span.Offset;
+            var start = span.Start;
             var source = span.Source;
             var i = start + 1;
 
@@ -52,8 +52,8 @@ namespace Pocket.Json
             {
                 if (source[i] == '"')
                 {
-                    span.Length = i - start + 1;
-                    Span.SkipMutable(i - start + 1);
+                    span.End = i + 1;
+                    Span.Start = i + 1;
                     return span;
                 }
 
@@ -67,22 +67,22 @@ namespace Pocket.Json
         {
             var span = sourceSpan;
             
-            var start = span.Offset;
             var source = span.Source;
-            var length = start + span.Length;
+            var start = span.Start;
+            var end = span.End;
 
-            for (var i = start; i < length; i++)
+            for (var i = start; i < end; i++)
             {
                 var ch = source[i];
                 if (ch == ',' || ch == ':' || ch == '}' || ch == ']')
                 {
-                    span.Length = i - start;
-                    sourceSpan.SkipMutable(i - start);
+                    span.End = i;
+                    sourceSpan.Start = i;
                     return span;
                 }
             }
             
-            sourceSpan.SkipMutable(span.Length);
+            sourceSpan.SkipMutable(span.End - span.Start);
             return span;
         }
     }

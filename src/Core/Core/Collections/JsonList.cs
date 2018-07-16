@@ -24,11 +24,11 @@ namespace Pocket.Json
         {
             if (json.Span.CharAt(0) == '[' && json.Span.CharAt(1) == ']')
             {
-                json.Skip(2);
+                json.Span.Start += 2;
                 return new List<T>();
             }
 
-            json.Skip(1); // Skip '['.
+            json.Span.Start++; // Skip '['.
 
             var result = new List<T>();
 
@@ -40,11 +40,11 @@ namespace Pocket.Json
 
                 if (json.Span.CharAt(0) == ']')
                 {
-                    json.Skip(1);
+                    json.Span.Start++;
                     break;
                 }
 
-                json.Skip(1); // Skip ','.
+                json.Span.Start++; // Skip ','.
             }
 
             return result;

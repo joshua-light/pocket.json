@@ -11,18 +11,19 @@
 
         public static long Unwrap(StringSpan json)
         {            
+            var source = json.Source;
             var multiplier = 1;
-            if (json.Source[json.Offset + 0] == '-')
+            
+            if (source[json.Start] == '-')
             {
                 multiplier = -1;
-                json.SkipMutable(1);
+                json.Start++;
             }
 
-            var source = json.Source;
-            var offset = json.Offset;
+            var offset = json.Start;
             
             long value;
-            switch (json.Length)
+            switch (json.End - offset)
             {
                 case 1:
                     value = source[offset + 0] - '0';

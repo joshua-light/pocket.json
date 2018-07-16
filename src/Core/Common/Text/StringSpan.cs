@@ -8,58 +8,58 @@ namespace Pocket.Json
         public static StringSpan Zero = new StringSpan();
 
         public string Source;
-        public int Offset;
-        public int Length;
+        public int Start;
+        public int End;
 
         public StringSpan(string source)
         {
             Source = source;
-            Offset = 0;
-            Length = source.Length;
+            Start = 0;
+            End = source.Length;
         }
 
-        private StringSpan(string source, int offset, int length)
+        private StringSpan(string source, int start, int length)
         {
             Source = source;
-            Offset = offset;
-            Length = length;
+            Start = start;
+            End = start + length;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public char LastCharAt(int i) => Source[Offset + Length - 1 - i];
+        public char LastCharAt(int i) => Source[End - i - 1];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public char CharAt(int i) => Source[Offset + i];
+        public char CharAt(int i) => Source[Start + i];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmpty() => Length <= 0;
+        public bool IsEmpty() => End - Start <= 0;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => Source.Substring(Offset, Length);
+        public override string ToString() => Source.Substring(Start, End - Start);
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int startIndex, int length) => new StringSpan(Source, Offset + startIndex, length);
+        public StringSpan SubSpan(int startIndex, int length) => new StringSpan(Source, Start + startIndex, length);
             
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int length) => new StringSpan(Source, Offset, length);
+        public StringSpan SubSpan(int length) => new StringSpan(Source, Start, length);
 
         #region Mutable
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SkipMutable(int count)
         {
-            Offset += count;
-            Length -= count;
+            Start += count;
         }
 
         #endregion
 
         public bool Equals(StringSpan other)
         {
-            if (Length != other.Length)
+            var length = End - Start;
+            if (length != other.End - other.Start)
                 return false;
             
-            for (var i = 0; i < Length; i++)
+            for (var i = 0; i < length; i++)
                 if (CharAt(i) != other.CharAt(i))
                     return false;
 
@@ -68,18 +68,12 @@ namespace Pocket.Json
 
         public override int GetHashCode()
         {
-            fixed (char* sourcePtr = Source)
-            {
-                return GetHashCode(sourcePtr + Offset, Length);
-            }
+            return GetHashCode(Source, Start, End - Start);
         }
 
         public static int GetHashCode(string str)
         {
-            fixed (char* strPtr = str)
-            {
-                return GetHashCode(strPtr, str.Length);
-            }
+            return GetHashCode(str, 0, str.Length);
         }
 
         private static int GetHashCode(char* sourcePtr, int length)
@@ -112,6 +106,40 @@ namespace Pocket.Json
                 ptr += 2;
             }
             
+            return hash;
+        }
+        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int GetHashCode(string source, int offset, int length)
+        {
+            switch (length)
+            {
+                case 1: return source[offset];
+                case 2: return source[offset] * 9733 ^ source[offset + 1];
+                case 3: return (source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2];
+                case 4: return ((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3];
+                case 5: return (((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4];
+                case 6: return ((((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4]) * 9733 ^ source[offset + 5];
+                case 7: return (((((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4]) * 9733 ^ source[offset + 5]) * 9733 ^ source[offset + 6];
+                case 8: return ((((((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4]) * 9733 ^ source[offset + 5]) * 9733 ^ source[offset + 6]) * 9733 ^ source[offset + 7];
+                case 9: return (((((((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4]) * 9733 ^ source[offset + 5]) * 9733 ^ source[offset + 6]) * 9733 ^ source[offset + 7]) * 9733 ^ source[offset + 8];
+                case 10: return ((((((((source[offset] * 9733 ^ source[offset + 1]) * 9733 ^ source[offset + 2]) * 9733 ^ source[offset + 3]) * 9733 ^ source[offset + 4]) * 9733 ^ source[offset + 5]) * 9733 ^ source[offset + 6]) * 9733 ^ source[offset + 7]) * 9733 ^ source[offset + 8]) * 9733 ^ source[offset + 9];
+            }
+            
+            var hash = (int) source[offset];
+            var i = offset + 1;
+            length--;
+
+            while (length > 2)
+            {
+                hash = (hash * 9733) ^ source[i++];
+                hash = (hash * 9733) ^ source[i++];
+                length -= 2;
+            }
+
+            if (length != 0)
+                hash = (hash * 9733) ^ source[i];
+
             return hash;
         }
     }

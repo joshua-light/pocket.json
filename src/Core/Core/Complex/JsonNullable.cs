@@ -12,7 +12,7 @@ namespace Pocket.Json
 
         public static T? Unwrap(JsonSpan json)
         {
-            if (json.Span.Length == 0)
+            if (json.Span.Start == json.Span.End)
                 return null;
 
             return Json<T>.Unwrap(json);

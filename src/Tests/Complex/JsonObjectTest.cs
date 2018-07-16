@@ -23,9 +23,10 @@ namespace Pocket.Json.Tests.Complex
         [Fact]
         public void Unwrap_ShouldWorkCorrectly()
         {
-            Unwraps("{\"Item1\":0,\"Item2\":0}").As(new IntAndInt());
-            Unwraps("{\"Item1\":1,\"Item2\":0}").As(new IntAndInt{ Item1 = 1 });
-            Unwraps("{\"Item1\":1,\"Item2\":2}").As(new IntAndInt{ Item1 = 1, Item2 = 2 });
+//            Unwraps("{\"Item1\":0,\"Item2\":0}").As(new IntAndInt());
+//            Unwraps("{\"Item1\":1,\"Item2\":0}").As(new IntAndInt{ Item1 = 1 });
+//            Unwraps("{\"Item1\":1,\"Item2\":2}").As(new IntAndInt{ Item1 = 1, Item2 = 2 });
+            Unwraps("{\"Item1\":1.1234,\"Item2\":2.12345678}").As(new FloatAndDouble{ Item1 = 1.1234f, Item2 = 2.12345678 });
             
             Unwraps("{\"Items\":[1,2,3,4,5]}").As(new IntArray{ Items = new [] { 1, 2, 3, 4, 5 } });
             Unwraps("{\"Items\":[]}").As(new IntArray{ Items = new int[0] });

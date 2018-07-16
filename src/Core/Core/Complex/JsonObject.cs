@@ -89,8 +89,7 @@ namespace Pocket.Json
         {
             if (span.CharAt(0) == '{' && span.CharAt(1) == '}')
             {
-                span.Offset += 2;
-                span.Length -= 2;
+                span.Start += 2;
                 return Constructor();
             }
             
@@ -98,15 +97,14 @@ namespace Pocket.Json
             var instance = Constructor();
             
             // Skip '{"' (start of object and field name).
-            span.Offset += 2;
-            span.Length -= 2;
+            span.Start += 2;
 
             while (true)
             {
                 // This is manually unrolled `JsonSpan.NextName()` method call.
                 var name = json.Span;
             
-                var start = name.Offset;
+                var start = name.Start;
                 var source = name.Source;
                 var i = start;
 
@@ -114,11 +112,10 @@ namespace Pocket.Json
                 {
                     if (source[i] == '"')
                     {
-                        name.Length = i - start;
+                        name.End = i;
                         
                         // Skip '":'.
-                        span.Offset += i - start + 1 + 1;
-                        span.Length -= i - start + 1 + 1; 
+                        span.Start = i + 2;
                         break;
                     }
 
@@ -131,14 +128,12 @@ namespace Pocket.Json
 
                 if (span.CharAt(0) == '}')
                 {
-                    span.Offset++;
-                    span.Length--; 
+                    span.Start++;
                     break;
                 }
 
                 // Skip ',"'.
-                span.Offset += 2;
-                span.Length -= 2;
+                span.Start += 2;
             }
 
             return instance;

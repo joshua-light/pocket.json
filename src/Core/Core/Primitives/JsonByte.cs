@@ -12,16 +12,16 @@
         public static byte Unwrap(StringSpan json)
         {
             var source = json.Source;
-            var offset = json.Offset;
+            var offset = json.Start;
+            var length = json.End - offset;
             
-            if (json.Length == 1)
-                return (byte) (source[offset + 0] - '0');
+            if (length == 1)
+                return (byte) (source[offset] - '0');
 
-            if (json.Length == 2)
-                return (byte) ((source[offset + 0] - '0') * 10
-                    + (source[offset + 1] - '0'));
+            if (length == 2)
+                return (byte) ((source[offset] - '0') * 10 + (source[offset + 1] - '0'));
 
-            return (byte) ((source[offset + 0] - '0') * 100
+            return (byte) ((source[offset] - '0') * 100
                 + (source[offset + 1] - '0') * 10
                 + (source[offset + 2] - '0'));
         }

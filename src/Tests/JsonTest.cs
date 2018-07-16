@@ -21,6 +21,14 @@ namespace Pocket.Json.Tests
 
             public bool Equals(IntAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
+        
+        public class FloatAndDouble : IEquatable<FloatAndDouble>
+        {
+            public float Item1;
+            public double Item2;
+
+            public bool Equals(FloatAndDouble other) => Item1 == other.Item1 && Item2 == other.Item2;
+        }
 
         public class IntAndString : IEquatable<IntAndString>
         {
@@ -148,33 +156,61 @@ namespace Pocket.Json.Tests
             
             public void As<T>(T value)
             {
-                var type = typeof(T);
-                if (type.IsGeneric(typeof(IEnumerable<>)) || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
-                    Assert.Equal((IEnumerable) value, (IEnumerable) _json.AsJson<T>());
-                else if (type == typeof(double))
-                    Assert.Equal((double) (object) value, _json.AsJson<double>(), 15);
-                else if (type == typeof(float))
-                    Assert.Equal((float) (object) value, _json.AsJson<float>(), 7);
-                else
-                    Assert.Equal(value, _json.AsJson<T>());
+                var json = _json;
+                InvokeWithTryCatch(() =>
+                {
+                    var type = typeof(T);
+                    if (type.IsGeneric(typeof(IEnumerable<>)) || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
+                        Assert.Equal((IEnumerable) value, (IEnumerable) json.AsJson<T>());
+                    else if (type == typeof(double))
+                        Assert.Equal((double) (object) value, json.AsJson<double>(), 15);
+                    else if (type == typeof(float))
+                        Assert.Equal((float) (object) value, json.AsJson<float>(), 7);
+                    else
+                        Assert.Equal(value, json.AsJson<T>());
+                });
             }
 
             public void As(int value)
             {
-                Assert.Equal(value, _json.AsJson<int>());
-                Assert.Equal(-value, ("-" + _json).AsJson<int>());
+                var json = _json;
+                InvokeWithTryCatch(() =>
+                {
+                    Assert.Equal(value, json.AsJson<int>());
+                    Assert.Equal(-value, ("-" + json).AsJson<int>());
+                });
             }
             
             public void As(byte value)
             {
-                Assert.Equal(value, _json.AsJson<byte>());
-                Assert.Equal(-value, ("-" + _json).AsJson<byte>());
+                var json = _json;
+                InvokeWithTryCatch(() =>
+                {
+                    Assert.Equal(value, json.AsJson<byte>());
+                    Assert.Equal(-value, ("-" + json).AsJson<byte>());
+                });
             }
 
             public void As(long value)
             {
-                Assert.Equal(value, _json.AsJson<long>());
-                Assert.Equal(-value, ("-" + _json).AsJson<long>());
+                var json = _json;
+                InvokeWithTryCatch(() =>
+                {
+                    Assert.Equal(value, json.AsJson<long>());
+                    Assert.Equal(-value, ("-" + json).AsJson<long>());
+                });
+            }
+
+            private void InvokeWithTryCatch(Action assertion)
+            {
+                try
+                {
+                    assertion();
+                }
+                catch (Exception e)
+                {
+                    throw new Exception($"Exception occured while unwrapping \"{_json}\": ", e);
+                }
             }
         }
         

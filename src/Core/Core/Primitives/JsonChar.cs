@@ -12,7 +12,7 @@ namespace Pocket.Json
         public static char Unwrap(JsonSpan json)
         {
             var span = json.NextPrimitive();
-            if (span.Length == 1)
+            if (span.End - span.Start == 1)
                 return span.CharAt(0);
 
             throw new ArgumentException($"Specified string \"{span}\" is not a single character.", nameof(span));

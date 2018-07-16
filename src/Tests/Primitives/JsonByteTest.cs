@@ -15,7 +15,7 @@ namespace Pocket.Json.Tests.Primitives
         public void Unwraps_ShouldWorkCorrectly()
         {
             for (var i = 0; i <= byte.MaxValue; i++)
-                Unwraps(i.ToString()).As(i);
+                Unwraps(i.ToString()).As<byte>((byte) i);
         }
     }
 }

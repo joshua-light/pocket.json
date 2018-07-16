@@ -13,13 +13,14 @@ namespace Pocket.Json
         {
             const int precision = 7 + 1; // Float precision and '.' symbol.
             
-            var span = json.Span;
-            
             var result = 0f;
             var dotIndex = -1;
-            var cycleLength = span.Length;
+            
+            var span = json.Span;
+            var start = span.Start;
+            var length = span.End - start;
 
-            for (var i = 0; i < cycleLength; i++)
+            for (var i = 0; i < length; i++)
             {
                 var ch = span.CharAt(i);
                 switch (ch)
@@ -28,11 +29,14 @@ namespace Pocket.Json
                     case ':':
                     case '}':
                     case ']':
-                        span = span.SubSpan(i);
+                        span.End = start + i;
                         goto CYCLE_END;
                         
                     case '.':
-                        result += JsonInt.Unwrap(span.SubSpan(i));
+                        var integralSpan = span;
+                        integralSpan.End = start + i;
+                        
+                        result += JsonInt.Unwrap(integralSpan);
 
                         if (i == precision - 1)
                             return result;
@@ -41,9 +45,9 @@ namespace Pocket.Json
                         break;
                         
                     default:
-                        if (i == cycleLength - 1)
+                        if (i == length - 1)
                         {
-                            span = span.SubSpan(i + 1);
+                            span.End = start + i + 1;
                             goto CYCLE_END;
                         }
                         continue;
@@ -52,15 +56,17 @@ namespace Pocket.Json
             
             CYCLE_END:
             
-            json.Skip(span.Length);
+            length = span.End - start;
+            
+            json.Span.Start += length;
 
             if (dotIndex == -1)
             {
-                if (span.Length < precision)
+                if (length < precision)
                     return JsonInt.Unwrap(span);
 
                 var eIndex = -1;
-                for (var i = precision - 1; i < span.Length; i++)
+                for (var i = precision - 1; i < length; i++)
                 {
                     var ch = span.CharAt(i);
                     if (ch != 'E')
@@ -74,8 +80,8 @@ namespace Pocket.Json
                     throw new ArgumentException(
                         $"Cannot deserialize {span} because it looks like it\'s too long and must have the exponent part.");
 
-                var ePart = span.SubSpan(eIndex + 1, span.Length - eIndex - 1);
-                span.Length = eIndex;
+                var ePart = span.SubSpan(eIndex + 1, span.End - eIndex - 1);
+                span.End = eIndex;
 
                 var integralPart = JsonLong.Unwrap(span);
                 var ePartUnwrapped = JsonByte.Unwrap(ePart);
@@ -86,12 +92,16 @@ namespace Pocket.Json
                 return integralPart * (float) Math.Pow(10, JsonByte.Unwrap(ePart));
             }
 
-            if (span.Length > precision)
-                span.Length = precision;
+            if (length > precision)
+            {
+                span.End = start + precision;
+                length = precision;
+            }
 
-            var fractionalPart = span.SubSpan(dotIndex + 1, span.Length - dotIndex - 1);
+            span.Start += dotIndex + 1;
+            length -= dotIndex + 1;
             
-            result += JsonInt.Unwrap(fractionalPart) * PowerOfTen.NegativeFloat[fractionalPart.Length];
+            result += JsonInt.Unwrap(span) * PowerOfTen.NegativeFloat[length];
 
             return result;
         }
