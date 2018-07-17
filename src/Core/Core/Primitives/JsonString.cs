@@ -12,15 +12,20 @@ namespace Pocket.Json
         public static string Unwrap(JsonSpan json)
         {
             var span = json.NextString();
+            var start = span.Start;
+            var end = span.End;
 
-            if (span.IsEmpty()) throw new ArgumentException("Cannot unwrap empty json to string", nameof(span));
-            if (span.End == 1)
+            if (start == end)
+                throw new ArgumentException("Cannot unwrap empty json to string", nameof(span));
+            if (end == 1)
                 throw new ArgumentException("Cannot unwrap single character json to string", nameof(span));
-            if (span.CharAt(0) != '"' || span.LastCharAt(0) != '"')
-                throw new ArgumentException(
-                    $"Specified string \"{span}\" must have open and close quotes characters.", nameof(span));
+            if (span.Source[start] != '"' || span.Source[end - 1] != '"')
+                throw new ArgumentException($"Specified string \"{span}\" must have open and close quotes characters.", nameof(span));
             
-            return span.SubSpan(1, span.End - span.Start - 2).ToString();
+            span.Start++;
+            span.End--;
+            
+            return span.ToString();
         }
     }
 }
