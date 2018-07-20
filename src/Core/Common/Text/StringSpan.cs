@@ -66,6 +66,11 @@ namespace Pocket.Json
             return true;
         }
 
+        public static int GetHashCode(StringSpan span)
+        {
+            return GetHashCode(span.Source, span.Start, span.End - span.Start);
+        }
+
         public override int GetHashCode()
         {
             return GetHashCode(Source, Start, End - Start);
