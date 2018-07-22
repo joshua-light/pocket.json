@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Pocket.Common;
 using Xunit;
 
 namespace Pocket.Json.Tests
@@ -160,7 +161,7 @@ namespace Pocket.Json.Tests
                 InvokeWithTryCatch(() =>
                 {
                     var type = typeof(T);
-                    if (type.IsGeneric(typeof(IEnumerable<>)) || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
+                    if (type.Implements(typeof(IEnumerable<>)))
                         Assert.Equal((IEnumerable) value, (IEnumerable) json.AsJson<T>());
                     else if (type == typeof(double))
                         Assert.Equal((double) (object) value, json.AsJson<double>(), 15);

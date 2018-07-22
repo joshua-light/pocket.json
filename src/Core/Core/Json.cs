@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Pocket.Common;
 
 namespace Pocket.Json
 {
@@ -60,8 +61,7 @@ namespace Pocket.Json
             if (type.IsGeneric(typeof(Dictionary<,>)))
                 return JsonDictionary.GenerateAppend<T>();
 
-            if (type.IsGeneric(typeof(IEnumerable<>))
-                || type.GetTypeInfo().ImplementedInterfaces.Any(x => x.IsGeneric(typeof(IEnumerable<>))))
+            if (type.IsGeneric(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
                 return JsonEnumerable.GenerateAppend<T>();
 
             return (Append<T>) JsonObject<T>.Append;
