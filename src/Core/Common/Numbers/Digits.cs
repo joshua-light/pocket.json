@@ -8,7 +8,8 @@
             // because this is more efficient way than taking Log10.
             var digits = 19;
 
-            if (value < 10) digits = 1;
+            if (value < 10)
+                digits = 1;
             else if (value < 100)
                 digits = 2;
             else if (value < 1000)
@@ -51,7 +52,8 @@
         {
             var digits = 39;
 
-            if (value < 10f) digits = 1;
+            if (value < 10f)
+                digits = 1;
             else if (value < 100f)
                 digits = 2;
             else if (value < 1000f)
