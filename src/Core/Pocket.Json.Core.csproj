@@ -14,7 +14,7 @@
     <None Remove="Pocket.Json.Core.csproj.DotSettings" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Pocket.Common" Version="1.0.6" />
+    <PackageReference Include="Pocket.Common" Version="1.0.7" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
 </Project>

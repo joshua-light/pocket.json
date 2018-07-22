@@ -55,13 +55,13 @@ namespace Pocket.Json
             if (type.IsArray)
                 return JsonArray.GenerateAppend<T>();
 
-            if (type.IsGeneric(typeof(List<>)))
+            if (type.Is(typeof(List<>)))
                 return JsonList.GenerateAppend<T>();
             
-            if (type.IsGeneric(typeof(Dictionary<,>)))
+            if (type.Is(typeof(Dictionary<,>)))
                 return JsonDictionary.GenerateAppend<T>();
 
-            if (type.IsGeneric(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
+            if (type.Is(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
                 return JsonEnumerable.GenerateAppend<T>();
 
             return (Append<T>) JsonObject<T>.Append;
@@ -101,13 +101,13 @@ namespace Pocket.Json
             if (type.IsArray)
                 return JsonArray.GenerateUnwrap<T>();
             
-            if (type.IsGeneric(typeof(List<>)))
+            if (type.Is(typeof(List<>)))
                 return JsonList.GenerateUnwrap<T>();
             
-            if (type.IsGeneric(typeof(HashSet<>)))
+            if (type.Is(typeof(HashSet<>)))
                 return JsonHashSet.GenerateUnwrap<T>();
             
-            if (type.IsGeneric(typeof(Dictionary<,>)))
+            if (type.Is(typeof(Dictionary<,>)))
                 return JsonDictionary.GenerateUnwrap<T>();
 
             return (Unwrap<T>) JsonObject<T>.Unwrap;
