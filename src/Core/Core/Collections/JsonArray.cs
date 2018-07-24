@@ -24,7 +24,7 @@ namespace Pocket.Json
         {
             if (json.Span.CharAt(0) == '[' && json.Span.CharAt(1) == ']')
             {
-                json.Skip(2);
+                json.Span.Start += 2;
                 return Array.Empty<T>();
             }
 

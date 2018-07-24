@@ -10,9 +10,6 @@ namespace Pocket.Json
         {
             Span = new StringSpan(span);
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Skip(int count) => Span.SkipMutable(count);
         
         public StringSpan NextName()
         {

@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Pocket.Common;
 
 namespace Pocket.Json

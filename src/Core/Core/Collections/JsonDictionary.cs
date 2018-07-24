@@ -23,33 +23,35 @@ namespace Pocket.Json
             buffer.Append('}');
         }
 
-        public static Dictionary<TKey, TValue> Unwrap(JsonSpan json)
+        public static Dictionary<TKey, TValue> Unwrap(JsonSpan json) => UnwrapOptimized(json, ref json.Span);
+
+        private static Dictionary<TKey, TValue> UnwrapOptimized(JsonSpan json, ref StringSpan span)
         {
-            if (json.Span.CharAt(0) == '{' && json.Span.CharAt(1) == '}')
+            if (span.CharAt(0) == '{' && span.CharAt(1) == '}')
             {
-                json.Skip(2);
+                span.Start += 2;
                 return new Dictionary<TKey, TValue>();
             }
 
-            json.Skip(1); // Skip '{'.
+            span.Start++; // Skip '{'.
             
             var result = new Dictionary<TKey, TValue>();
 
             while (true)
             {
                 var key = Json<TKey>.Unwrap(json);
-                json.Skip(1); // Skip ':'.
+                span.Start++; // Skip ':'.
                 var value = Json<TValue>.Unwrap(json);
 
                 result.Add(key, value);
 
-                if (json.Span.CharAt(0) == '}')
+                if (span.CharAt(0) == '}')
                 {
-                    json.Skip(1);
+                    span.Start++;
                     break;
                 }
 
-                json.Skip(1); // Skip ','.
+                span.Start++; // Skip ','.
             }
 
             return result;
