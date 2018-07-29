@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using Pocket.Common;
 
 namespace Pocket.Json
 {
