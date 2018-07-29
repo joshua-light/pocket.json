@@ -25,7 +25,7 @@ var samePoint = pointJson.AsJson<Point>(); // { X = 1, Y = 2 } of type `Point` h
 ```
 
 ## Architecture
-In 2018 (or any year later, I don't want to update that number with grandchild on my knee) noone needs serialization libraries, so it may be helpful to some of you just to look how one can be created for learning purposes. This package have simple implementation, so it's a nice start.
+In 2018 (or any year later, I don't want to update that number with grandchild on my knee) noone needs serialization libraries, so it may be helpful to some of you just to look (for learning purposes) how one can be created. This package have simple implementation, so it's a nice start.
 1. `AsJson` — entry-point extension-method, which delegates work to internal class `Json`.
 2. `Json` — responsible for resolving type of processed value into concrete serialization/deserialization implementation. For example, `int` is resolved to `JsonInt`, etc.
 3. `Json*` — serializes/deserializes value of type `*` through `Append` (serialization) and `Unwrap` (deserialization) methods.
