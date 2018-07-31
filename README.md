@@ -46,12 +46,6 @@ Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
 | NewtonsoftRun | 515.5 us | 3.8278 us | 3.3932 us |
 |       Utf8Run | 246.0 us | 0.7790 us | 0.7287 us |
 |     PocketRun | 205.8 us | 1.5910 us | 1.4104 us |
-### Deserialization (Object has field initializers)
-|        Method |     Mean |    Error |   StdDev |
-|-------------- |---------:|---------:|---------:|
-| NewtonsoftRun | 518.3 us | 2.037 us | 1.905 us |
-|       Utf8Run | 816.1 us | 3.007 us | 2.813 us |
-|     PocketRun | 787.8 us | 3.784 us | 3.540 us |
 
 ## Architecture
 In 2018 (or any year later, I don't want to update that number with grandchild on my knee) noone needs serialization libraries, so it may be helpful to some of you just to look (for learning purposes) how one can be created. This package have simple implementation, so it's a nice start.
