@@ -35,17 +35,17 @@ Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
   DefaultJob : .NET Core 2.0.7 (CoreCLR 4.6.26328.01, CoreFX 4.6.26403.03), 64bit RyuJIT
 ```
 ### Serialization
-|        Method |      Mean |     Error |    StdDev |
-|-------------- |----------:|----------:|----------:|
-| NewtonsoftRun | 373.32 us | 1.8844 us | 1.7627 us |
-|       Utf8Run | 110.72 us | 0.4506 us | 0.4215 us |
-|     PocketRun |  89.35 us | 0.5339 us | 0.4994 us |
+|         Method |      Mean |     Error |    StdDev |
+|--------------- |----------:|----------:|----------:|
+| NewtonsoftJson | 364.31 us | 0.8590 us | 0.7615 us |
+|       Utf8Json | 109.74 us | 0.4427 us | 0.4141 us |
+|     PocketJson |  88.87 us | 0.2634 us | 0.2464 us |
 ### Deserialization
-|        Method |     Mean |     Error |    StdDev |
-|-------------- |---------:|----------:|----------:|
-| NewtonsoftRun | 515.5 us | 3.8278 us | 3.3932 us |
-|       Utf8Run | 246.0 us | 0.7790 us | 0.7287 us |
-|     PocketRun | 205.8 us | 1.5910 us | 1.4104 us |
+|         Method |     Mean |     Error |    StdDev |
+|--------------- |---------:|----------:|----------:|
+| NewtonsoftJson | 515.8 us | 1.7363 us | 1.6241 us |
+|       Utf8Json | 249.7 us | 0.9303 us | 0.8702 us |
+|     PocketJson | 207.4 us | 0.9553 us | 0.8936 us |
 
 ## Architecture
 In 2018 (or any year later, I don't want to update that number with grandchild on my knee) noone needs serialization libraries, so it may be helpful to some of you just to look (for learning purposes) how one can be created. This package have simple implementation, so it's a nice start.
