@@ -11,7 +11,7 @@ For converting objects you should use only one extension-method: `AsJson` (which
 ```c#
 public class Point // It is important that type is `public` due to code-generation.
 {
-    public int X; // Fields should be public aswell.
+    public int X; // Fields should be `public` aswell.
     public int Y;
 }
 
