@@ -29,7 +29,7 @@ namespace Pocket.Json.Benchmarks
             [Benchmark]
             public string PocketRun() => Object.AsJson();
         }
-
+        
         public class BigObjectDeserialization
         {
             private readonly string _newtonsoftJson = JsonConvert.SerializeObject(new BigObject());
@@ -37,14 +37,16 @@ namespace Pocket.Json.Benchmarks
             private readonly string _json = new BigObject().AsJson();
 
             [Benchmark]
-            public BigObject NewtonsoftRun() => JsonConvert.DeserializeObject<BigObject>(_newtonsoftJson);
+            public BigObjectUninitialized NewtonsoftRun() => JsonConvert.DeserializeObject<BigObjectUninitialized>(_newtonsoftJson);
             
             [Benchmark]
-            public BigObject Utf8Run() => Utf8Json.JsonSerializer.Deserialize<BigObject>(_utf8Json);
+            public BigObjectUninitialized Utf8Run() => Utf8Json.JsonSerializer.Deserialize<BigObjectUninitialized>(_utf8Json);
             
             [Benchmark]
-            public BigObject PocketRun() => _json.AsJson<BigObject>();
+            public BigObjectUninitialized PocketRun() => _json.AsJson<BigObjectUninitialized>();
         }
+
+        #region Manual Benchmarks
 
         private static void DefaultRun()
         {
@@ -157,6 +159,7 @@ namespace Pocket.Json.Benchmarks
 
         private static void BigObjectOnlyRun()
         {
+            // Deserialization benchmarks are broken (object has field initializers).
             _iterationsCount = 500;
             
             Serialize<BigObject>();
@@ -183,21 +186,14 @@ namespace Pocket.Json.Benchmarks
 
         private static void Deserialize<T>(T item)
         {
-            var newtonsoftJson = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+            var newtonsoftJson = JsonConvert.SerializeObject(item);
             var utf8Json = Utf8Json.JsonSerializer.Serialize(item);
             var json = item.AsJson();
 
             Console.WriteLine("---------------------" + typeof(T).FullName);
 
-            // Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
-            // Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
+            Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
             Run("Castalia", _iterationsCount, () => json.AsJson<T>());
 
             Console.WriteLine("---------------------");
@@ -222,5 +218,7 @@ namespace Pocket.Json.Benchmarks
             
             GC.Collect();
         }
+
+        #endregion
     }
 }
