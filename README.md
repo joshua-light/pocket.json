@@ -41,6 +41,12 @@ Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
 |       Utf8Run | 110.72 us | 0.4506 us | 0.4215 us |
 |     PocketRun |  89.35 us | 0.5339 us | 0.4994 us |
 ### Deserialization
+|        Method |     Mean |     Error |    StdDev |
+|-------------- |---------:|----------:|----------:|
+| NewtonsoftRun | 515.5 us | 3.8278 us | 3.3932 us |
+|       Utf8Run | 246.0 us | 0.7790 us | 0.7287 us |
+|     PocketRun | 205.8 us | 1.5910 us | 1.4104 us |
+### Deserialization (Object has field initializers)
 |        Method |     Mean |    Error |   StdDev |
 |-------------- |---------:|---------:|---------:|
 | NewtonsoftRun | 518.3 us | 2.037 us | 1.905 us |
