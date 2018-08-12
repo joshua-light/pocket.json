@@ -21,29 +21,29 @@ namespace Pocket.Json.Benchmarks
             private static readonly BigObject Object = new BigObject();
 
             [Benchmark]
-            public string NewtonsoftRun() => JsonConvert.SerializeObject(Object);
+            public string NewtonsoftJson() => JsonConvert.SerializeObject(Object);
             
             [Benchmark]
-            public byte[] Utf8Run() => Utf8Json.JsonSerializer.Serialize(Object);
+            public byte[] Utf8Json() => global::Utf8Json.JsonSerializer.Serialize(Object);
 
             [Benchmark]
-            public string PocketRun() => Object.AsJson();
+            public string PocketJson() => Object.AsJson();
         }
         
         public class BigObjectDeserialization
         {
             private readonly string _newtonsoftJson = JsonConvert.SerializeObject(new BigObject());
-            private readonly byte[] _utf8Json = Utf8Json.JsonSerializer.Serialize(new BigObject());
+            private readonly byte[] _utf8Json = global::Utf8Json.JsonSerializer.Serialize(new BigObject());
             private readonly string _json = new BigObject().AsJson();
 
             [Benchmark]
-            public BigObjectUninitialized NewtonsoftRun() => JsonConvert.DeserializeObject<BigObjectUninitialized>(_newtonsoftJson);
+            public BigObjectUninitialized NewtonsoftJson() => JsonConvert.DeserializeObject<BigObjectUninitialized>(_newtonsoftJson);
             
             [Benchmark]
-            public BigObjectUninitialized Utf8Run() => Utf8Json.JsonSerializer.Deserialize<BigObjectUninitialized>(_utf8Json);
+            public BigObjectUninitialized Utf8Json() => global::Utf8Json.JsonSerializer.Deserialize<BigObjectUninitialized>(_utf8Json);
             
             [Benchmark]
-            public BigObjectUninitialized PocketRun() => _json.AsJson<BigObjectUninitialized>();
+            public BigObjectUninitialized PocketJson() => _json.AsJson<BigObjectUninitialized>();
         }
 
         #region Manual Benchmarks
