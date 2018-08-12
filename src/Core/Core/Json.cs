@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using Pocket.Common;
 
 namespace Pocket.Json
@@ -99,6 +99,9 @@ namespace Pocket.Json
             if (type.IsNullable())
                 return JsonNullable.GenerateUnwrap<T>();
             
+            if (type.IsEnum)
+                return JsonEnum.GenerateUnwrap<T>();
+            
             if (type.IsArray)
                 return JsonArray.GenerateUnwrap<T>();
             
@@ -119,8 +122,9 @@ namespace Pocket.Json
     {
         private static class Cache
         {
-            private static readonly Dictionary<Type, Append<object>> Appends = new Dictionary<Type, Append<object>>();
-            private static readonly Dictionary<Type, Unwrap<object>> Unwraps = new Dictionary<Type, Unwrap<object>>();
+            // TODO: Probably need to cache this better somehow.
+            private static readonly ConcurrentDictionary<Type, Append<object>> Appends = new ConcurrentDictionary<Type, Append<object>>();
+            private static readonly ConcurrentDictionary<Type, Unwrap<object>> Unwraps = new ConcurrentDictionary<Type, Unwrap<object>>();
             
             public static Append<object> Append(Type type) =>
                 Appends.GetOrNew(type, () => Generate.Append(type));
