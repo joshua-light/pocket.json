@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Pocket.Common;
 
 namespace Pocket.Json
 {
     internal delegate void Append<T>(T value, StringBuffer buffer);
-
     internal delegate T Unwrap<T>(JsonSpan json);
 
     internal static class Json<T>
@@ -12,12 +13,11 @@ namespace Pocket.Json
         private static readonly Append<T> _append = (Append<T>) NewAppend();
         private static readonly Unwrap<T> _unwrap = (Unwrap<T>) NewUnwrap();
 
-        public static void Append(T value, StringBuffer buffer)
-        {
+        public static void Append(T value, StringBuffer buffer) =>
             _append(value, buffer);
-        }
 
-        public static T Unwrap(JsonSpan json) => _unwrap(json);
+        public static T Unwrap(JsonSpan json) =>
+            _unwrap(json);
 
         private static object NewAppend()
         {
@@ -49,6 +49,9 @@ namespace Pocket.Json
 
             if (type.IsNullable())
                 return JsonNullable.GenerateAppend<T>();
+
+            if (type.IsEnum)
+                return JsonEnum.GenerateAppend<T>();
 
             if (type.IsArray)
                 return JsonArray.GenerateAppend<T>();
@@ -110,5 +113,26 @@ namespace Pocket.Json
 
             return (Unwrap<T>) JsonObject<T>.Unwrap;
         }
+    }
+
+    internal static class Json
+    {
+        private static class Cache
+        {
+            private static readonly Dictionary<Type, Append<object>> Appends = new Dictionary<Type, Append<object>>();
+            private static readonly Dictionary<Type, Unwrap<object>> Unwraps = new Dictionary<Type, Unwrap<object>>();
+            
+            public static Append<object> Append(Type type) =>
+                Appends.GetOrNew(type, () => Generate.Append(type));
+            
+            public static Unwrap<object> Unwrap(Type type) =>
+                Unwraps.GetOrNew(type, () => Generate.Unwrap(type));
+        }
+
+        public static void Append(Type type, object value, StringBuffer buffer) =>
+            Cache.Append(type).Invoke(value, buffer);
+
+        public static object Unwrap(Type type, JsonSpan json) =>
+            Cache.Unwrap(type).Invoke(json);
     }
 }
