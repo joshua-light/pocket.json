@@ -137,7 +137,7 @@ namespace Pocket.Json.Tests
             public void As(string json)
             {
                 Assert.Equal(json, _instance.AsJson());
-                Assert.Equal(json, _instance.AsJson(typeof(T)));
+                Assert.Equal(json, ((object) _instance).AsJson(typeof(T)));
             }
         }
 
