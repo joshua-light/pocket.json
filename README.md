@@ -7,7 +7,7 @@
 This small package contains `JSON` serialization/deserialization library, which is mostly focusing on speed and simplicity.
 
 ## Usage
-For converting objects you should use only one extension-method: `AsJson` (which sounds what it actually does — represents data as either serialized or deserialized JSON).
+For converting objects you should use only one extension-method: `AsJson` (which sounds what it actually does — represents data **as Json**).
 ```c#
 public class Point // It is important that type is `public` due to code-generation.
 {
