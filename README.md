@@ -53,6 +53,7 @@ In 2018 (or any year later, I don't want to update that number with grandchild o
 2. `Json` — responsible for resolving type of processed value into concrete serialization/deserialization implementation. For example, `int` is resolved to `JsonInt`, etc.
 3. `Json*` — serializes/deserializes value of type `*` through `Append` (serialization) and `Unwrap` (deserialization) methods.
 That's it!
+
 Also there are some non-readable types, which serve for optimization purposes:
 - `StringBuffer` — responsible for fast serialization, because it allocates its buffer in umanaged memory.
 - `StringSpan` — a big mutable segment of text, that is used instead of `string` in deserialization.
