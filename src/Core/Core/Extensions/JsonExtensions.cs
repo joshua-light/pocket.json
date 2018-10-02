@@ -32,6 +32,14 @@ namespace Pocket.Json
         ///     Represents object as formatted JSON string.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
+        /// <returns>JSON representation of object.</returns>
+        public static string AsJson(this object self) =>
+            self.AsJson(self.GetType());
+        
+        /// <summary>
+        ///     Represents object as formatted JSON string.
+        /// </summary>
+        /// <param name="self"><code>this</code> object.</param>
         /// <param name="type">Type of converted object.</param>
         /// <returns>JSON representation of object.</returns>
         public static string AsJson(this object self, Type type)
