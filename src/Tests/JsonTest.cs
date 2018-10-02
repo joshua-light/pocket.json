@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Pocket.Common;
 using Xunit;
 
@@ -138,6 +137,9 @@ namespace Pocket.Json.Tests
             {
                 Assert.Equal(json, _instance.AsJson());
                 Assert.Equal(json, ((object) _instance).AsJson(typeof(T)));
+                
+                if (_instance != null)
+                    Assert.Equal(json, ((object) _instance).AsJson());
             }
         }
 
