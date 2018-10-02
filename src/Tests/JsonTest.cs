@@ -119,6 +119,26 @@ namespace Pocket.Json.Tests
 
             public bool Equals(StrangeNestedWithUnderscore other) => Item1.Equals(other.Item1);
         }
+
+        public class WithObjectField
+        {
+            public class ActualType
+            {
+                public int Data;
+            }
+            
+            public object Field;
+        }
+        
+        public class WithConcreteField
+        {
+            public class ActualType
+            {
+                public int Data;
+            }
+            
+            public ActualType Field;
+        }
         
         #region Appends
         

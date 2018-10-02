@@ -17,6 +17,8 @@ namespace Pocket.Json.Tests.Primitives
             Unwraps("\"0\"").As("0");
             Unwraps("\"Hello\"").As("Hello");
             Unwraps("\"Hello, guys!\"").As("Hello, guys!");
+            Unwraps("\"    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123\"")
+                .As("    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123");
         }
     }
 }

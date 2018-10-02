@@ -58,12 +58,14 @@ namespace Pocket.Json
                 buffer.Append(_formattedFieldName);
 
                 var fieldValue = _readField(value);
-                _append(fieldValue, buffer);
+
+                Json.Append(fieldValue.GetType(), fieldValue, buffer);
             }
             
             public void Write(T value, JsonSpan json)
             {
                 var field = _unwrap(json);
+                
                 _writeField(value, field);
             }
         }
@@ -121,6 +123,13 @@ namespace Pocket.Json
 
                     i++;
                 }
+                
+                #if DEBUG
+                
+                if (!fieldByName.ContainsKey(name.GetHashCode()))
+                    throw new Exception($"Couldn't find {name} field.");
+                
+                #endif
                 
                 var field = fieldByName[name.GetHashCode()];
 

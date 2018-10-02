@@ -18,6 +18,9 @@ namespace Pocket.Json.Tests.Complex
                 Item_1 = new Empty(),
                 Item_2 = new Empty()
             }).As("{\"Item_1\":{},\"Item_2\":{}}");
+            
+            Appends(new WithObjectField{ Field = new WithObjectField.ActualType{ Data = 10 } })
+                .As("{\"Field\":{\"Data\":10}}");
         }
 
         [Fact]
