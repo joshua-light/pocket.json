@@ -120,24 +120,25 @@ namespace Pocket.Json.Tests
             public bool Equals(StrangeNestedWithUnderscore other) => Item1.Equals(other.Item1);
         }
 
-        public class WithObjectField
+        public class WithObjectField : IEquatable<WithObjectField>
         {
-            public class ActualType
+            public class ActualType : IEquatable<ActualType>
             {
                 public int Data;
+                
+                public bool Equals(ActualType other) => Data == other.Data;
             }
             
             public object Field;
-        }
-        
-        public class WithConcreteField
-        {
-            public class ActualType
+
+            public bool Equals(WithObjectField other)
             {
-                public int Data;
+                if (Field == null)
+                    return other.Field == null;
+                
+                return (Field as ActualType).Equals(other.Field as ActualType);
             }
-            
-            public ActualType Field;
+                
         }
         
         #region Appends

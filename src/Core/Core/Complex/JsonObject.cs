@@ -55,10 +55,11 @@ namespace Pocket.Json
 
             public void Append(T value, StringBuffer buffer)
             {
-                buffer.Append(_formattedFieldName);
-
                 var fieldValue = _readField(value);
-
+                if (fieldValue == null)
+                    return;
+                
+                buffer.Append(_formattedFieldName);
                 Json.Append(fieldValue.GetType(), fieldValue, buffer);
             }
             

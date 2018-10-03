@@ -19,6 +19,8 @@ namespace Pocket.Json.Tests.Complex
                 Item_2 = new Empty()
             }).As("{\"Item_1\":{},\"Item_2\":{}}");
             
+            Appends(new WithObjectField())
+                .As("{}");
             Appends(new WithObjectField{ Field = new WithObjectField.ActualType{ Data = 10 } })
                 .As("{\"Field\":{\"Data\":10}}");
         }
@@ -59,6 +61,8 @@ namespace Pocket.Json.Tests.Complex
                             Item_2 = new StrangeNestedWithUnderscore.Nested4()
                         }
                     } });
+            
+            Unwraps("{}").As(new WithObjectField());
         }
     }
 }
