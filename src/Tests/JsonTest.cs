@@ -137,8 +137,7 @@ namespace Pocket.Json.Tests
                     return other.Field == null;
                 
                 return (Field as ActualType).Equals(other.Field as ActualType);
-            }
-                
+            }  
         }
         
         #region Appends

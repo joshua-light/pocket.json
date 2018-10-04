@@ -16,22 +16,26 @@ namespace Pocket.Json
         {
             Constructor = Emit.Ctor<T>();
 
-            var fields = typeof(T).GetTypeInfo().DeclaredFields
-                .Where(x => x.IsPublic && !x.IsStatic)
-                .ToArray();
+            var fields = new List<FieldInfo>();
+            GatherFields(typeof(T).GetTypeInfo(), fields);
 
-            Fields = new JsonField[fields.Length];
-            for (var i = 0; i < fields.Length; i++)
+            Fields = new JsonField[fields.Count];
+            for (var i = 0; i < fields.Count; i++)
                 Fields[i] = new JsonField(fields[i]);
 
             FieldByNameHashCode = new Dictionary<int, JsonField>(Fields.Length);
             for (var i = 0; i < Fields.Length; i++)
                 FieldByNameHashCode[StringSpan.GetHashCode(Fields[i].Name)] = Fields[i];
         }
+
+        private static void GatherFields(TypeInfo type, List<FieldInfo> fields)
+        {
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
+                fields.Add(field);
+        }
         
         private class JsonField
         {
-            private readonly Append<object> _append;
             private readonly string _formattedFieldName;
 
             private readonly Func<T, object> _readField;
@@ -47,7 +51,6 @@ namespace Pocket.Json
                 _readField = Emit.GetField<T>(field);
                 _writeField = Emit.SetField<T>(field);
 
-                _append = Generate.Append(field.FieldType);
                 _unwrap = Generate.Unwrap(field.FieldType);
             }
 
