@@ -139,6 +139,15 @@ namespace Pocket.Json.Tests
                 return (Field as ActualType).Equals(other.Field as ActualType);
             }  
         }
+
+        public class JsonPacket : IEquatable<JsonPacket>
+        {
+            public int Code;
+            public string Body;
+
+            public bool Equals(JsonPacket other) =>
+                Code == other.Code && Body == other.Body;
+        }
         
         #region Appends
         

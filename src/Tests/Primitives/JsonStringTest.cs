@@ -9,6 +9,7 @@ namespace Pocket.Json.Tests.Primitives
         {
             Appends("Hello").As("\"Hello\"");
             Appends("Josh").As("\"Josh\"");
+            Appends("\"1\"2").As("\"\\\"1\\\"2\"");
         }
 
         [Fact]
@@ -17,8 +18,9 @@ namespace Pocket.Json.Tests.Primitives
             Unwraps("\"0\"").As("0");
             Unwraps("\"Hello\"").As("Hello");
             Unwraps("\"Hello, guys!\"").As("Hello, guys!");
-            Unwraps("\"    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123\"")
-                .As("    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123");
+            Unwraps("\"    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123//\"")
+                .As("    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123//");
+            Unwraps("\"\\\"1\\\"2\"").As("\"1\"2");
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Pocket.Json
         {
             _length = 0;
         }
-
+        
         public unsafe StringBuffer Append(string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -30,11 +30,33 @@ namespace Pocket.Json
             var length = value.Length;
 
             fixed (char* valuePtr = value)
-            {
                 Memory.Copy(valuePtr, _sourcePtr + _length, length);
-            }
 
             _length += length;
+
+            return this;
+        }
+
+        public unsafe StringBuffer AppendEscaped(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return this;
+
+            var length = value.Length;
+
+            for (var i = 0; i < length; i++)
+            {
+                var ch = value[i];
+                if (ch == '"')
+                {
+                    Append('\\');
+                    Append('"');
+                }
+                else
+                {
+                    Append(ch);
+                }
+            }
 
             return this;
         }

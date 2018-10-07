@@ -43,6 +43,9 @@ namespace Pocket.Json.Tests.Complex
         [Fact]
         public void Unwrap_ShouldWorkCorrectly()
         {
+            Unwraps("{\"Code\":1,\"Body\":\"{\\\"Name\\\":\\\"Test\\\"}\"}")
+                .As(new JsonPacket{ Code = 1, Body = "{\"Name\":\"Test\"}"});
+            
             Unwraps("{\"Item1\":0,\"Item2\":0}")
                 .As(new IntAndInt());
             
@@ -81,6 +84,7 @@ namespace Pocket.Json.Tests.Complex
                             Item_2 = new Empty()
                         }
                     } });
+            
             Unwraps("{\"Item1\":{\"Item1\":{\"Item_1\":{\"Item1\":{}},\"Item_2\":{}}}}")
                 .As(new StrangeNestedWithUnderscore { 
                     Item1 = new StrangeNestedWithUnderscore.Nested1
@@ -97,6 +101,8 @@ namespace Pocket.Json.Tests.Complex
 
             Unwraps("{\"Field1\":1,\"Field2\":2}")
                 .As(new B { Field1 = 1, Field2 = 2 });
+            
+
         }
 
         #region Inner Classes

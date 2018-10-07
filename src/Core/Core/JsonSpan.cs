@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Pocket.Json
+﻿namespace Pocket.Json
 {
     internal class JsonSpan
     {
@@ -9,53 +7,6 @@ namespace Pocket.Json
         public JsonSpan(string span)
         {
             Span = new StringSpan(span);
-        }
-        
-        public StringSpan NextName()
-        {
-            if (Span.End == Span.Start)
-                return StringSpan.Zero;
-
-            Span.SkipMutable(1); // Skips '"'.
-            
-            var span = Span;
-            
-            var start = span.Start;
-            var source = span.Source;
-            var i = start;
-
-            while (true)
-            {
-                if (source[i] == '"')
-                {
-                    span.End = i;
-                    Span.Start = i + 1;
-                    return span;
-                }
-
-                i++;
-            }
-        }
-        
-        public StringSpan NextString()
-        {
-            var span = Span;
-            
-            var start = span.Start;
-            var source = span.Source;
-            var i = start + 1;
-
-            while (true)
-            {
-                if (source[i] == '"')
-                {
-                    span.End = i + 1;
-                    Span.Start = i + 1;
-                    return span;
-                }
-
-                i++;
-            }
         }
 
         public StringSpan NextPrimitive() => NextPrimitive(ref Span);

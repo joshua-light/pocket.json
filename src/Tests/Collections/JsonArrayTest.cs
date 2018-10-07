@@ -10,8 +10,8 @@ namespace Pocket.Json.Tests.Collections
         [Fact]
         public void Append_ShouldWorkCorrectly()
         {
-            Appends(new[] { 1, 2, 3 }).As("[1,2,3]");
-            Appends(new[] { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
+           Appends(new[] { 1, 2, 3 }).As("[1,2,3]");
+           Appends(new[] { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
             
             Appends(
                 new[]

@@ -12,6 +12,8 @@ namespace Pocket.Json.Benchmarks
         
         public static void Main(string[] args)
         {
+            var a = JsonConvert.SerializeObject("\"asd\"");
+            
             BenchmarkRunner.Run<BigObjectSerialization>();
             BenchmarkRunner.Run<BigObjectDeserialization>();
         }

@@ -131,7 +131,7 @@ namespace Pocket.Json
                 #if DEBUG
                 
                 if (!fieldByName.ContainsKey(name.GetHashCode()))
-                    throw new Exception($"Couldn't find {name} field.");
+                    throw new Exception($"Couldn't find \"{name}\" field.");
                 
                 #endif
                 
