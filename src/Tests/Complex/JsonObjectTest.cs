@@ -30,6 +30,13 @@ namespace Pocket.Json.Tests.Complex
             })
                 .As("{\"Item_1\":{},\"Item_2\":{}}");
             
+            Appends(new UnderscoredEmptyAndEmpty
+                {
+                    Item_1 = null,
+                    Item_2 = new Empty()
+                })
+                .As("{\"Item_2\":{}}");
+            
             Appends(new WithObjectField())
                 .As("{}");
             

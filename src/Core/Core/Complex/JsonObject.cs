@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Pocket.Common;
 
@@ -56,14 +55,16 @@ namespace Pocket.Json
 
             public string Name { get; }
 
-            public void Append(T value, StringBuffer buffer)
+            public bool Append(T value, StringBuffer buffer)
             {
                 var fieldValue = _readField(value);
                 if (fieldValue == null)
-                    return;
+                    return false;
                 
                 buffer.Append(_formattedFieldName);
                 Json.Append(fieldValue.GetType(), fieldValue, buffer);
+
+                return true;
             }
             
             public void Write(T value, JsonSpan json)
@@ -81,8 +82,8 @@ namespace Pocket.Json
             var fields = Fields;
             for (int i = 0, length = fields.Length; i < length; i++)
             {
-                fields[i].Append(value, buffer);
-                if (i != fields.Length - 1)
+                var appended = fields[i].Append(value, buffer);
+                if (appended && i != fields.Length - 1)
                     buffer.Append(',');
             }
 
