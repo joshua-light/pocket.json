@@ -3,9 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace Pocket.Json
 {
-    public unsafe struct StringSpan : IEquatable<StringSpan>
+    public struct StringSpan : IEquatable<StringSpan>
     {
-        public static StringSpan Zero = new StringSpan();
+        public static readonly StringSpan Zero = new StringSpan();
 
         public string Source;
         public int Start;
@@ -18,40 +18,14 @@ namespace Pocket.Json
             End = source.Length;
         }
 
-        private StringSpan(string source, int start, int length)
-        {
-            Source = source;
-            Start = start;
-            End = start + length;
-        }
-        
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public char LastCharAt(int i) => Source[End - i - 1];
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public char CharAt(int i) => Source[Start + i];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool IsEmpty() => End - Start <= 0;
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => Source.Substring(Start, End - Start);
+        public void SkipMutable(int count) => Start += count;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int startIndex, int length) => new StringSpan(Source, Start + startIndex, length);
-            
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public StringSpan SubSpan(int length) => new StringSpan(Source, Start, length);
-
-        #region Mutable
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SkipMutable(int count)
-        {
-            Start += count;
-        }
-
-        #endregion
+        public override string ToString() => Source.Substring(Start, End - Start);
 
         public bool Equals(StringSpan other)
         {
@@ -66,11 +40,6 @@ namespace Pocket.Json
             return true;
         }
 
-        public static int GetHashCode(StringSpan span)
-        {
-            return GetHashCode(span.Source, span.Start, span.End - span.Start);
-        }
-
         public override int GetHashCode()
         {
             return GetHashCode(Source, Start, End - Start);
@@ -79,39 +48,6 @@ namespace Pocket.Json
         public static int GetHashCode(string str)
         {
             return GetHashCode(str, 0, str.Length);
-        }
-
-        private static int GetHashCode(char* sourcePtr, int length)
-        {
-            switch (length)
-            {
-                case 1: return sourcePtr[0];
-                case 2: return sourcePtr[0] * 9733 ^ sourcePtr[1];
-                case 3: return (sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2];
-                case 4: return ((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3];
-                case 5: return (((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4];
-                case 6: return ((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5];
-                case 7: return (((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6];
-                case 8: return ((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7];
-                case 9: return (((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7]) * 9733 ^ sourcePtr[8];
-                case 10: return ((((((((sourcePtr[0] * 9733 ^ sourcePtr[1]) * 9733 ^ sourcePtr[2]) * 9733 ^ sourcePtr[3]) * 9733 ^ sourcePtr[4]) * 9733 ^ sourcePtr[5]) * 9733 ^ sourcePtr[6]) * 9733 ^ sourcePtr[7]) * 9733 ^ sourcePtr[8]) * 9733 ^ sourcePtr[9];
-            }
-            
-            length *= 2;
-            
-            var ptr = (byte*) sourcePtr;
-            var hash = (int) ptr[0];
-
-            ptr += 2;
-
-            for (var i = 2; i < length; i += 2)
-            {
-                hash = (hash * 9733) ^ ptr[0];
-                
-                ptr += 2;
-            }
-            
-            return hash;
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
