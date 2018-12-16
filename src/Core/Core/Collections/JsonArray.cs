@@ -34,7 +34,7 @@ namespace Pocket.Json
 
     internal static class JsonArray
     {
-        public static Append<T> GenerateAppend<T>()
+        public static Append<T> Append<T>()
         {
             var type = typeof(JsonArray<>).MakeGenericType(typeof(T).GetElementType());
             var method = type.GetTypeInfo().GetDeclaredMethod("Append");

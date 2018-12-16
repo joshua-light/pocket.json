@@ -21,7 +21,7 @@ namespace Pocket.Json
 
     internal static class JsonNullable
     {
-        public static Append<T> GenerateAppend<T>()
+        public static Append<T> Append<T>()
         {
             var type = typeof(JsonNullable<>).MakeGenericType(Nullable.GetUnderlyingType(typeof(T)));
             var method = type.GetTypeInfo().GetDeclaredMethod("Append");

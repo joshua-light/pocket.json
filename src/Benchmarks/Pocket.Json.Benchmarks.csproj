@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Pocket.Json.Benchmarks.csproj.DotSettings" />
+    <None Remove="BenchmarkDotNet.Artifacts\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Pocket.Json.Core.csproj" />
@@ -13,5 +14,11 @@
     <PackageReference Include="BenchmarkDotNet" Version="0.10.14" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Utf8Json" Version="1.3.6.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="BenchmarkDotNet.Artifacts\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="BenchmarkDotNet.Artifacts\**" />
   </ItemGroup>
 </Project>

@@ -29,7 +29,7 @@ namespace Pocket.Json
 
     internal static class JsonEnumerable
     {
-        public static Append<T> GenerateAppend<T>()
+        public static Append<T> Append<T>()
         {
             var type = typeof(JsonEnumerable<>).MakeGenericType(typeof(T).GetTypeInfo().GenericTypeArguments[0]);
             var method = type.GetTypeInfo().GetDeclaredMethod("Append");

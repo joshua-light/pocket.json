@@ -60,7 +60,7 @@ namespace Pocket.Json
 
     internal static class JsonDictionary
     {
-        public static Append<T> GenerateAppend<T>()
+        public static Append<T> Append<T>()
         {
             var type = typeof(JsonDictionary<,>).MakeGenericType(
                 typeof(T).GetTypeInfo().GenericTypeArguments[0],

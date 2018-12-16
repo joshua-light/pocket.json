@@ -48,22 +48,22 @@ namespace Pocket.Json
                 return (Append<string>) JsonString.Append;
 
             if (type.IsNullable())
-                return JsonNullable.GenerateAppend<T>();
+                return JsonNullable.Append<T>();
 
             if (type.IsEnum)
-                return JsonEnum.GenerateAppend<T>();
+                return JsonEnum.Append<T>();
 
             if (type.IsArray)
-                return JsonArray.GenerateAppend<T>();
+                return JsonArray.Append<T>();
 
             if (type.Is(typeof(List<>)))
-                return JsonList.GenerateAppend<T>();
+                return JsonList.Append<T>();
             
             if (type.Is(typeof(Dictionary<,>)))
-                return JsonDictionary.GenerateAppend<T>();
+                return JsonDictionary.Append<T>();
 
             if (type.Is(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
-                return JsonEnumerable.GenerateAppend<T>();
+                return JsonEnumerable.Append<T>();
 
             return (Append<T>) JsonObject<T>.Append;
         }

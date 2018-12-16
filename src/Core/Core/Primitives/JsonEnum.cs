@@ -20,7 +20,7 @@ namespace Pocket.Json
 
     internal class JsonEnum
     {
-        public static Append<T> GenerateAppend<T>()
+        public static Append<T> Append<T>()
         {
             var type = typeof(JsonEnum<>).MakeGenericType(typeof(T));
             var method = type.GetTypeInfo().GetDeclaredMethod("Append");
