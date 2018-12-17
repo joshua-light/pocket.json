@@ -127,10 +127,10 @@ namespace Pocket.Json
             private static readonly ConcurrentDictionary<Type, Unwrap<object>> Unwraps = new ConcurrentDictionary<Type, Unwrap<object>>();
             
             public static Append<object> Append(Type type) =>
-                Appends.GetOrNew(type, () => Generate.Append(type));
+                Appends.One(type, () => Generate.Append(type));
             
             public static Unwrap<object> Unwrap(Type type) =>
-                Unwraps.GetOrNew(type, () => Generate.Unwrap(type));
+                Unwraps.One(type, () => Generate.Unwrap(type));
         }
 
         public static void Append(Type type, object value, StringBuffer buffer) =>
