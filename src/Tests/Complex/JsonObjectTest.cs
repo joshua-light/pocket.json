@@ -23,12 +23,26 @@ namespace Pocket.Json.Tests.Complex
             Appends(new UnderscoredInt{ Item_1 = 1 })
                 .As("{\"Item_1\":1}");
             
+            Appends(new StringAndInt
+                {
+                    Item1 = null,
+                    Item2 = 1,
+                })
+                .As("{\"Item2\":1}");
+            
             Appends(new UnderscoredEmptyAndEmpty
             {
                 Item_1 = new Empty(),
                 Item_2 = new Empty()
             })
                 .As("{\"Item_1\":{},\"Item_2\":{}}");
+            
+            Appends(new UnderscoredEmptyAndEmpty
+                {
+                    Item_1 = new Empty(),
+                    Item_2 = null
+                })
+                .As("{\"Item_1\":{}}");
             
             Appends(new UnderscoredEmptyAndEmpty
                 {

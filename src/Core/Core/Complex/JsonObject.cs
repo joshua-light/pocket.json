@@ -55,16 +55,13 @@ namespace Pocket.Json
 
             public string Name { get; }
 
-            public bool Append(T value, StringBuffer buffer)
+            public object ValueOf(T instance) =>
+                _readField(instance);
+
+            public void Append(object fieldValue, StringBuffer buffer)
             {
-                var fieldValue = _readField(value);
-                if (fieldValue == null)
-                    return false;
-                
                 buffer.Append(_formattedFieldName);
                 Json.Append(fieldValue.GetType(), fieldValue, buffer);
-
-                return true;
             }
             
             public void Write(T value, JsonSpan json)
@@ -75,16 +72,27 @@ namespace Pocket.Json
             }
         }
 
-        public static void Append(T value, StringBuffer buffer)
+        public static void Append(T instance, StringBuffer buffer)
         {
             buffer.Append('{');
 
+            var lastAppended = true;
             var fields = Fields;
+            
             for (int i = 0, length = fields.Length; i < length; i++)
             {
-                var appended = fields[i].Append(value, buffer);
-                if (appended && i != fields.Length - 1)
+                var value = fields[i].ValueOf(instance);
+                if (value == null)
+                {
+                    lastAppended = false;
+                    continue;
+                }
+                
+                if (lastAppended && i != 0)
                     buffer.Append(',');
+                
+                fields[i].Append(value, buffer);
+                lastAppended = true;
             }
 
             buffer.Append('}');

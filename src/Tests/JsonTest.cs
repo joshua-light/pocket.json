@@ -37,6 +37,14 @@ namespace Pocket.Json.Tests
 
             public bool Equals(IntAndString other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
+        
+        public class StringAndInt : IEquatable<StringAndInt>
+        {
+            public string Item1;
+            public int Item2;
+
+            public bool Equals(StringAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
+        }
 
         public class IntAndAnotherIntAndInt : IEquatable<IntAndAnotherIntAndInt>
         {
