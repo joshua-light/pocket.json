@@ -145,16 +145,11 @@ namespace Pocket.Json
                     i++;
                 }
                 
-                #if DEBUG
-                
-                if (!fieldByName.ContainsKey(name.GetHashCode()))
-                    throw new Exception($"Couldn't find \"{name}\" field.");
-                
-                #endif
-                
-                var field = fieldByName[name.GetHashCode()];
-
-                field.Write(instance, json);
+                var field = fieldByName.One(name.GetHashCode());
+                if (field != null)
+                    field.Write(instance, json);
+                else
+                    SkipValue(ref span);
 
                 if (span.CharAt(0) == '}')
                 {
@@ -167,6 +162,62 @@ namespace Pocket.Json
             }
 
             return instance;
+        }
+
+        private static void SkipValue(ref StringSpan span)
+        {
+            var ch = span.CharAt(0);
+            if (ch == '{')
+                SkipObject(ref span);
+            else if (ch == '"')
+                SkipString(ref span);
+            else
+                SkipPrimitive(ref span);
+        }
+
+        private static void SkipObject(ref StringSpan span)
+        {
+            var brackets = 1;
+            var i = 0;
+            var copy = span;
+
+            copy.Start++;
+
+            while (true)
+            {
+                var ch = copy.CharAt(i);
+                if (ch == '}')
+                    brackets--;
+                else if (ch == '{')
+                    brackets++;
+
+                if (brackets == 0)
+                    break;
+
+                i++;
+            }
+
+            span.Start = i;
+        }
+
+        private static void SkipString(ref StringSpan span) =>
+            JsonString.Read(ref span, out var _);
+
+        private static void SkipPrimitive(ref StringSpan span)
+        {
+            var copy = span;
+            var i = 0;
+
+            while (true)
+            {
+                var ch = copy.CharAt(i);
+                if (ch == ',' || ch == '}')
+                    break;
+
+                i++;
+            }
+
+            span.Start += i;
         }
     }
 }

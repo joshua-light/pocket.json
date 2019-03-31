@@ -13,6 +13,13 @@ namespace Pocket.Json.Tests
         {
             public bool Equals(Empty other) => true;
         }
+
+        public class Int : IEquatable<Int>
+        {
+            [Json] public int Item1;
+            
+            public bool Equals(Int other) => Item1 == other.Item1;
+        }
         
         public class IntAndInt : IEquatable<IntAndInt>
         {

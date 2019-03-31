@@ -71,6 +71,9 @@ namespace Pocket.Json.Tests.Complex
                 .As(new JsonPacket{ Code = 1, Body = "{\"Name\":\"Test\"}"});
             
             Unwraps("{\"Item1\":0,\"Item2\":0}")
+                .As(new Int());
+            
+            Unwraps("{\"Item1\":0,\"Item2\":0}")
                 .As(new IntAndInt());
             
             Unwraps("{\"Item1\":1,\"Item2\":0}")

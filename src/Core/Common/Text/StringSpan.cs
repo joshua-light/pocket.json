@@ -40,15 +40,11 @@ namespace Pocket.Json
             return true;
         }
 
-        public override int GetHashCode()
-        {
-            return GetHashCode(Source, Start, End - Start);
-        }
+        public override int GetHashCode() =>
+            GetHashCode(Source, Start, End - Start);
 
-        public static int GetHashCode(string str)
-        {
-            return GetHashCode(str, 0, str.Length);
-        }
+        public static int GetHashCode(string str) =>
+            GetHashCode(str, 0, str.Length);
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int GetHashCode(string source, int offset, int length)
