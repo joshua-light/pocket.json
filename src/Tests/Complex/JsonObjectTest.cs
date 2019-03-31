@@ -59,6 +59,9 @@ namespace Pocket.Json.Tests.Complex
 
             Appends(new B { Field1 = 1, Field2 = 2 })
                 .As("{\"Field2\":2,\"Field1\":1}");
+            
+            Appends(new WithAttribute{ Field1 = 1 })
+                .As("{\"field_1\":1}");
         }
 
         [Fact]
@@ -123,7 +126,8 @@ namespace Pocket.Json.Tests.Complex
             Unwraps("{\"Field1\":1,\"Field2\":2}")
                 .As(new B { Field1 = 1, Field2 = 2 });
             
-
+            Unwraps("{\"field_1\":1}")
+                .As(new WithAttribute{ Field1 = 1 });
         }
 
         #region Inner Classes
@@ -139,6 +143,14 @@ namespace Pocket.Json.Tests.Complex
 
             public bool Equals(B other) =>
                 Field1 == other.Field1 && Field2 == other.Field2;
+        }
+
+        public class WithAttribute : IEquatable<WithAttribute>
+        {
+            [Json("field_1")] public int Field1;
+
+            public bool Equals(WithAttribute other) =>
+                Field1 == other.Field1;
         }
 
         #endregion
