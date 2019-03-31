@@ -178,7 +178,7 @@ namespace Pocket.Json
         private static void SkipObject(ref StringSpan span)
         {
             var brackets = 1;
-            var i = 0;
+            var i = 1;
             var copy = span;
 
             copy.Start++;

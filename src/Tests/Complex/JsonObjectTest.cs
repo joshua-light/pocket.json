@@ -131,6 +131,9 @@ namespace Pocket.Json.Tests.Complex
             
             Unwraps("{\"field_1\":1}")
                 .As(new WithAttribute{ Field1 = 1 });
+            
+            Unwraps("{\"Item2\":{},\"Item1\":1}")
+                .As(new Int{ Item1 = 1 });
         }
 
         #region Inner Classes
