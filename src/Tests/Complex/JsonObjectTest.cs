@@ -130,12 +130,12 @@ namespace Pocket.Json.Tests.Complex
 
         public class A
         {
-            public int Field1;
+            [Json] public int Field1;
         }
 
         public class B : A, IEquatable<B>
         {
-            public int Field2;
+            [Json] public int Field2;
 
             public bool Equals(B other) =>
                 Field1 == other.Field1 && Field2 == other.Field2;

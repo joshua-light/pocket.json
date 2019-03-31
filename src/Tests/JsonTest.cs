@@ -16,40 +16,40 @@ namespace Pocket.Json.Tests
         
         public class IntAndInt : IEquatable<IntAndInt>
         {
-            public int Item1;
-            public int Item2;
+            [Json] public int Item1;
+            [Json] public int Item2;
 
             public bool Equals(IntAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
         
         public class FloatAndDouble : IEquatable<FloatAndDouble>
         {
-            public float Item1;
-            public double Item2;
+            [Json] public float Item1;
+            [Json] public double Item2;
 
             public bool Equals(FloatAndDouble other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
         public class IntAndString : IEquatable<IntAndString>
         {
-            public int Item1;
-            public string Item2;
+            [Json] public int Item1;
+            [Json] public string Item2;
 
             public bool Equals(IntAndString other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
         
         public class StringAndInt : IEquatable<StringAndInt>
         {
-            public string Item1;
-            public int Item2;
+            [Json] public string Item1;
+            [Json] public int Item2;
 
             public bool Equals(StringAndInt other) => Item1 == other.Item1 && Item2 == other.Item2;
         }
 
         public class IntAndAnotherIntAndInt : IEquatable<IntAndAnotherIntAndInt>
         {
-            public int Item1;
-            public IntAndInt Item2;
+            [Json] public int Item1;
+            [Json] public IntAndInt Item2;
 
             public bool Equals(IntAndAnotherIntAndInt other) =>
                 Item1 == other.Item1 && (Item2?.Equals(other.Item2) ?? false);
@@ -57,22 +57,22 @@ namespace Pocket.Json.Tests
 
         public class IntArray : IEquatable<IntArray>
         {
-            public int[] Items;
+            [Json] public int[] Items;
 
             public bool Equals(IntArray other) => Items.SequenceEqual(other.Items);
         }
 
         public class UnderscoredInt : IEquatable<UnderscoredInt>
         {
-            public int Item_1;
+            [Json] public int Item_1;
 
             public bool Equals(UnderscoredInt other) => other != null && Item_1 == other.Item_1;
         }
         
         public class UnderscoredEmptyAndEmpty : IEquatable<UnderscoredEmptyAndEmpty>
         {            
-            public Empty Item_1;
-            public Empty Item_2;
+            [Json] public Empty Item_1;
+            [Json] public Empty Item_2;
 
             public bool Equals(UnderscoredEmptyAndEmpty other) =>
                 other != null && Item_1.Equals(other.Item_1) && Item_2.Equals(other.Item_2);
@@ -82,12 +82,12 @@ namespace Pocket.Json.Tests
         {
             public class Nested : IEquatable<Nested>
             {
-                public UnderscoredEmptyAndEmpty Item1;
+                [Json] public UnderscoredEmptyAndEmpty Item1;
 
                 public bool Equals(Nested other) => Item1.Equals(other.Item1);
             }
 
-            public Nested Item1;
+            [Json] public Nested Item1;
 
             public bool Equals(UnderscoredNestedEmptyAndEmpty other) => Item1.Equals(other.Item1);
         }
@@ -96,7 +96,7 @@ namespace Pocket.Json.Tests
         {
             public class Nested1 : IEquatable<Nested1>
             {
-                public Nested2 Item1;
+                [Json] public Nested2 Item1;
 
                 public bool Equals(Nested1 other) => Item1.Equals(other.Item1);
             }
@@ -104,8 +104,8 @@ namespace Pocket.Json.Tests
             public class Nested2 : IEquatable<Nested2>
             {
                 // These fields have hashcode collision problem.
-                public Nested3 Item_1;
-                public Nested4 Item_2;
+                [Json] public Nested3 Item_1;
+                [Json] public Nested4 Item_2;
 
                 public bool Equals(Nested2 other) =>
                     Item_1.Equals(other.Item_1) && Item_2.Equals(other.Item_2);
@@ -113,7 +113,7 @@ namespace Pocket.Json.Tests
 
             public class Nested3 : IEquatable<Nested3>
             {
-                public Nested4 Item1;
+                [Json] public Nested4 Item1;
 
                 public bool Equals(Nested3 other) => Item1.Equals(other.Item1);
             }
@@ -123,7 +123,7 @@ namespace Pocket.Json.Tests
                 public bool Equals(Nested4 other) => true;
             }
 
-            public Nested1 Item1;
+            [Json] public Nested1 Item1;
 
             public bool Equals(StrangeNestedWithUnderscore other) => Item1.Equals(other.Item1);
         }
@@ -132,12 +132,12 @@ namespace Pocket.Json.Tests
         {
             public class ActualType : IEquatable<ActualType>
             {
-                public int Data;
+                [Json] public int Data;
                 
                 public bool Equals(ActualType other) => Data == other.Data;
             }
             
-            public object Field;
+            [Json] public object Field;
 
             public bool Equals(WithObjectField other)
             {
@@ -150,8 +150,8 @@ namespace Pocket.Json.Tests
 
         public class JsonPacket : IEquatable<JsonPacket>
         {
-            public int Code;
-            public string Body;
+            [Json] public int Code;
+            [Json] public string Body;
 
             public bool Equals(JsonPacket other) =>
                 Code == other.Code && Body == other.Body;

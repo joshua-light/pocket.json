@@ -7,30 +7,36 @@ namespace Pocket.Json
 {
     internal static class JsonObject<T>
     {
-        private static readonly JsonField[] Fields;
+        private static readonly List<JsonField> Fields;
         private static readonly Func<T> Constructor;
         private static readonly Dictionary<int, JsonField> FieldByNameHashCode;
 
         static JsonObject()
         {
             Constructor = Emit.Ctor<T>();
-
-            var fields = new List<FieldInfo>();
-            GatherFields(typeof(T).GetTypeInfo(), fields);
-
-            Fields = new JsonField[fields.Count];
-            for (var i = 0; i < fields.Count; i++)
-                Fields[i] = new JsonField(fields[i]);
-
-            FieldByNameHashCode = new Dictionary<int, JsonField>(Fields.Length);
-            for (var i = 0; i < Fields.Length; i++)
+            Fields = FieldsOf(typeof(T));
+            FieldByNameHashCode = new Dictionary<int, JsonField>(Fields.Count);
+            
+            for (var i = 0; i < Fields.Count; i++)
                 FieldByNameHashCode[StringSpan.GetHashCode(Fields[i].Name)] = Fields[i];
         }
 
-        private static void GatherFields(TypeInfo type, List<FieldInfo> fields)
+        private static List<JsonField> FieldsOf(Type type)
         {
-            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
-                fields.Add(field);
+            var all = new List<JsonField>();
+            
+            foreach (var field in type.Fields(_ => _.AllInstance()))
+            {
+                var attribute = field.Attribute<JsonAttribute>();
+                if (attribute == null)
+                    continue;
+
+                var jsonField = new JsonField(field, attribute);
+
+                all.Add(jsonField);
+            }
+
+            return all;
         }
         
         private class JsonField
@@ -38,19 +44,21 @@ namespace Pocket.Json
             private readonly string _formattedFieldName;
 
             private readonly Func<T, object> _readField;
-            private readonly Unwrap<object> _unwrap;
             private readonly Action<T, object> _writeField;
+            
+            private readonly Unwrap<object> _unwrap;
 
-            public JsonField(FieldInfo field)
+            public JsonField(FieldInfo field, JsonAttribute json) : this(field, json.Name ?? field.Name) { }
+            public JsonField(FieldInfo field, string name)
             {
-                Name = field.Name;
-                
-                _formattedFieldName = $"\"{field.Name}\":";
+                _formattedFieldName = $"\"{name}\":";
                 
                 _readField = Emit.GetField<T>(field);
                 _writeField = Emit.SetField<T>(field);
 
                 _unwrap = Generate.Unwrap(field.FieldType);
+                
+                Name = name;
             }
 
             public string Name { get; }
@@ -79,7 +87,7 @@ namespace Pocket.Json
             var lastAppended = true;
             var fields = Fields;
             
-            for (int i = 0, length = fields.Length; i < length; i++)
+            for (int i = 0, length = fields.Count; i < length; i++)
             {
                 var value = fields[i].ValueOf(instance);
                 if (value == null)
