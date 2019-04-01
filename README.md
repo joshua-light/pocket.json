@@ -11,8 +11,8 @@ For converting objects you should use only one extension-method: `AsJson` (which
 ```c#
 public class Point // It is important that type is `public` due to code-generation.
 {
-    public int X; // Fields should be `public` aswell.
-    public int Y;
+    [Json] public int X;
+    [Json] public int Y;
 }
 
 var point = new Point{ X = 1, Y = 2 };
@@ -46,15 +46,3 @@ Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
 | NewtonsoftJson | 502.3 us | 1.9448 us | 1.8191 us |
 |       Utf8Json | 238.5 us | 0.3396 us | 0.3177 us |
 |     PocketJson | 205.5 us | 0.6000 us | 0.5612 us |
-
-## Architecture
-In 2018 (or any year later, I don't want to update that number with grandchild on my knee) noone needs serialization libraries, so it may be helpful to some of you just to look (for learning purposes) how one can be created. This package have simple implementation, so it's a nice start.
-1. `AsJson` — entry-point extension-method, which delegates work to internal class `Json`.
-2. `Json` — responsible for resolving type of processed value into concrete serialization/deserialization implementation. For example, `int` is resolved to `JsonInt`, etc.
-3. `Json*` — serializes/deserializes value of type `*` through `Append` (serialization) and `Unwrap` (deserialization) methods.
-
-That's it!
-
-Also there are some non-readable types, which serve for optimization purposes:
-- `StringBuffer` — responsible for fast serialization, because it allocates its buffer in umanaged memory.
-- `StringSpan` — a big mutable segment of text, that is used instead of `string` in deserialization.
