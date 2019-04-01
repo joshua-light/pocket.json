@@ -181,8 +181,6 @@ namespace Pocket.Json
             var i = 1;
             var copy = span;
 
-            copy.Start++;
-
             while (true)
             {
                 var ch = copy.CharAt(i);
@@ -197,7 +195,7 @@ namespace Pocket.Json
                 i++;
             }
 
-            span.Start = i;
+            span.Start += i;
         }
 
         private static void SkipString(ref StringSpan span) =>
