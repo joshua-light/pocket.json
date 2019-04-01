@@ -180,6 +180,8 @@ namespace Pocket.Json
             var brackets = 1;
             var i = 1;
             var copy = span;
+            
+            span.Start++;
 
             while (true)
             {
