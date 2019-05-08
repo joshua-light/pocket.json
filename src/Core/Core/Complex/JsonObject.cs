@@ -145,7 +145,7 @@ namespace Pocket.Json
                     i++;
                 }
                 
-                var field = fieldByName.One(name.GetHashCode());
+                var field = fieldByName.One(name.GetHashCode()).OrDefault();
                 if (field != null)
                     field.Write(instance, json);
                 else
