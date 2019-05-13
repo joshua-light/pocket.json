@@ -10,6 +10,9 @@
     <description>Pocket JSON serialization library.</description>
     <copyright>Copyright © 2018 JoshuaLight</copyright>
     <tags>Json Serialization</tags>
+    <dependencies>
+      <dependency id="Pocket.Common" version="2.0.1"/>
+    </dependencies>
   </metadata>
   <files>
     <file src="..\artifacts\out\lib\net461\Pocket.Json*" target="lib\net461"/>
