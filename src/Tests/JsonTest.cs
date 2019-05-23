@@ -213,23 +213,23 @@ namespace Pocket.Json.Tests
                     var type = typeof(T);
                     if (type.Implements(typeof(IEnumerable<>)))
                     {
-                        Assert.Equal((IEnumerable) value, (IEnumerable) json.AsJson<T>());
-                        Assert.Equal((IEnumerable) value, (IEnumerable) json.AsJson(type));
+                        Assert.Equal((IEnumerable) value, (IEnumerable) json.OfJson<T>());
+                        Assert.Equal((IEnumerable) value, (IEnumerable) json.OfJson(type));
                     }
                     else if (type == typeof(double))
                     {
-                        Assert.Equal((double) (object) value, json.AsJson<double>(), 15);
-                        Assert.Equal((double) (object) value, (double) json.AsJson(typeof(double)), 15);
+                        Assert.Equal((double) (object) value, json.OfJson<double>(), 15);
+                        Assert.Equal((double) (object) value, (double) json.OfJson(typeof(double)), 15);
                     }
                     else if (type == typeof(float))
                     {
-                        Assert.Equal((float) (object) value, json.AsJson<float>(), 7);
-                        Assert.Equal((float) (object) value, (float) json.AsJson(typeof(float)), 7);
+                        Assert.Equal((float) (object) value, json.OfJson<float>(), 7);
+                        Assert.Equal((float) (object) value, (float) json.OfJson(typeof(float)), 7);
                     }
                     else
                     {
-                        Assert.Equal(value, json.AsJson<T>());
-                        Assert.Equal(value, json.AsJson(type));
+                        Assert.Equal(value, json.OfJson<T>());
+                        Assert.Equal(value, json.OfJson(type));
                     }
                 });
             }
@@ -239,11 +239,11 @@ namespace Pocket.Json.Tests
                 var json = _json;
                 InvokeWithTryCatch(() =>
                 {
-                    Assert.Equal(value, json.AsJson<int>());
-                    Assert.Equal(value, json.AsJson(typeof(int)));
+                    Assert.Equal(value, json.OfJson<int>());
+                    Assert.Equal(value, json.OfJson(typeof(int)));
                     
-                    Assert.Equal(-value, ("-" + json).AsJson<int>());
-                    Assert.Equal(-value, ("-" + json).AsJson(typeof(int)));
+                    Assert.Equal(-value, ("-" + json).OfJson<int>());
+                    Assert.Equal(-value, ("-" + json).OfJson(typeof(int)));
                 });
             }
             
@@ -252,11 +252,11 @@ namespace Pocket.Json.Tests
                 var json = _json;
                 InvokeWithTryCatch(() =>
                 {
-                    Assert.Equal(value, json.AsJson<byte>());
-                    Assert.Equal(value, json.AsJson(typeof(byte)));
+                    Assert.Equal(value, json.OfJson<byte>());
+                    Assert.Equal(value, json.OfJson(typeof(byte)));
                     
-                    Assert.Equal(-value, ("-" + json).AsJson<byte>());
-                    Assert.Equal(-value, ("-" + json).AsJson(typeof(byte)));
+                    Assert.Equal(-value, ("-" + json).OfJson<byte>());
+                    Assert.Equal(-value, ("-" + json).OfJson(typeof(byte)));
                 });
             }
 
@@ -265,11 +265,11 @@ namespace Pocket.Json.Tests
                 var json = _json;
                 InvokeWithTryCatch(() =>
                 {
-                    Assert.Equal(value, json.AsJson<long>());
-                    Assert.Equal(value, json.AsJson(typeof(long)));
+                    Assert.Equal(value, json.OfJson<long>());
+                    Assert.Equal(value, json.OfJson(typeof(long)));
                     
-                    Assert.Equal(-value, ("-" + json).AsJson<long>());
-                    Assert.Equal(-value, ("-" + json).AsJson(typeof(long)));
+                    Assert.Equal(-value, ("-" + json).OfJson<long>());
+                    Assert.Equal(-value, ("-" + json).OfJson(typeof(long)));
                 });
             }
 

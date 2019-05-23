@@ -134,9 +134,9 @@ namespace Pocket.Json
         }
 
         public static void Append(Type type, object value, StringBuffer buffer) =>
-            Cache.Append(type).Invoke(value, buffer);
+            Cache.Append(type)(value, buffer);
 
         public static object Unwrap(Type type, JsonSpan json) =>
-            Cache.Unwrap(type).Invoke(json);
+            Cache.Unwrap(type)(json);
     }
 }

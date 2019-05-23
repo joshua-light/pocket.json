@@ -57,11 +57,11 @@ namespace Pocket.Json.Tests.Primitives
             Unwraps("111111111111111111").As(111111111111111111L);
             Unwraps("1111111111111111111").As(1111111111111111111L);
 
-            Assert.Equal(long.MaxValue - 1, (long.MaxValue - 1).ToString().AsJson<long>());
-            Assert.Equal(long.MinValue + 1, (long.MinValue + 1).ToString().AsJson<long>());
+            Assert.Equal(long.MaxValue - 1, (long.MaxValue - 1).ToString().OfJson<long>());
+            Assert.Equal(long.MinValue + 1, (long.MinValue + 1).ToString().OfJson<long>());
 
-            Assert.Equal(long.MaxValue, long.MaxValue.ToString().AsJson<long>());
-            Assert.Equal(long.MinValue, long.MinValue.ToString().AsJson<long>());
+            Assert.Equal(long.MaxValue, long.MaxValue.ToString().OfJson<long>());
+            Assert.Equal(long.MinValue, long.MinValue.ToString().OfJson<long>());
         }
     }
 }

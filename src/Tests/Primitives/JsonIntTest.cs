@@ -38,11 +38,11 @@ namespace Pocket.Json.Tests.Primitives
             Unwraps("111111111").As(111111111);
             Unwraps("1111111111").As(1111111111);
 
-            Assert.Equal(int.MaxValue - 1, (int.MaxValue - 1).ToString().AsJson<int>());
-            Assert.Equal(int.MinValue + 1, (int.MinValue + 1).ToString().AsJson<int>());
+            Assert.Equal(int.MaxValue - 1, (int.MaxValue - 1).ToString().OfJson<int>());
+            Assert.Equal(int.MinValue + 1, (int.MinValue + 1).ToString().OfJson<int>());
 
-            Assert.Equal(int.MaxValue, int.MaxValue.ToString().AsJson<int>());
-            Assert.Equal(int.MinValue, int.MinValue.ToString().AsJson<int>());
+            Assert.Equal(int.MaxValue, int.MaxValue.ToString().OfJson<int>());
+            Assert.Equal(int.MinValue, int.MinValue.ToString().OfJson<int>());
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Pocket.Json.Benchmarks
             public BigObjectUninitialized Utf8Json() => global::Utf8Json.JsonSerializer.Deserialize<BigObjectUninitialized>(_utf8Json);
             
             [Benchmark]
-            public BigObjectUninitialized PocketJson() => _json.AsJson<BigObjectUninitialized>();
+            public BigObjectUninitialized PocketJson() => _json.OfJson<BigObjectUninitialized>();
         }
 
         #region Manual Benchmarks
@@ -194,7 +194,7 @@ namespace Pocket.Json.Benchmarks
 
             Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
             Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
-            Run("Castalia", _iterationsCount, () => json.AsJson<T>());
+            Run("Castalia", _iterationsCount, () => json.OfJson<T>());
 
             Console.WriteLine("---------------------");
         }
