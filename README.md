@@ -24,7 +24,7 @@ var pointJson = point.AsJson(); // "{X:1,Y:2}" here.
 var samePoint = pointJson.AsJson<Point>(); // { X = 1, Y = 2 } of type `Point` here.
 ```
 
-## Benchmarks
+## Benchmarks (outdated)
 Code for benchmarks can be found [here](https://github.com/JoshuaLight/Pocket.Json/blob/master/src/Benchmarks/Program.cs).
 ``` ini
 BenchmarkDotNet=v0.10.14, OS=Windows 8.1 (6.3.9600.0)
