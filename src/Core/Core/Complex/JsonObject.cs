@@ -173,7 +173,7 @@ namespace Pocket.Json
         }
 
         private static void SkipString(ref StringSpan span) =>
-            JsonString.Read(ref span, out _);
+            JsonString.Read(ref span);
 
         private static void SkipPrimitive(ref StringSpan span)
         {

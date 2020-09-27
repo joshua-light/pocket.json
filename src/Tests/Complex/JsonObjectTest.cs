@@ -67,9 +67,6 @@ namespace Pocket.Json.Tests.Complex
         [Fact]
         public void Read_ShouldWorkCorrectly()
         {
-            Reads("{\"Code\":1,\"Body\":\"{\\\"Name\\\":\\\"Test\\\"}\"}")
-                .As(new JsonPacket{ Code = 1, Body = "{\"Name\":\"Test\"}"});
-            
             Reads("{\"Item1\":0,\"Item2\":0}")
                 .As(new Int());
             
