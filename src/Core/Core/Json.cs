@@ -116,15 +116,17 @@ namespace Pocket.Json
     {
         private static class Cache
         {
-            // TODO: Probably need to cache this better somehow.
-            private static readonly ConcurrentDictionary<Type, Write<object>> Writes = new ConcurrentDictionary<Type, Write<object>>();
-            private static readonly ConcurrentDictionary<Type, Read<object>> Reads = new ConcurrentDictionary<Type, Read<object>>();
+            private static readonly ConcurrentDictionary<Type, Write<object>> Writes =
+                new ConcurrentDictionary<Type, Write<object>>();
             
+            private static readonly ConcurrentDictionary<Type, Read<object>> Reads =
+                new ConcurrentDictionary<Type, Read<object>>();
+
             public static Write<object> Write(Type type) =>
-                Writes.One(type).OrNew(() => Generate.Write(type));
+                Writes.TryGetValue(type, out var write) ? write : Writes[type] = Generate.Write(type);
 
             public static Read<object> Read(Type type) =>
-                Reads.One(type).OrNew(() => Generate.Read(type));
+                Reads.TryGetValue(type, out var read) ? read : Reads[type] = Generate.Read(type);
         }
 
         public static void Write(Type type, object value, StringBuffer buffer) =>
