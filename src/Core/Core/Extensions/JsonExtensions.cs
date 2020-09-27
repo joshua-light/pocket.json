@@ -10,7 +10,7 @@ namespace Pocket.Json
         [ThreadStatic] private static StringBuffer _buffer;
 
         /// <summary>
-        ///     Represents object as formatted JSON string.
+        ///     Serializes an object to the JSON string.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of converted object.</typeparam>
@@ -27,7 +27,7 @@ namespace Pocket.Json
         }
 
         /// <summary>
-        ///     Represents object as formatted JSON string.
+        ///     Serializes an object to the JSON string.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <returns>JSON representation of object.</returns>
@@ -35,7 +35,7 @@ namespace Pocket.Json
             self.ToJson(self.GetType());
         
         /// <summary>
-        ///     Represents object as formatted JSON string.
+        ///     Serializes an object to the JSON string.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <param name="of">Type of converted object.</param>
