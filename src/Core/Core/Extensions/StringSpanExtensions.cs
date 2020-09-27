@@ -24,8 +24,8 @@ namespace Pocket.Json
                     return result;
                 }
             }
-            
-            self.SkipMutable(result.End - result.Start);
+
+            self.Start += result.End - result.Start;
             
             return result;
         }

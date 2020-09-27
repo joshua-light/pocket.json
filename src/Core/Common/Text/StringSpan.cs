@@ -19,10 +19,6 @@ namespace Pocket.Json
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public char CharAt(int i) =>
             Source[Start + i];
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SkipMutable(int count) =>
-            Start += count;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString() =>
