@@ -4,10 +4,14 @@
 [![codecov](https://codecov.io/gh/JoshuaLight/Pocket.Json/branch/master/graph/badge.svg)](https://codecov.io/gh/JoshuaLight/Pocket.Json)
 [![NuGet](https://img.shields.io/nuget/v/Pocket.Json.svg)](https://www.nuget.org/packages/Pocket.Json)
 
-This small package contains `JSON` serialization/deserialization library, which is mostly focusing on speed and simplicity.
+
+_A simple JSON serialization/deserialization library that is pretty fast._
 
 ## Usage
-For converting objects you should use only one extension-method: `AsJson` (which sounds what it actually does — represents data **as Json**).
+### Serialize
+```c#
+new Point { X = 1, Y = 2 }.AsJson();
+```
 ```c#
 public class Point // It is important that type is `public` due to code-generation.
 {
@@ -15,7 +19,7 @@ public class Point // It is important that type is `public` due to code-generati
     [Json] public int Y;
 }
 
-var point = new Point{ X = 1, Y = 2 };
+var point = new Point { X = 1, Y = 2 };
 
 // Serialization.
 var pointJson = point.AsJson(); // "{X:1,Y:2}" here.

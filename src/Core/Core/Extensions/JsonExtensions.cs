@@ -15,7 +15,7 @@ namespace Pocket.Json
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of converted object.</typeparam>
         /// <returns>JSON representation of object.</returns>
-        public static string AsJson<T>(this T self)
+        public static string ToJson<T>(this T self)
         {
             if (_buffer == null)
                 _buffer = new StringBuffer();
@@ -33,8 +33,8 @@ namespace Pocket.Json
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <returns>JSON representation of object.</returns>
-        public static string AsJson(this object self) =>
-            self.AsJson(self.GetType());
+        public static string ToJson(this object self) =>
+            self.ToJson(self.GetType());
         
         /// <summary>
         ///     Represents object as formatted JSON string.
@@ -42,7 +42,7 @@ namespace Pocket.Json
         /// <param name="self"><code>this</code> object.</param>
         /// <param name="of">Type of converted object.</param>
         /// <returns>JSON representation of object.</returns>
-        public static string AsJson(this object self, Type of)
+        public static string ToJson(this object self, Type of)
         {
             if (_buffer == null)
                 _buffer = new StringBuffer();
@@ -61,7 +61,7 @@ namespace Pocket.Json
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of JSON object, to which string will be converted.</typeparam>
         /// <returns>Object created from string representation.</returns>
-        public static T OfJson<T>(this string self) =>
+        public static T FromJson<T>(this string self) =>
             Json<T>.Unwrap(new JsonSpan(self));
         
         /// <summary>
@@ -70,7 +70,7 @@ namespace Pocket.Json
         /// <param name="self"><code>this</code> object.</param>
         /// <param name="type">Type of JSON object, to which string will be converted.</param>
         /// <returns>Object created from string representation.</returns>
-        public static object OfJson(this string self, Type type) =>
+        public static object FromJson(this string self, Type type) =>
             Json.Unwrap(type, new JsonSpan(self));
     }
 }

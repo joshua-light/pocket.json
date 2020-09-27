@@ -27,14 +27,14 @@ namespace Pocket.Json.Benchmarks
             public byte[] Utf8Json() => global::Utf8Json.JsonSerializer.Serialize(Object);
 
             [Benchmark]
-            public string PocketJson() => Object.AsJson();
+            public string PocketJson() => Object.ToJson();
         }
         
         public class BigObjectDeserialization
         {
             private readonly string _newtonsoftJson = JsonConvert.SerializeObject(new BigObject());
             private readonly byte[] _utf8Json = global::Utf8Json.JsonSerializer.Serialize(new BigObject());
-            private readonly string _json = new BigObject().AsJson();
+            private readonly string _json = new BigObject().ToJson();
 
             [Benchmark]
             public BigObjectUninitialized NewtonsoftJson() => JsonConvert.DeserializeObject<BigObjectUninitialized>(_newtonsoftJson);
@@ -43,7 +43,7 @@ namespace Pocket.Json.Benchmarks
             public BigObjectUninitialized Utf8Json() => global::Utf8Json.JsonSerializer.Deserialize<BigObjectUninitialized>(_utf8Json);
             
             [Benchmark]
-            public BigObjectUninitialized PocketJson() => _json.OfJson<BigObjectUninitialized>();
+            public BigObjectUninitialized PocketJson() => _json.FromJson<BigObjectUninitialized>();
         }
 
         #region Manual Benchmarks
@@ -174,7 +174,7 @@ namespace Pocket.Json.Benchmarks
 
             Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.SerializeObject(item));
             Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.ToJsonString(item));
-            Run("Castalia", _iterationsCount, () => item.AsJson());
+            Run("Castalia", _iterationsCount, () => item.ToJson());
 
             Console.WriteLine("---------------------");
         }
@@ -188,13 +188,13 @@ namespace Pocket.Json.Benchmarks
         {
             var newtonsoftJson = JsonConvert.SerializeObject(item);
             var utf8Json = Utf8Json.JsonSerializer.Serialize(item);
-            var json = item.AsJson();
+            var json = item.ToJson();
 
             Console.WriteLine("---------------------" + typeof(T).FullName);
 
             Run("Newtonsoft.Json", _iterationsCount, () => Newtonsoft.Json.JsonConvert.DeserializeObject<T>(newtonsoftJson));
             Run("Ut8Json", _iterationsCount, () => Utf8Json.JsonSerializer.Deserialize<T>(utf8Json));
-            Run("Castalia", _iterationsCount, () => json.OfJson<T>());
+            Run("Castalia", _iterationsCount, () => json.FromJson<T>());
 
             Console.WriteLine("---------------------");
         }

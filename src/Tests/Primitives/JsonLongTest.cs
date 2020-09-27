@@ -27,11 +27,11 @@ namespace Pocket.Json.Tests.Primitives
             Appends(111111111111111111L).As("111111111111111111");
             Appends(1111111111111111111L).As("1111111111111111111");
 
-            Assert.Equal(long.MaxValue.ToString(), long.MaxValue.AsJson());
-            Assert.Equal(long.MinValue.ToString(), long.MinValue.AsJson());
+            Assert.Equal(long.MaxValue.ToString(), long.MaxValue.ToJson());
+            Assert.Equal(long.MinValue.ToString(), long.MinValue.ToJson());
             
-            Assert.Equal((long.MaxValue - 1).ToString(), (long.MaxValue - 1).AsJson());
-            Assert.Equal((long.MinValue + 1).ToString(), (long.MinValue + 1).AsJson());
+            Assert.Equal((long.MaxValue - 1).ToString(), (long.MaxValue - 1).ToJson());
+            Assert.Equal((long.MinValue + 1).ToString(), (long.MinValue + 1).ToJson());
         }
 
         [Fact]
@@ -57,11 +57,11 @@ namespace Pocket.Json.Tests.Primitives
             Unwraps("111111111111111111").As(111111111111111111L);
             Unwraps("1111111111111111111").As(1111111111111111111L);
 
-            Assert.Equal(long.MaxValue - 1, (long.MaxValue - 1).ToString().OfJson<long>());
-            Assert.Equal(long.MinValue + 1, (long.MinValue + 1).ToString().OfJson<long>());
+            Assert.Equal(long.MaxValue - 1, (long.MaxValue - 1).ToString().FromJson<long>());
+            Assert.Equal(long.MinValue + 1, (long.MinValue + 1).ToString().FromJson<long>());
 
-            Assert.Equal(long.MaxValue, long.MaxValue.ToString().OfJson<long>());
-            Assert.Equal(long.MinValue, long.MinValue.ToString().OfJson<long>());
+            Assert.Equal(long.MaxValue, long.MaxValue.ToString().FromJson<long>());
+            Assert.Equal(long.MinValue, long.MinValue.ToString().FromJson<long>());
         }
     }
 }
