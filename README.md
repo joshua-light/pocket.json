@@ -7,6 +7,17 @@
 _A simple JSON serialization/deserialization library that is pretty fast._
 
 ## Usage
+### Data Format
+```c#
+// Class should be `public` due to code generation.
+public class Point
+{
+    // Fields should be raw and `public`.
+    [Json] public int X;
+    [Json] public int Y;
+}
+```
+
 ### Serialize
 ```c#
 var json = new Point { X = 1, Y = 2 }.ToJson();
