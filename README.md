@@ -5,6 +5,7 @@
 
 
 _A simple JSON serialization/deserialization library that is pretty fast._
+It doesn't match 100% of JSON spec, and was made just for learning purposes.
 
 ## Usage
 ### Data Format
@@ -31,24 +32,23 @@ var point = json.FromJson<Point>();
 ## Benchmarks (outdated)
 Code for benchmarks can be found [here](https://github.com/JoshuaLight/Pocket.Json/blob/master/src/Benchmarks/Program.cs).
 ```
-BenchmarkDotNet=v0.10.14, OS=Windows 8.1 (6.3.9600.0)
-Intel Core i5-4690 CPU 3.50GHz (Haswell), 1 CPU, 4 logical and 4 physical cores
-Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
-.NET Core SDK=2.1.200
-  [Host]     : .NET Core 2.0.7 (CoreCLR 4.6.26328.01, CoreFX 4.6.26403.03), 64bit RyuJIT
-  DefaultJob : .NET Core 2.0.7 (CoreCLR 4.6.26328.01, CoreFX 4.6.26403.03), 64bit RyuJIT
+BenchmarkDotNet=v0.12.1, OS=elementary 5.1.5
+Intel Core i9-9900KF CPU 3.60GHz (Coffee Lake), 1 CPU, 16 logical and 8 physical cores
+.NET Core SDK=3.1.301
+  [Host]     : .NET Core 3.1.5 (CoreCLR 4.700.20.26901, CoreFX 4.700.20.27001), X64 RyuJIT
+  DefaultJob : .NET Core 3.1.5 (CoreCLR 4.700.20.26901, CoreFX 4.700.20.27001), X64 RyuJIT
 ```
 
 ### Serialization
-|         Method |     Mean |     Error |    StdDev |
-|--------------- |---------:|----------:|----------:|
-| NewtonsoftJson | 362.7 us | 3.5190 us | 3.2916 us |
-|       Utf8Json | 113.7 us | 1.1188 us | 1.0466 us |
-|     PocketJson | 141.2 us | 0.6925 us | 0.5783 us |
+|         Method |     Mean |   Error |  StdDev |
+|--------------- |---------:|--------:|--------:|
+| NewtonsoftJson | 278.7 μs | 0.78 μs | 0.73 μs |
+|       Utf8Json | 101.5 μs | 0.24 μs | 0.23 μs |
+|     PocketJson | 121.4 μs | 1.37 μs | 1.28 μs |
 
 ### Deserialization
-|         Method |     Mean |     Error |    StdDev |
-|--------------- |---------:|----------:|----------:|
-| NewtonsoftJson | 502.3 us | 1.9448 us | 1.8191 us |
-|       Utf8Json | 238.5 us | 0.3396 us | 0.3177 us |
-|     PocketJson | 205.5 us | 0.6000 us | 0.5612 us |
+|         Method |      Mean |    Error |   StdDev |
+|--------------- |----------:|---------:|---------:|
+| NewtonsoftJson | 421.39 μs | 6.494 μs | 6.075 μs |
+|       Utf8Json | 130.93 μs | 0.298 μs | 0.248 μs |
+|     PocketJson |  90.99 μs | 0.386 μs | 0.322 μs |
