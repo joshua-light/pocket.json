@@ -5,22 +5,22 @@ namespace Pocket.Json.Tests.Primitives
     public class JsonStringTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends("Hello").As("\"Hello\"");
-            Appends("Josh").As("\"Josh\"");
-            Appends("\"1\"2").As("\"\\\"1\\\"2\"");
+            Writes("Hello").As("\"Hello\"");
+            Writes("Josh").As("\"Josh\"");
+            Writes("\"1\"2").As("\"\\\"1\\\"2\"");
         }
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
-            Unwraps("\"0\"").As("0");
-            Unwraps("\"Hello\"").As("Hello");
-            Unwraps("\"Hello, guys!\"").As("Hello, guys!");
-            Unwraps("\"    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123//\"")
+            Reads("\"0\"").As("0");
+            Reads("\"Hello\"").As("Hello");
+            Reads("\"Hello, guys!\"").As("Hello, guys!");
+            Reads("\"    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123//\"")
                 .As("    ����          PTest123541234123Test123541234123Test123541234123Test123541234123Test123541234123//");
-            Unwraps("\"\\\"1\\\"2\"").As("\"1\"2");
+            Reads("\"\\\"1\\\"2\"").As("\"1\"2");
         }
     }
 }

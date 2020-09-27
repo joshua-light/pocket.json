@@ -5,36 +5,37 @@ namespace Pocket.Json
 {
     internal static class JsonNullable<T> where T : struct
     {
-        public static void Append(T? nullable, StringBuffer buffer)
+        public static T? Read(ref StringSpan json)
         {
-            if (nullable != null) Json<T>.Append(nullable.Value, buffer);
-        }
-
-        public static T? Unwrap(JsonSpan json)
-        {
-            if (json.Span.Start == json.Span.End)
+            if (json.Start == json.End)
                 return null;
 
-            return Json<T>.Unwrap(json);
+            return Json<T>.Read(ref json);
+        }
+        
+        public static void Write(T? nullable, StringBuffer buffer)
+        {
+            if (nullable != null)
+                Json<T>.Write(nullable.Value, buffer);
         }
     }
 
     internal static class JsonNullable
     {
-        public static Append<T> Append<T>()
+        public static Read<T> Read<T>()
         {
             var type = typeof(JsonNullable<>).MakeGenericType(Nullable.GetUnderlyingType(typeof(T)));
-            var method = type.GetTypeInfo().GetDeclaredMethod("Append");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Read");
 
-            return (Append<T>) method.CreateDelegate(typeof(Append<T>));
+            return (Read<T>) method.CreateDelegate(typeof(Read<T>));
         }
         
-        public static Unwrap<T> GenerateUnwrap<T>()
+        public static Write<T> Write<T>()
         {
             var type = typeof(JsonNullable<>).MakeGenericType(Nullable.GetUnderlyingType(typeof(T)));
-            var method = type.GetTypeInfo().GetDeclaredMethod("Unwrap");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Write");
 
-            return (Unwrap<T>) method.CreateDelegate(typeof(Unwrap<T>));
+            return (Write<T>) method.CreateDelegate(typeof(Write<T>));
         }
     }
 }

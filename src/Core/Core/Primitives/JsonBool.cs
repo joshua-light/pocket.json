@@ -4,20 +4,20 @@ namespace Pocket.Json
 {
     internal static class JsonBool
     {
-        public static void Append(bool value, StringBuffer buffer)
+        public static bool Read(ref StringSpan json)
         {
-            buffer.Append(value ? '1' : '0');
-        }
-        
-        public static bool Unwrap(JsonSpan json)
-        {
-            var ch = json.Span.Source[json.Span.Start++];
+            var ch = json.Source[json.Start++];
             
             if (ch == '1') return true;
             if (ch == '0') return false;
 
-            throw new ArgumentException($"Specified string \"{json}\" must be either \"1\" or \"0\".",
+            throw new ArgumentException($"Specified string \"{json.ToString()}\" must be either \"1\" or \"0\".",
                 nameof(json));
+        }
+        
+        public static void Write(bool value, StringBuffer buffer)
+        {
+            buffer.Write(value ? '1' : '0');
         }
     }
 }

@@ -5,36 +5,36 @@ namespace Pocket.Json
 {
     internal static class JsonEnumerable<T>
     {
-        public static void Append(IEnumerable<T> items, StringBuffer buffer)
+        public static void Write(IEnumerable<T> items, StringBuffer buffer)
         {
-            buffer.Append('[');
+            buffer.Write('[');
 
             var isFirst = true;
             foreach (var item in items)
             {
                 if (isFirst)
                 {
-                    Json<T>.Append(item, buffer);
+                    Json<T>.Write(item, buffer);
                     isFirst = false;
                     continue;
                 }
 
-                buffer.Append(',');
-                Json<T>.Append(item, buffer);
+                buffer.Write(',');
+                Json<T>.Write(item, buffer);
             }
 
-            buffer.Append(']');
+            buffer.Write(']');
         }
     }
 
     internal static class JsonEnumerable
     {
-        public static Append<T> Append<T>()
+        public static Write<T> Write<T>()
         {
             var type = typeof(JsonEnumerable<>).MakeGenericType(typeof(T).GetTypeInfo().GenericTypeArguments[0]);
-            var method = type.GetTypeInfo().GetDeclaredMethod("Append");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Write");
 
-            return (Append<T>) method.CreateDelegate(typeof(Append<T>));
+            return (Write<T>) method.CreateDelegate(typeof(Write<T>));
         }
     }
 }

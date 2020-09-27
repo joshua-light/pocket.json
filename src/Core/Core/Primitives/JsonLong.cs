@@ -2,28 +2,22 @@
 {
     internal static class JsonLong
     {
-        public static void Append(long value, StringBuffer buffer)
-        {
-            buffer.Append(value);
-        }
-        
-        public static long Unwrap(JsonSpan json) => Unwrap(json.NextPrimitive());
-
-        public static long Unwrap(StringSpan json)
+        public static long Read(ref StringSpan json)
         {            
-            var source = json.Source;
+            var span = json.NextItem();
+            var source = span.Source;
             var multiplier = 1;
             
-            if (source[json.Start] == '-')
+            if (source[span.Start] == '-')
             {
                 multiplier = -1;
-                json.Start++;
+                span.Start++;
             }
 
-            var offset = json.Start;
+            var offset = span.Start;
             
             long value;
-            switch (json.End - offset)
+            switch (span.End - offset)
             {
                 case 1:
                     value = source[offset + 0] - '0';
@@ -257,5 +251,8 @@
 
             return value * multiplier;
         }
+        
+        public static void Write(long value, StringBuffer buffer) =>
+            buffer.Write(value);
     }
 }

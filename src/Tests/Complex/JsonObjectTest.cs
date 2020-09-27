@@ -6,102 +6,102 @@ namespace Pocket.Json.Tests.Complex
     public class JsonObjectTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends(new IntAndInt())
+            Writes(new IntAndInt())
                 .As("{\"Item1\":0,\"Item2\":0}");
             
-            Appends(new IntAndInt{ Item1 = 1 })
+            Writes(new IntAndInt{ Item1 = 1 })
                 .As("{\"Item1\":1,\"Item2\":0}");
             
-            Appends(new IntAndInt{ Item1 = 1, Item2 = 2 })
+            Writes(new IntAndInt{ Item1 = 1, Item2 = 2 })
                 .As("{\"Item1\":1,\"Item2\":2}");
             
-            Appends(new IntArray{ Items = new [] { 1, 2, 3, 4, 5 } })
+            Writes(new IntArray{ Items = new [] { 1, 2, 3, 4, 5 } })
                 .As("{\"Items\":[1,2,3,4,5]}");
             
-            Appends(new UnderscoredInt{ Item_1 = 1 })
+            Writes(new UnderscoredInt{ Item_1 = 1 })
                 .As("{\"Item_1\":1}");
             
-            Appends(new StringAndInt
+            Writes(new StringAndInt
                 {
                     Item1 = null,
                     Item2 = 1,
                 })
                 .As("{\"Item2\":1}");
             
-            Appends(new UnderscoredEmptyAndEmpty
+            Writes(new UnderscoredEmptyAndEmpty
             {
                 Item_1 = new Empty(),
                 Item_2 = new Empty()
             })
                 .As("{\"Item_1\":{},\"Item_2\":{}}");
             
-            Appends(new UnderscoredEmptyAndEmpty
+            Writes(new UnderscoredEmptyAndEmpty
                 {
                     Item_1 = new Empty(),
                     Item_2 = null
                 })
                 .As("{\"Item_1\":{}}");
             
-            Appends(new UnderscoredEmptyAndEmpty
+            Writes(new UnderscoredEmptyAndEmpty
                 {
                     Item_1 = null,
                     Item_2 = new Empty()
                 })
                 .As("{\"Item_2\":{}}");
             
-            Appends(new WithObjectField())
+            Writes(new WithObjectField())
                 .As("{}");
             
-            Appends(new WithObjectField{ Field = new WithObjectField.ActualType{ Data = 10 } })
+            Writes(new WithObjectField{ Field = new WithObjectField.ActualType{ Data = 10 } })
                 .As("{\"Field\":{\"Data\":10}}");
 
-            Appends(new B { Field1 = 1, Field2 = 2 })
+            Writes(new B { Field1 = 1, Field2 = 2 })
                 .As("{\"Field2\":2,\"Field1\":1}");
             
-            Appends(new WithAttribute{ Field1 = 1 })
+            Writes(new WithAttribute{ Field1 = 1 })
                 .As("{\"field_1\":1}");
         }
 
         [Fact]
-        public void Unwrap_ShouldWorkCorrectly()
+        public void Read_ShouldWorkCorrectly()
         {
-            Unwraps("{\"Code\":1,\"Body\":\"{\\\"Name\\\":\\\"Test\\\"}\"}")
+            Reads("{\"Code\":1,\"Body\":\"{\\\"Name\\\":\\\"Test\\\"}\"}")
                 .As(new JsonPacket{ Code = 1, Body = "{\"Name\":\"Test\"}"});
             
-            Unwraps("{\"Item1\":0,\"Item2\":0}")
+            Reads("{\"Item1\":0,\"Item2\":0}")
                 .As(new Int());
             
-            Unwraps("{\"Item1\":0,\"Item2\":0}")
+            Reads("{\"Item1\":0,\"Item2\":0}")
                 .As(new IntAndInt());
             
-            Unwraps("{\"Item1\":1,\"Item2\":0}")
+            Reads("{\"Item1\":1,\"Item2\":0}")
                 .As(new IntAndInt{ Item1 = 1 });
             
-            Unwraps("{\"Item1\":1,\"Item2\":2}")
+            Reads("{\"Item1\":1,\"Item2\":2}")
                 .As(new IntAndInt{ Item1 = 1, Item2 = 2 });
             
-            Unwraps("{\"Item1\":1.1234,\"Item2\":2.12345678}")
+            Reads("{\"Item1\":1.1234,\"Item2\":2.12345678}")
                 .As(new FloatAndDouble{ Item1 = 1.1234f, Item2 = 2.12345678 });
             
-            Unwraps("{\"Items\":[1,2,3,4,5]}")
+            Reads("{\"Items\":[1,2,3,4,5]}")
                 .As(new IntArray{ Items = new [] { 1, 2, 3, 4, 5 } });
             
-            Unwraps("{\"Items\":[]}")
+            Reads("{\"Items\":[]}")
                 .As(new IntArray{ Items = new int[0] });
             
-            Unwraps("{\"Item_1\":1}")
+            Reads("{\"Item_1\":1}")
                 .As(new UnderscoredInt{ Item_1 = 1 });
             
-            Unwraps("{\"Item_1\":{},\"Item_2\":{}}")
+            Reads("{\"Item_1\":{},\"Item_2\":{}}")
                 .As(new UnderscoredEmptyAndEmpty
                 {
                     Item_1 = new Empty(),
                     Item_2 = new Empty()
                 });
             
-            Unwraps("{\"Item1\":{\"Item1\":{\"Item_1\":{},\"Item_2\":{}}}}")
+            Reads("{\"Item1\":{\"Item1\":{\"Item_1\":{},\"Item_2\":{}}}}")
                 .As(new UnderscoredNestedEmptyAndEmpty{ 
                     Item1 = new UnderscoredNestedEmptyAndEmpty.Nested
                     {
@@ -112,7 +112,7 @@ namespace Pocket.Json.Tests.Complex
                         }
                     } });
             
-            Unwraps("{\"Item1\":{\"Item1\":{\"Item_1\":{\"Item1\":{}},\"Item_2\":{}}}}")
+            Reads("{\"Item1\":{\"Item1\":{\"Item_1\":{\"Item1\":{}},\"Item_2\":{}}}}")
                 .As(new StrangeNestedWithUnderscore { 
                     Item1 = new StrangeNestedWithUnderscore.Nested1
                     {
@@ -123,16 +123,16 @@ namespace Pocket.Json.Tests.Complex
                         }
                     } });
             
-            Unwraps("{}")
+            Reads("{}")
                 .As(new WithObjectField());
 
-            Unwraps("{\"Field1\":1,\"Field2\":2}")
+            Reads("{\"Field1\":1,\"Field2\":2}")
                 .As(new B { Field1 = 1, Field2 = 2 });
             
-            Unwraps("{\"field_1\":1}")
+            Reads("{\"field_1\":1}")
                 .As(new WithAttribute{ Field1 = 1 });
             
-            Unwraps("{\"Item3\":{\"Hello\":{12}},\"Item2\":{},\"Item1\":1}")
+            Reads("{\"Item3\":{\"Hello\":{12}},\"Item2\":{},\"Item1\":1}")
                 .As(new Int{ Item1 = 1 });
         }
 

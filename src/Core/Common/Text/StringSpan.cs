@@ -1,13 +1,11 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace Pocket.Json
 {
-    public struct StringSpan : IEquatable<StringSpan>
+    public ref struct StringSpan
     {
-        public static readonly StringSpan Zero = new StringSpan();
-
-        public string Source;
+        public readonly string Source;
+        
         public int Start;
         public int End;
 
@@ -19,14 +17,18 @@ namespace Pocket.Json
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public char CharAt(int i) => Source[Start + i];
+        public char CharAt(int i) =>
+            Source[Start + i];
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void SkipMutable(int count) => Start += count;
+        public void SkipMutable(int count) =>
+            Start += count;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString() => Source.Substring(Start, End - Start);
+        public override string ToString() =>
+            Source.Substring(Start, End - Start);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(StringSpan other)
         {
             var length = End - Start;
@@ -40,9 +42,14 @@ namespace Pocket.Json
             return true;
         }
 
+        public static bool operator ==(StringSpan a, StringSpan b) => a.Equals(b);
+        public static bool operator !=(StringSpan a, StringSpan b) => !a.Equals(b);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode() =>
             GetHashCode(Source, Start, End - Start);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetHashCode(string str) =>
             GetHashCode(str, 0, str.Length);
         
@@ -65,12 +72,14 @@ namespace Pocket.Json
             
             var hash = (int) source[offset];
             var i = offset + 1;
+            
             length--;
 
             while (length > 2)
             {
                 hash = (hash * 9733) ^ source[i++];
                 hash = (hash * 9733) ^ source[i++];
+                
                 length -= 2;
             }
 

@@ -4,19 +4,14 @@ namespace Pocket.Json
 {
     internal static class JsonFloat
     {
-        public static void Append(float value, StringBuffer buffer)
-        {
-            buffer.Append(value);
-        }
-
-        public static float Unwrap(JsonSpan json)
+        public static float Read(ref StringSpan json)
         {
             const int precision = 7 + 1; // Float precision and '.' symbol.
             
             var result = 0f;
             var dotIndex = -1;
             
-            var span = json.Span;
+            var span = json;
             var start = span.Start;
             var source = span.Source;
 
@@ -36,7 +31,7 @@ namespace Pocket.Json
                         var integralSpan = span;
                         integralSpan.End = i;
                         
-                        result += JsonInt.Unwrap(integralSpan);
+                        result += JsonInt.Read(ref integralSpan);
 
                         if (i == precision - 1)
                             return result;
@@ -50,12 +45,12 @@ namespace Pocket.Json
             
             var length = span.End - start;
             
-            json.Span.Start += length;
+            json.Start += length;
 
             if (dotIndex == -1)
             {
                 if (length < precision)
-                    return JsonInt.Unwrap(span);
+                    return JsonInt.Read(ref span);
 
                 var eIndex = -1;
                 for (var i = precision - 1; i < length; i++)
@@ -70,20 +65,19 @@ namespace Pocket.Json
 
                 if (eIndex == -1)
                     throw new ArgumentException(
-                        $"Cannot deserialize {span} because it looks like it\'s too long and must have the exponent part.");
+                        $"Cannot deserialize {span.ToString()} because it looks like it\'s too long and must have the exponent part.");
 
                 var ePart = span;
                 ePart.Start = start + eIndex + 1;
                 ePart.End = start + length;
                 span.End = eIndex;
 
-                var integralPart = JsonLong.Unwrap(span);
-                var ePartUnwrapped = JsonByte.Unwrap(ePart);
+                var integralPart = JsonLong.Read(ref span);
+                var ePartValue = JsonByte.Read(ref ePart);
+                if (ePartValue < PowerOfTen.FloatCount)
+                    return integralPart * PowerOfTen.PositiveFloat[ePartValue];
 
-                if (ePartUnwrapped < PowerOfTen.FloatCount)
-                    return integralPart * PowerOfTen.PositiveFloat[ePartUnwrapped];
-
-                return integralPart * (float) Math.Pow(10, JsonByte.Unwrap(ePart));
+                return integralPart * (float) Math.Pow(10, ePartValue);
             }
 
             if (length > precision)
@@ -95,9 +89,12 @@ namespace Pocket.Json
             span.Start += dotIndex + 1;
             length -= dotIndex + 1;
             
-            result += JsonInt.Unwrap(span) * PowerOfTen.NegativeFloat[length];
+            result += JsonInt.Read(ref span) * PowerOfTen.NegativeFloat[length];
 
             return result;
         }
+        
+        public static void Write(float value, StringBuffer buffer) =>
+            buffer.Write(value);
     }
 }

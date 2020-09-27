@@ -1,34 +1,34 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Pocket.Json
 {
     internal static class Generate
     {
-        public static Append<object> Append(Type type) =>
-            (Append<object>) typeof(AppendGenerator)
+        public static Write<object> Write(Type type) =>
+            (Write<object>) typeof(Writes)
                 .GetTypeInfo()
                 .GetDeclaredMethod("Generate")
                 .MakeGenericMethod(type)
                 .Invoke(null, null);
 
-        public static Unwrap<object> Unwrap(Type type) =>
-            (Unwrap<object>) typeof(UnwrapGenerator)
+        public static Read<object> Read(Type type) =>
+            (Read<object>) typeof(Reads)
                 .GetTypeInfo()
                 .GetDeclaredMethod("Generate")
                 .MakeGenericMethod(type)
                 .Invoke(null, null);
 
-        internal class AppendGenerator
+        internal class Writes
         {
-            public static Append<object> Generate<T>() => (x, buffer) => Json<T>.Append((T) x, buffer);
+            public static Write<object> Generate<T>() =>
+                (x, buffer) => Json<T>.Write((T) x, buffer);
         }
 
-        internal class UnwrapGenerator
+        internal class Reads
         {
-            public static Unwrap<object> Generate<T>() => x => Json<T>.Unwrap(x);
+            public static Read<object> Generate<T>() =>
+                (ref StringSpan x) => Json<T>.Read(ref x);
         }
     }
 }

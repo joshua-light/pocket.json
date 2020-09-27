@@ -5,35 +5,35 @@ namespace Pocket.Json
 {
     internal class JsonEnum<T>
     {
-        public static void Append(T value, StringBuffer buffer)
+        public static T Read(ref StringSpan span)
         {
             var type = Enum.GetUnderlyingType(typeof(T));
-            Json.Append(type, value, buffer);
+            return (T) Json.Read(type, ref span);
         }
-
-        public static T Unwrap(JsonSpan span)
+        
+        public static void Write(T value, StringBuffer buffer)
         {
             var type = Enum.GetUnderlyingType(typeof(T));
-            return (T) Json.Unwrap(type, span);
+            Json.Write(type, value, buffer);
         }
     }
 
     internal class JsonEnum
     {
-        public static Append<T> Append<T>()
+        public static Read<T> Read<T>()
         {
             var type = typeof(JsonEnum<>).MakeGenericType(typeof(T));
-            var method = type.GetTypeInfo().GetDeclaredMethod("Append");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Read");
 
-            return (Append<T>) method.CreateDelegate(typeof(Append<T>));
+            return (Read<T>) method.CreateDelegate(typeof(Read<T>));
         }
         
-        public static Unwrap<T> GenerateUnwrap<T>()
+        public static Write<T> Write<T>()
         {
             var type = typeof(JsonEnum<>).MakeGenericType(typeof(T));
-            var method = type.GetTypeInfo().GetDeclaredMethod("Unwrap");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Write");
 
-            return (Unwrap<T>) method.CreateDelegate(typeof(Unwrap<T>));
+            return (Write<T>) method.CreateDelegate(typeof(Write<T>));
         }
     }
 }

@@ -5,15 +5,15 @@ namespace Pocket.Json.Tests.Collections
     public class JsonArrayTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldConvertEmptyArrayToBrackets() => Appends(new int[0]).As("[]");
+        public void Write_ShouldConvertEmptyArrayToBrackets() => Writes(new int[0]).As("[]");
 
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-           Appends(new[] { 1, 2, 3 }).As("[1,2,3]");
-           Appends(new[] { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
+           Writes(new[] { 1, 2, 3 }).As("[1,2,3]");
+           Writes(new[] { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
             
-            Appends(
+            Writes(
                 new[]
                 {
                     new IntAndInt{ Item1 = 1, Item2 = 2 },
@@ -30,15 +30,15 @@ namespace Pocket.Json.Tests.Collections
         }
         
         [Fact]
-        public void Unwraps_ShouldConvertBracketsToEmptyArray() => Unwraps("[]").As(new int[0]);
+        public void Reads_ShouldConvertBracketsToEmptyArray() => Reads("[]").As(new int[0]);
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
-            Unwraps("[1,2,3]").As(new[] { 1, 2, 3 });
-            Unwraps("[\"1\",\"2\",\"3\"]").As(new[] { "1", "2", "3" });
+            Reads("[1,2,3]").As(new[] { 1, 2, 3 });
+            Reads("[\"1\",\"2\",\"3\"]").As(new[] { "1", "2", "3" });
             
-            Unwraps(
+            Reads(
                 "[" +
                 "{\"Item1\":1,\"Item2\":2}," +
                 "{\"Item1\":3,\"Item2\":4}," +

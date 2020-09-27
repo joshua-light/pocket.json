@@ -5,23 +5,23 @@ namespace Pocket.Json.Tests.Primitives
     public class JsonCharTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends('a').As("a");
-            Appends('\r').As("\r");
-            Appends('\n').As("\n");
-            Appends('Ş').As("Ş");
-            Appends('ğ').As("ğ");
+            Writes('a').As("a");
+            Writes('\r').As("\r");
+            Writes('\n').As("\n");
+            Writes('Ş').As("Ş");
+            Writes('ğ').As("ğ");
         }
 
         [Fact]
-        public void Unwrap_ShouldWorkCorrectly()
+        public void Read_ShouldWorkCorrectly()
         {
-            Unwraps("a").As('a');
-            Unwraps("\r").As('\r');
-            Unwraps("\n").As('\n');
-            Unwraps("Ş").As('Ş');
-            Unwraps("ğ").As('ğ');
+            Reads("a").As('a');
+            Reads("\r").As('\r');
+            Reads("\n").As('\n');
+            Reads("Ş").As('Ş');
+            Reads("ğ").As('ğ');
         }
     }
 }

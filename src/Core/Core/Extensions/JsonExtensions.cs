@@ -3,7 +3,7 @@
 namespace Pocket.Json
 {
     /// <summary>
-    ///     Represents JSON serialization/deserialization extension-methods for all objects.
+    ///     JSON serialization/deserialization extension-methods for all objects.
     /// </summary>
     public static class JsonExtensions
     {
@@ -21,9 +21,10 @@ namespace Pocket.Json
                 _buffer = new StringBuffer();
 
             var buffer = _buffer;
+            
             buffer.Clear();
 
-            Json<T>.Append(self, buffer);
+            Json<T>.Write(self, buffer);
 
             return buffer.AsString();
         }
@@ -48,29 +49,38 @@ namespace Pocket.Json
                 _buffer = new StringBuffer();
 
             var buffer = _buffer;
+            
             buffer.Clear();
 
-            Json.Append(of, self, buffer);
+            Json.Write(of, self, buffer);
 
             return buffer.AsString();
         }
 
         /// <summary>
-        ///     Represents JSON string as object.
+        ///     Deserializes a JSON string into C# object.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <typeparam name="T">Type of JSON object, to which string will be converted.</typeparam>
         /// <returns>Object created from string representation.</returns>
-        public static T FromJson<T>(this string self) =>
-            Json<T>.Unwrap(new JsonSpan(self));
-        
+        public static T FromJson<T>(this string self)
+        {
+            var span = new StringSpan(self);
+            
+            return Json<T>.Read(ref span);
+        }
+
         /// <summary>
-        ///     Represents JSON string as object.
+        ///     Deserializes a JSON string into C# object.
         /// </summary>
         /// <param name="self"><code>this</code> object.</param>
         /// <param name="type">Type of JSON object, to which string will be converted.</param>
         /// <returns>Object created from string representation.</returns>
-        public static object FromJson(this string self, Type type) =>
-            Json.Unwrap(type, new JsonSpan(self));
+        public static object FromJson(this string self, Type type)
+        {
+            var span = new StringSpan(self);
+            
+            return Json.Read(type, ref span);
+        }
     }
 }

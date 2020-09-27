@@ -164,15 +164,15 @@ namespace Pocket.Json.Tests
                 Code == other.Code && Body == other.Body;
         }
         
-        #region Appends
+        #region Writes
         
-        protected static AppendsFluent<T> Appends<T>(T instance) => new AppendsFluent<T>(instance);
+        protected static WritesFluent<T> Writes<T>(T instance) => new WritesFluent<T>(instance);
 
-        protected struct AppendsFluent<T>
+        protected struct WritesFluent<T>
         {
             private readonly T _instance;
 
-            public AppendsFluent(T instance)
+            public WritesFluent(T instance)
             {
                 _instance = instance;
             }
@@ -189,18 +189,18 @@ namespace Pocket.Json.Tests
 
         #endregion
         
-        #region Unwraps
+        #region Reads
         
-        protected static UnwrapsFluent Unwraps(string json)
+        protected static ReadsFluent Reads(string json)
         {
-            return new UnwrapsFluent(json);
+            return new ReadsFluent(json);
         }
 
-        protected struct UnwrapsFluent
+        protected struct ReadsFluent
         {
             private readonly string _json;
 
-            public UnwrapsFluent(string json)
+            public ReadsFluent(string json)
             {
                 _json = json;
             }
@@ -281,7 +281,7 @@ namespace Pocket.Json.Tests
                 }
                 catch (Exception e)
                 {
-                    throw new Exception($"Exception occured while unwrapping \"{_json}\": ", e);
+                    throw new Exception($"Exception occured while reading \"{_json}\": ", e);
                 }
             }
         }

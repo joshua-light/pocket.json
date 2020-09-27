@@ -7,15 +7,15 @@ namespace Pocket.Json.Tests.Collections
     public class JsonHashSetTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldConvertEmptyHashSetToBrackets() => Appends(new HashSet<int>()).As("[]");
+        public void Write_ShouldConvertEmptyHashSetToBrackets() => Writes(new HashSet<int>()).As("[]");
         
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends(new HashSet<int> { 1, 2, 3 }).As("[1,2,3]");
-            Appends(new HashSet<string> { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
+            Writes(new HashSet<int> { 1, 2, 3 }).As("[1,2,3]");
+            Writes(new HashSet<string> { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
             
-            Appends(
+            Writes(
                     new HashSet<IntAndInt>
                     {
                         new IntAndInt{ Item1 = 1, Item2 = 2 },
@@ -32,15 +32,15 @@ namespace Pocket.Json.Tests.Collections
         }
         
         [Fact]
-        public void Unwraps_ShouldConvertBracketsToEmptyHashSet() => Unwraps("[]").As(new HashSet<int>());
+        public void Reads_ShouldConvertBracketsToEmptyHashSet() => Reads("[]").As(new HashSet<int>());
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
-            Unwraps("[1,2,3]").As(new HashSet<int> { 1, 2, 3 });
-            Unwraps("[\"1\",\"2\",\"3\"]").As(new HashSet<string> { "1", "2", "3" });
+            Reads("[1,2,3]").As(new HashSet<int> { 1, 2, 3 });
+            Reads("[\"1\",\"2\",\"3\"]").As(new HashSet<string> { "1", "2", "3" });
             
-            Unwraps(
+            Reads(
                     "[" +
                     "{\"Item1\":1,\"Item2\":2}," +
                     "{\"Item1\":3,\"Item2\":4}," +

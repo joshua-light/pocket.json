@@ -2,14 +2,9 @@
 {
     internal static class JsonString
     {
-        public static void Append(string value, StringBuffer buffer)
+        public static string Read(ref StringSpan json)
         {
-            buffer.Append('"').AppendEscaped(value).Append('"');
-        }
-
-        public static string Unwrap(JsonSpan json)
-        {
-            var span = Read(ref json.Span, out var escapes);
+            var span = Read(ref json, out var escapes);
             var source = span.Source;
 
             var chars = new char[span.End - span.Start - escapes - 2]; // 2 is '"' quotes.
@@ -50,5 +45,8 @@
 
             return result;
         }
+        
+        public static void Write(string value, StringBuffer buffer) =>
+            buffer.Write('"').WriteEscaped(value).Write('"');
     }
 }

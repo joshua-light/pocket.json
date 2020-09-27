@@ -5,9 +5,9 @@ namespace Pocket.Json
 {
     internal class JsonHashSet<T>
     {
-        public static HashSet<T> Unwrap(JsonSpan json)
+        public static HashSet<T> Read(ref StringSpan json)
         {
-            var list = JsonList<T>.Unwrap(json);
+            var list = JsonList<T>.Read(ref json);
             
             return new HashSet<T>(list);
         }
@@ -15,12 +15,12 @@ namespace Pocket.Json
     
     internal static class JsonHashSet
     {
-        public static Unwrap<T> GenerateUnwrap<T>()
+        public static Read<T> Read<T>()
         {
             var type = typeof(JsonHashSet<>).MakeGenericType(typeof(T).GetTypeInfo().GenericTypeArguments[0]);
-            var method = type.GetTypeInfo().GetDeclaredMethod("Unwrap");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Read");
 
-            return (Unwrap<T>) method.CreateDelegate(typeof(Unwrap<T>));
+            return (Read<T>) method.CreateDelegate(typeof(Read<T>));
         }
     }
 }

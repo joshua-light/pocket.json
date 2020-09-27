@@ -22,7 +22,7 @@ namespace Pocket.Json
             _length = 0;
         }
         
-        public unsafe StringBuffer Append(string value)
+        public unsafe StringBuffer Write(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return this;
@@ -37,7 +37,7 @@ namespace Pocket.Json
             return this;
         }
 
-        public unsafe StringBuffer AppendEscaped(string value)
+        public StringBuffer WriteEscaped(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return this;
@@ -49,19 +49,19 @@ namespace Pocket.Json
                 var ch = value[i];
                 if (ch == '"')
                 {
-                    Append('\\');
-                    Append('"');
+                    Write('\\');
+                    Write('"');
                 }
                 else
                 {
-                    Append(ch);
+                    Write(ch);
                 }
             }
 
             return this;
         }
 
-        public unsafe StringBuffer Append(char value)
+        public unsafe StringBuffer Write(char value)
         {
             *(_sourcePtr + _length) = value;
             _length++;
@@ -69,13 +69,13 @@ namespace Pocket.Json
             return this;
         }
 
-        public StringBuffer Append(byte value)
+        public StringBuffer Write(byte value)
         {
             // Here we just unroll everything, because byte value has either one or two or three digits.
 
             // One digit.
             if (value < 10)
-                return Append((char) ('0' + value));
+                return Write((char) ('0' + value));
 
             // Two digits.
             if (value < 100)
@@ -83,8 +83,8 @@ namespace Pocket.Json
                 var firstDigit = value / 10;
                 var lastDigit = value - firstDigit * 10;
 
-                Append((char) ('0' + firstDigit));
-                Append((char) ('0' + lastDigit));
+                Write((char) ('0' + firstDigit));
+                Write((char) ('0' + lastDigit));
 
                 return this;
             }
@@ -96,18 +96,18 @@ namespace Pocket.Json
             var second = intValue / 10;
             var third = intValue - second * 10;
 
-            Append((char) ('0' + first));
-            Append((char) ('0' + second));
-            Append((char) ('0' + third));
+            Write((char) ('0' + first));
+            Write((char) ('0' + second));
+            Write((char) ('0' + third));
 
             return this;
         }
 
-        public StringBuffer Append(int value)
+        public StringBuffer Write(int value)
         {
             if (value == 0)
             {
-                Append('0');
+                Write('0');
                 return this;
             }
 
@@ -116,20 +116,20 @@ namespace Pocket.Json
             // what we do for other integers.
             if (value == int.MinValue)
             {
-                Append("-2147483648");
+                Write("-2147483648");
                 return this;
             }
 
             // Negative values are represented as absolute values with '-' character prepended.
             if (value < 0)
             {
-                Append('-');
+                Write('-');
                 value = -value;
             }
 
             // Here we partially reuse unrolled append for bytes.
             if (value <= byte.MaxValue)
-                return Append((byte) value);
+                return Write((byte) value);
 
             var digits = Digits.Count(value);
             var remainder = digits % 2;
@@ -137,7 +137,7 @@ namespace Pocket.Json
 
             var chars = _numbersBuffer;
 
-            // Unrolled loop performes faster than simple.
+            // Unrolled loop performs a little bit faster.
             // TODO: Check, whether this can be improved to 4 unrolled operations per cycle.
             for (var i = 0; i < unrolledDigits; i += 2)
             {
@@ -164,35 +164,35 @@ namespace Pocket.Json
             {
                 var index = digits - i;
 
-                Append(chars[index - 1]);
-                Append(chars[index - 2]);
+                Write(chars[index - 1]);
+                Write(chars[index - 2]);
             }
 
             if (remainder != 0)
-                Append(chars[0]);
+                Write(chars[0]);
 
             return this;
         }
 
-        public StringBuffer Append(long value)
+        public StringBuffer Write(long value)
         {
             if (value == 0)
             {
-                Append('0');
+                Write('0');
                 return this;
             }
 
             // Long values perform much more better with simple `ToString()` call,
             // so they're not manually serialized as integers.
-            Append(value.ToString());
+            Write(value.ToString());
             return this;
         }
 
-        public StringBuffer Append(float value)
+        public StringBuffer Write(float value)
         {
             // Here simple comparison is used because it's a *lot* faster, than more correct epsilon check.
             if (value == 0.0f)
-                return Append('0');
+                return Write('0');
 
             // Floating point serialization has some tricks.
             // First of all, it's using floating point precision digits,
@@ -209,7 +209,7 @@ namespace Pocket.Json
             // Negative values are represented as absolute values with '-' character prepended.
             if (value < 0)
             {
-                Append('-');
+                Write('-');
                 value = -value;
             }
 
@@ -228,19 +228,19 @@ namespace Pocket.Json
                 // TODO: Check, whether it's worth to use hardcoded power of ten for small numbers.
                 var integralPart = (int) (value / Math.Pow(10, unpreciseDigits));
 
-                Append(integralPart);
+                Write(integralPart);
 
                 if (unpreciseDigits > 0)
                 {
-                    Append('E');
-                    Append(unpreciseDigits);
+                    Write('E');
+                    Write(unpreciseDigits);
                     return this;
                 }
             }
             else
             {
                 // If `value` is not greater than `1`, it has pattern 0.* or 1.*.
-                Append((byte) value == 0 ? '0' : '1');
+                Write((byte) value == 0 ? '0' : '1');
             }
 
             // Here we manually calculate the number of digits after floating point.
@@ -268,10 +268,10 @@ namespace Pocket.Json
             if (fractionalPart == 0)
                 return this;
 
-            Append('.');
+            Write('.');
 
             if (precision == 1)
-                return Append((char) ('0' + fractionalPart));
+                return Write((char) ('0' + fractionalPart));
 
             var chars = _numbersBuffer;
 
@@ -291,16 +291,16 @@ namespace Pocket.Json
             }
 
             for (int i = 0, length = precision - nonZeroIndex; i < length; i++)
-                Append(chars[precision - 1 - i]);
+                Write(chars[precision - 1 - i]);
 
             return this;
         }
 
-        public StringBuffer Append(double value)
+        public StringBuffer Write(double value)
         {
             // Here simple comparison is used because it's a *lot* faster, than more correct epsilon check.
             if (value == 0.0)
-                return Append('0');
+                return Write('0');
 
             // The same considerations, explained in `Append( float value )`, are true for doubles.
             const int doublePrecision = 15;
@@ -308,7 +308,7 @@ namespace Pocket.Json
             // Negative values are represented as absolute values with '-' character prepended.
             if (value < 0)
             {
-                Append('-');
+                Write('-');
                 value = -value;
             }
 
@@ -327,19 +327,19 @@ namespace Pocket.Json
                 // TODO: Check, whether it's worth to use hardcoded power of ten for small numbers.
                 var integralPart = (long) (value / Math.Pow(10, unpreciseDigits));
 
-                Append(integralPart);
+                Write(integralPart);
 
                 if (unpreciseDigits > 0)
                 {
-                    Append('E');
-                    Append(unpreciseDigits);
+                    Write('E');
+                    Write(unpreciseDigits);
                     return this;
                 }
             }
             else
             {
                 // If `value` is not greater than `1`, it has pattern 0.* or 1.*.
-                Append((byte) value == 0 ? '0' : '1');
+                Write((byte) value == 0 ? '0' : '1');
             }
 
             // Here we manually calculate the number of digits after floating point.
@@ -367,7 +367,7 @@ namespace Pocket.Json
             if (fractionalPart == 0)
                 return this;
 
-            Append('.');
+            Write('.');
 
             var chars = _numbersBuffer;
 
@@ -386,7 +386,7 @@ namespace Pocket.Json
             }
 
             for (int i = 0, length = precision - nonZeroIndex; i < length; i++)
-                Append(chars[precision - 1 - i]);
+                Write(chars[precision - 1 - i]);
 
             return this;
         }

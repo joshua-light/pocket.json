@@ -5,116 +5,110 @@ using Pocket.Common;
 
 namespace Pocket.Json
 {
-    internal delegate void Append<T>(T value, StringBuffer buffer);
-    internal delegate T Unwrap<T>(JsonSpan json);
+    internal delegate void Write<T>(T value, StringBuffer buffer);
+    internal delegate T Read<T>(ref StringSpan json);
 
     internal static class Json<T>
     {
-        private static readonly Append<T> _append = (Append<T>) NewAppend();
-        private static readonly Unwrap<T> _unwrap = (Unwrap<T>) NewUnwrap();
+        public static readonly Read<T> Read = (Read<T>) NewRead();
+        public static readonly Write<T> Write = (Write<T>) NewWrite();
 
-        public static void Append(T value, StringBuffer buffer) =>
-            _append(value, buffer);
-
-        public static T Unwrap(JsonSpan json) =>
-            _unwrap(json);
-
-        private static object NewAppend()
+        private static object NewRead()
         {
             var type = typeof(T);
 
             if (type == typeof(bool))
-                return (Append<bool>) JsonBool.Append;
+                return (Read<bool>) JsonBool.Read;
 
             if (type == typeof(byte))
-                return (Append<byte>) JsonByte.Append;
+                return (Read<byte>) JsonByte.Read;
 
             if (type == typeof(char))
-                return (Append<char>) JsonChar.Append;
+                return (Read<char>) JsonChar.Read;
 
             if (type == typeof(int))
-                return (Append<int>) JsonInt.Append;
+                return (Read<int>) JsonInt.Read;
 
             if (type == typeof(long))
-                return (Append<long>) JsonLong.Append;
+                return (Read<long>) JsonLong.Read;
 
             if (type == typeof(float))
-                return (Append<float>) JsonFloat.Append;
+                return (Read<float>) JsonFloat.Read;
 
             if (type == typeof(double))
-                return (Append<double>) JsonDouble.Append;
+                return (Read<double>) JsonDouble.Read;
 
             if (type == typeof(string))
-                return (Append<string>) JsonString.Append;
+                return (Read<string>) JsonString.Read;
 
             if (type.IsNullable())
-                return JsonNullable.Append<T>();
+                return JsonNullable.Read<T>();
 
             if (type.IsEnum)
-                return JsonEnum.Append<T>();
+                return JsonEnum.Read<T>();
 
             if (type.IsArray)
-                return JsonArray.Append<T>();
+                return JsonArray.GenerateRead<T>();
 
             if (type.Is(typeof(List<>)))
-                return JsonList.Append<T>();
-            
+                return JsonList.GenerateRead<T>();
+
+            if (type.Is(typeof(HashSet<>)))
+                return JsonHashSet.Read<T>();
+
             if (type.Is(typeof(Dictionary<,>)))
-                return JsonDictionary.Append<T>();
+                return JsonDictionary.Read<T>();
 
-            if (type.Is(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
-                return JsonEnumerable.Append<T>();
-
-            return (Append<T>) JsonObject<T>.Append;
+            return (Read<T>) JsonObject<T>.Read;
         }
 
-        private static object NewUnwrap()
+        private static object NewWrite()
         {
             var type = typeof(T);
 
             if (type == typeof(bool))
-                return (Unwrap<bool>) JsonBool.Unwrap;
+                return (Write<bool>) JsonBool.Write;
 
             if (type == typeof(byte))
-                return (Unwrap<byte>) JsonByte.Unwrap;
+                return (Write<byte>) JsonByte.Write;
 
             if (type == typeof(char))
-                return (Unwrap<char>) JsonChar.Unwrap;
+                return (Write<char>) JsonChar.Write;
 
             if (type == typeof(int))
-                return (Unwrap<int>) JsonInt.Unwrap;
+                return (Write<int>) JsonInt.Write;
 
             if (type == typeof(long))
-                return (Unwrap<long>) JsonLong.Unwrap;
+                return (Write<long>) JsonLong.Write;
 
             if (type == typeof(float))
-                return (Unwrap<float>) JsonFloat.Unwrap;
+                return (Write<float>) JsonFloat.Write;
 
             if (type == typeof(double))
-                return (Unwrap<double>) JsonDouble.Unwrap;
+                return (Write<double>) JsonDouble.Write;
 
             if (type == typeof(string))
-                return (Unwrap<string>) JsonString.Unwrap;
-            
+                return (Write<string>) JsonString.Write;
+
             if (type.IsNullable())
-                return JsonNullable.GenerateUnwrap<T>();
-            
+                return JsonNullable.Write<T>();
+
             if (type.IsEnum)
-                return JsonEnum.GenerateUnwrap<T>();
-            
+                return JsonEnum.Write<T>();
+
             if (type.IsArray)
-                return JsonArray.GenerateUnwrap<T>();
-            
+                return JsonArray.Write<T>();
+
             if (type.Is(typeof(List<>)))
-                return JsonList.GenerateUnwrap<T>();
-            
-            if (type.Is(typeof(HashSet<>)))
-                return JsonHashSet.GenerateUnwrap<T>();
+                return JsonList.Write<T>();
             
             if (type.Is(typeof(Dictionary<,>)))
-                return JsonDictionary.GenerateUnwrap<T>();
+                return JsonDictionary.Write<T>();
 
-            return (Unwrap<T>) JsonObject<T>.Unwrap;
+            if (type.Is(typeof(IEnumerable<>)) || type.Implements(typeof(IEnumerable<>)))
+                return JsonEnumerable.Write<T>();
+
+            return (Write<T>) JsonObject<T>.Write;
         }
     }
 
@@ -123,20 +117,20 @@ namespace Pocket.Json
         private static class Cache
         {
             // TODO: Probably need to cache this better somehow.
-            private static readonly ConcurrentDictionary<Type, Append<object>> Appends = new ConcurrentDictionary<Type, Append<object>>();
-            private static readonly ConcurrentDictionary<Type, Unwrap<object>> Unwraps = new ConcurrentDictionary<Type, Unwrap<object>>();
+            private static readonly ConcurrentDictionary<Type, Write<object>> Writes = new ConcurrentDictionary<Type, Write<object>>();
+            private static readonly ConcurrentDictionary<Type, Read<object>> Reads = new ConcurrentDictionary<Type, Read<object>>();
             
-            public static Append<object> Append(Type type) =>
-                Appends.One(type).OrNew(() => Generate.Append(type));
+            public static Write<object> Write(Type type) =>
+                Writes.One(type).OrNew(() => Generate.Write(type));
 
-            public static Unwrap<object> Unwrap(Type type) =>
-                Unwraps.One(type).OrNew(() => Generate.Unwrap(type));
+            public static Read<object> Read(Type type) =>
+                Reads.One(type).OrNew(() => Generate.Read(type));
         }
 
-        public static void Append(Type type, object value, StringBuffer buffer) =>
-            Cache.Append(type)(value, buffer);
+        public static void Write(Type type, object value, StringBuffer buffer) =>
+            Cache.Write(type)(value, buffer);
 
-        public static object Unwrap(Type type, JsonSpan json) =>
-            Cache.Unwrap(type)(json);
+        public static object Read(Type type, ref StringSpan json) =>
+            Cache.Read(type)(ref json);
     }
 }

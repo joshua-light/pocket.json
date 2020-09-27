@@ -20,18 +20,18 @@ namespace Pocket.Json.Tests.Primitives
         }
 
         [Fact]
-        public void ByteEnum_ShouldSerializeCorrectly() => Appends(ByteEnum.Value).As("100");
+        public void ByteEnum_ShouldSerializeCorrectly() => Writes(ByteEnum.Value).As("100");
         [Fact]
-        public void ByteEnum_ShouldDeserializeCorrectly() => Unwraps("100").As(ByteEnum.Value);
+        public void ByteEnum_ShouldDeserializeCorrectly() => Reads("100").As(ByteEnum.Value);
         
         [Fact]
-        public void IntEnum_ShouldSerializeCorrectly() => Appends(IntEnum.Value).As("100");
+        public void IntEnum_ShouldSerializeCorrectly() => Writes(IntEnum.Value).As("100");
         [Fact]
-        public void IntEnum_ShouldDeserializeCorrectly() => Unwraps("100").As(IntEnum.Value);
+        public void IntEnum_ShouldDeserializeCorrectly() => Reads("100").As(IntEnum.Value);
         
         [Fact]
-        public void LongEnum_ShouldSerializeCorrectly() => Appends(LongEnum.Value).As("100");
+        public void LongEnum_ShouldSerializeCorrectly() => Writes(LongEnum.Value).As("100");
         [Fact]
-        public void LongEnum_ShouldDeserializeCorrectly() => Unwraps("100").As(LongEnum.Value);
+        public void LongEnum_ShouldDeserializeCorrectly() => Reads("100").As(LongEnum.Value);
     }
 }

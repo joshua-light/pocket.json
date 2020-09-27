@@ -2,28 +2,22 @@
 {
     internal static class JsonInt
     {
-        public static void Append(int value, StringBuffer buffer)
+        public static int Read(ref StringSpan json)
         {
-            buffer.Append(value);
-        }
-        
-        public static int Unwrap(JsonSpan json) => Unwrap(json.NextPrimitive());
-
-        public static int Unwrap(StringSpan json)
-        {            
-            var source = json.Source;
+            var span = json.NextItem();
+            var source = span.Source;
             var multiplier = 1;
             
-            if (source[json.Start] == '-')
+            if (source[span.Start] == '-')
             {
                 multiplier = -1;
-                json.Start++;
+                span.Start++;
             }
 
-            var offset = json.Start;
+            var offset = span.Start;
             
             int value;
-            switch (json.End - offset)
+            switch (span.End - offset)
             {
                 case 1:
                     value = source[offset + 0] - '0';
@@ -104,5 +98,8 @@
 
             return value * multiplier;
         }
+        
+        public static void Write(int value, StringBuffer buffer) =>
+            buffer.Write(value);
     }
 }

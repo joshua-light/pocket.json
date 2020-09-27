@@ -6,20 +6,20 @@ namespace Pocket.Json.Tests.Collections
     public class JsonDictionaryTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldConvertEmptyDictionaryToBrackets() =>
-            Appends(new Dictionary<int, string>()).As("{}");
+        public void Write_ShouldConvertEmptyDictionaryToBrackets() =>
+            Writes(new Dictionary<int, string>()).As("{}");
 
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends(new Dictionary<int, int>
+            Writes(new Dictionary<int, int>
             {
                 { 1, 1 },
                 { 2, 1 },
                 { 3, 1 }
             }).As("{1:1,2:1,3:1}");
 
-            Appends(new Dictionary<string, IntAndString>
+            Writes(new Dictionary<string, IntAndString>
             {
                 { "1", new IntAndString { Item1 = 2, Item2 = "3" } },
                 { "4", new IntAndString { Item1 = 5, Item2 = "6" } },
@@ -33,20 +33,20 @@ namespace Pocket.Json.Tests.Collections
         }
         
         [Fact]
-        public void Unwraps_ShouldConvertBracketsToEmptyDictionary() =>
-            Unwraps("{}").As(new Dictionary<int, string>());
+        public void Reads_ShouldConvertBracketsToEmptyDictionary() =>
+            Reads("{}").As(new Dictionary<int, string>());
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
-            Unwraps("{1:1,2:1,3:1}").As(new Dictionary<int, int>
+            Reads("{1:1,2:1,3:1}").As(new Dictionary<int, int>
             {
                 { 1, 1 },
                 { 2, 1 },
                 { 3, 1 }
             });
             
-            Unwraps(
+            Reads(
                 "{" +
                 "\"1\":{\"Item1\":2,\"Item2\":\"3\"}," +
                 "\"4\":{\"Item1\":5,\"Item2\":\"6\"}," +

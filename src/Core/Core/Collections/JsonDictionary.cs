@@ -5,79 +5,77 @@ namespace Pocket.Json
 {
     internal static class JsonDictionary<TKey, TValue>
     {
-        public static void Append(IDictionary<TKey, TValue> items, StringBuffer buffer)
+        private static Dictionary<TKey, TValue> Read(ref StringSpan json)
         {
-            buffer.Append('{');
-
-            var i = 0;
-            foreach (var item in items)
+            if (json.CharAt(0) == '{' && json.CharAt(1) == '}')
             {
-                Json<TKey>.Append(item.Key, buffer);
-                buffer.Append(':');
-                Json<TValue>.Append(item.Value, buffer);
-
-                if (i++ != items.Count - 1)
-                    buffer.Append(',');
-            }
-
-            buffer.Append('}');
-        }
-
-        public static Dictionary<TKey, TValue> Unwrap(JsonSpan json) => UnwrapOptimized(json, ref json.Span);
-
-        private static Dictionary<TKey, TValue> UnwrapOptimized(JsonSpan json, ref StringSpan span)
-        {
-            if (span.CharAt(0) == '{' && span.CharAt(1) == '}')
-            {
-                span.Start += 2;
+                json.Start += 2;
                 return new Dictionary<TKey, TValue>();
             }
 
-            span.Start++; // Skip '{'.
+            json.Start++; // Skip '{'.
             
             var result = new Dictionary<TKey, TValue>();
 
             while (true)
             {
-                var key = Json<TKey>.Unwrap(json);
-                span.Start++; // Skip ':'.
-                var value = Json<TValue>.Unwrap(json);
+                var key = Json<TKey>.Read(ref json);
+                json.Start++; // Skip ':'.
+                var value = Json<TValue>.Read(ref json);
 
                 result.Add(key, value);
 
-                if (span.CharAt(0) == '}')
+                if (json.CharAt(0) == '}')
                 {
-                    span.Start++;
+                    json.Start++;
                     break;
                 }
 
-                span.Start++; // Skip ','.
+                json.Start++; // Skip ','.
             }
 
             return result;
+        }
+        
+        public static void Write(IDictionary<TKey, TValue> items, StringBuffer buffer)
+        {
+            buffer.Write('{');
+
+            var i = 0;
+            foreach (var item in items)
+            {
+                Json<TKey>.Write(item.Key, buffer);
+                buffer.Write(':');
+                Json<TValue>.Write(item.Value, buffer);
+
+                if (i++ != items.Count - 1)
+                    buffer.Write(',');
+            }
+
+            buffer.Write('}');
         }
     }
 
     internal static class JsonDictionary
     {
-        public static Append<T> Append<T>()
+        public static Read<T> Read<T>()
         {
             var type = typeof(JsonDictionary<,>).MakeGenericType(
                 typeof(T).GetTypeInfo().GenericTypeArguments[0],
                 typeof(T).GetTypeInfo().GenericTypeArguments[1]);
-            var method = type.GetTypeInfo().GetDeclaredMethod("Append");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Read");
 
-            return (Append<T>) method.CreateDelegate(typeof(Append<T>));
+            return (Read<T>) method.CreateDelegate(typeof(Read<T>));
         }
         
-        public static Unwrap<T> GenerateUnwrap<T>()
+        public static Write<T> Write<T>()
         {
             var type = typeof(JsonDictionary<,>).MakeGenericType(
                 typeof(T).GetTypeInfo().GenericTypeArguments[0],
                 typeof(T).GetTypeInfo().GenericTypeArguments[1]);
-            var method = type.GetTypeInfo().GetDeclaredMethod("Unwrap");
+            var method = type.GetTypeInfo().GetDeclaredMethod("Write");
 
-            return (Unwrap<T>) method.CreateDelegate(typeof(Unwrap<T>));
+            return (Write<T>) method.CreateDelegate(typeof(Write<T>));
         }
     }
 }

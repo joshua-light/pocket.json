@@ -4,18 +4,16 @@ namespace Pocket.Json
 {
     internal static class JsonChar
     {
-        public static void Append(char value, StringBuffer buffer)
+        public static char Read(ref StringSpan json)
         {
-            buffer.Append(value);
-        }
-
-        public static char Unwrap(JsonSpan json)
-        {
-            var span = json.NextPrimitive();
+            var span = json.NextItem();
             if (span.End - span.Start == 1)
                 return span.CharAt(0);
 
-            throw new ArgumentException($"Specified string \"{span}\" is not a single character.", nameof(span));
+            throw new ArgumentException($"Specified string \"{span.ToString()}\" is not a single character.", nameof(span));
         }
+        
+        public static void Write(char value, StringBuffer buffer) => 
+            buffer.Write(value);
     }
 }

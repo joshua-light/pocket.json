@@ -6,15 +6,15 @@ namespace Pocket.Json.Tests.Collections
     public class JsonListTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldConvertEmptyListToBrackets() => Appends(new List<int>()).As("[]");
+        public void Write_ShouldConvertEmptyListToBrackets() => Writes(new List<int>()).As("[]");
 
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
-            Appends(new List<int> { 1, 2, 3 }).As("[1,2,3]");
-            Appends(new List<string> { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
+            Writes(new List<int> { 1, 2, 3 }).As("[1,2,3]");
+            Writes(new List<string> { "1", "2", "3" }).As("[\"1\",\"2\",\"3\"]");
             
-            Appends(
+            Writes(
                     new List<IntAndInt>
                     {
                         new IntAndInt{ Item1 = 1, Item2 = 2 },
@@ -31,15 +31,15 @@ namespace Pocket.Json.Tests.Collections
         }
         
         [Fact]
-        public void Unwraps_ShouldConvertBracketsToEmptyList() => Unwraps("[]").As(new List<int>());
+        public void Reads_ShouldConvertBracketsToEmptyList() => Reads("[]").As(new List<int>());
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
-            Unwraps("[1,2,3]").As(new List<int> { 1, 2, 3 });
-            Unwraps("[\"1\",\"2\",\"3\"]").As(new List<string> { "1", "2", "3" });
+            Reads("[1,2,3]").As(new List<int> { 1, 2, 3 });
+            Reads("[\"1\",\"2\",\"3\"]").As(new List<string> { "1", "2", "3" });
             
-            Unwraps(
+            Reads(
                     "[" +
                     "{\"Item1\":1,\"Item2\":2}," +
                     "{\"Item1\":3,\"Item2\":4}," +

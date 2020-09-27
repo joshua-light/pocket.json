@@ -5,17 +5,17 @@ namespace Pocket.Json.Tests.Primitives
     public class JsonByteTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldWorkCorrectly()
+        public void Write_ShouldWorkCorrectly()
         {
             for (var i = 0; i <= byte.MaxValue; i++)
-                Appends(i).As(i.ToString());
+                Writes(i).As(i.ToString());
         }
 
         [Fact]
-        public void Unwraps_ShouldWorkCorrectly()
+        public void Reads_ShouldWorkCorrectly()
         {
             for (var i = 0; i <= byte.MaxValue; i++)
-                Unwraps(i.ToString()).As<byte>((byte) i);
+                Reads(i.ToString()).As<byte>((byte) i);
         }
     }
 }

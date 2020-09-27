@@ -5,15 +5,15 @@ namespace Pocket.Json.Tests.Primitives
     public class JsonBoolTest : JsonTest
     {
         [Fact]
-        public void Append_ShouldConvertTrueTo1() => Appends(true).As("1");
+        public void Write_ShouldConvertTrueTo1() => Writes(true).As("1");
         
         [Fact]
-        public void Append_ShouldConvertFalseTo0() => Appends(false).As("0");
+        public void Write_ShouldConvertFalseTo0() => Writes(false).As("0");
 
         [Fact]
-        public void Unwrap_ShouldConvert1ToTrue() => Unwraps("1").As(true);
+        public void Read_ShouldConvert1ToTrue() => Reads("1").As(true);
         
         [Fact]
-        public void Unwrap_ShouldConvert0ToFalse() => Unwraps("0").As(false);
+        public void Read_ShouldConvert0ToFalse() => Reads("0").As(false);
     }
 }
