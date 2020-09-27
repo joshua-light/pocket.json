@@ -4,63 +4,63 @@
     {
         public class Nested1
         {
-            public Nested2 Nested;
+            [Json] public Nested2 Nested;
         }
 
         public class Nested2
         {
-            public Nested3 Nested01;
-            public Nested4 Nested02;
+            [Json] public Nested3 Nested01;
+            [Json] public Nested4 Nested02;
         }
 
         public class Nested3
         {
-            public TenFields.Bool Booleans;
-            public TenFields.Byte Bytes;
-            public TenFields.Int Ints;
-            public TenFields.Long Longs;
-            public TenFields.Float Floats;
-            public TenFields.Double Doubles;
-            public TenFields.String Strings;
+            [Json] public TenFields.Bool Booleans;
+            [Json] public TenFields.Byte Bytes;
+            [Json] public TenFields.Int Ints;
+            [Json] public TenFields.Long Longs;
+            [Json] public TenFields.Float Floats;
+            [Json] public TenFields.Double Doubles;
+            [Json] public TenFields.String Strings;
             
-            public Nested4 Nested01;
-            public Nested4 Nested02;
-            public Nested4 Nested03;
-            public Nested4 Nested04;
+            [Json] public Nested4 Nested01;
+            [Json] public Nested4 Nested02;
+            [Json] public Nested4 Nested03;
+            [Json] public Nested4 Nested04;
         }
 
         public class Nested4
         {
-            public TenFields.Bool Booleans;
-            public TenFields.Byte Bytes;
-            public TenFields.Int Ints;
-            public TenFields.Long Longs;
-            public TenFields.Float Floats;
-            public TenFields.Double Doubles;
-            public TenFields.String Strings;
+            [Json] public TenFields.Bool Booleans;
+            [Json] public TenFields.Byte Bytes;
+            [Json] public TenFields.Int Ints;
+            [Json] public TenFields.Long Longs;
+            [Json] public TenFields.Float Floats;
+            [Json] public TenFields.Double Doubles;
+            [Json] public TenFields.String Strings;
             
-            public Nested5 Nested;
+            [Json] public Nested5 Nested;
         }
         
         public class Nested5
         {
-            public TenFields.Bool Booleans;
-            public TenFields.Byte Bytes;
-            public TenFields.Int Ints;
-            public TenFields.Long Longs;
-            public TenFields.Float Floats;
-            public TenFields.Double Doubles;
-            public TenFields.String Strings;
+            [Json] public TenFields.Bool Booleans;
+            [Json] public TenFields.Byte Bytes;
+            [Json] public TenFields.Int Ints;
+            [Json] public TenFields.Long Longs;
+            [Json] public TenFields.Float Floats;
+            [Json] public TenFields.Double Doubles;
+            [Json] public TenFields.String Strings;
         }
         
-        public Nested1 Nested;
+        [Json] public Nested1 Nested;
         
-        public TenFields.Bool Booleans;
-        public TenFields.Byte Bytes;
-        public TenFields.Int Ints;
-        public TenFields.Long Longs;
-        public TenFields.Float Floats;
-        public TenFields.Double Doubles;
-        public TenFields.String Strings;
+        [Json] public TenFields.Bool Booleans;
+        [Json] public TenFields.Byte Bytes;
+        [Json] public TenFields.Int Ints;
+        [Json] public TenFields.Long Longs;
+        [Json] public TenFields.Float Floats;
+        [Json] public TenFields.Double Doubles;
+        [Json] public TenFields.String Strings;
     }
 }
