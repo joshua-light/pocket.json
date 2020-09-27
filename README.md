@@ -10,22 +10,12 @@ _A simple JSON serialization/deserialization library that is pretty fast._
 ## Usage
 ### Serialize
 ```c#
-new Point { X = 1, Y = 2 }.AsJson();
+var json = new Point { X = 1, Y = 2 }.ToJson();
 ```
+
+### Deserialize
 ```c#
-public class Point // It is important that type is `public` due to code-generation.
-{
-    [Json] public int X;
-    [Json] public int Y;
-}
-
-var point = new Point { X = 1, Y = 2 };
-
-// Serialization.
-var pointJson = point.AsJson(); // "{X:1,Y:2}" here.
-
-// Deserialization.
-var samePoint = pointJson.AsJson<Point>(); // { X = 1, Y = 2 } of type `Point` here.
+var point = json.FromJson<Point>();
 ```
 
 ## Benchmarks (outdated)
@@ -38,12 +28,14 @@ Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
   [Host]     : .NET Core 2.0.7 (CoreCLR 4.6.26328.01, CoreFX 4.6.26403.03), 64bit RyuJIT
   DefaultJob : .NET Core 2.0.7 (CoreCLR 4.6.26328.01, CoreFX 4.6.26403.03), 64bit RyuJIT
 ```
+
 ### Serialization
 |         Method |     Mean |     Error |    StdDev |
 |--------------- |---------:|----------:|----------:|
 | NewtonsoftJson | 362.7 us | 3.5190 us | 3.2916 us |
 |       Utf8Json | 113.7 us | 1.1188 us | 1.0466 us |
 |     PocketJson | 141.2 us | 0.6925 us | 0.5783 us |
+
 ### Deserialization
 |         Method |     Mean |     Error |    StdDev |
 |--------------- |---------:|----------:|----------:|
