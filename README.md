@@ -6,7 +6,7 @@
 
 _A simple JSON serialization/deserialization library that is pretty fast._
 
-_(It doesn't match 100% of JSON spec, and was made just for learning purpose.)_
+_(It doesn't match 100% of JSON spec, and was made just for learning purposes.)_
 
 ## Usage
 ### Data Format
