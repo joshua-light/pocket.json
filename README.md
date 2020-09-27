@@ -30,7 +30,7 @@ var json = new Point { X = 1, Y = 2 }.ToJson();
 var point = json.FromJson<Point>();
 ```
 
-## Benchmarks (outdated)
+## Benchmarks
 Code for benchmarks can be found [here](https://github.com/JoshuaLight/Pocket.Json/blob/master/src/Benchmarks/Program.cs).
 ```
 BenchmarkDotNet=v0.12.1, OS=elementary 5.1.5
