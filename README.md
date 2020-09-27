@@ -41,15 +41,15 @@ Intel Core i9-9900KF CPU 3.60GHz (Coffee Lake), 1 CPU, 16 logical and 8 physical
 ```
 
 ### Serialization
-|         Method |     Mean |   Error |  StdDev |
-|--------------- |---------:|--------:|--------:|
-| NewtonsoftJson | 278.7 μs | 0.78 μs | 0.73 μs |
-|       Utf8Json | 101.5 μs | 0.24 μs | 0.23 μs |
-|     PocketJson | 121.4 μs | 1.37 μs | 1.28 μs |
+|         Method |      Mean |    Error |   StdDev |
+|--------------- |----------:|---------:|---------:|
+| NewtonsoftJson | 274.29 μs | 1.478 μs | 1.310 μs |
+|       Utf8Json |  99.78 μs | 0.537 μs | 0.476 μs |
+|     PocketJson | 108.07 μs | 0.434 μs | 0.362 μs |
 
 ### Deserialization
 |         Method |      Mean |    Error |   StdDev |
 |--------------- |----------:|---------:|---------:|
-| NewtonsoftJson | 421.39 μs | 6.494 μs | 6.075 μs |
-|       Utf8Json | 130.93 μs | 0.298 μs | 0.248 μs |
-|     PocketJson |  90.99 μs | 0.386 μs | 0.322 μs |
+| NewtonsoftJson | 401.33 μs | 3.472 μs | 3.077 μs |
+|       Utf8Json | 130.03 μs | 1.492 μs | 1.395 μs |
+|     PocketJson |  79.60 μs | 0.286 μs | 0.267 μs |
