@@ -17,10 +17,7 @@ namespace Pocket.Json
         /// <returns>JSON representation of object.</returns>
         public static string ToJson<T>(this T self)
         {
-            if (_buffer == null)
-                _buffer = new StringBuffer();
-
-            var buffer = _buffer;
+            var buffer = _buffer ??= new StringBuffer();
             
             buffer.Clear();
 
@@ -45,10 +42,7 @@ namespace Pocket.Json
         /// <returns>JSON representation of object.</returns>
         public static string ToJson(this object self, Type of)
         {
-            if (_buffer == null)
-                _buffer = new StringBuffer();
-
-            var buffer = _buffer;
+            var buffer = _buffer ??= new StringBuffer();
             
             buffer.Clear();
 
