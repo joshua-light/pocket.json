@@ -20,7 +20,7 @@ var point = json.FromJson<Point>();
 
 ## Benchmarks (outdated)
 Code for benchmarks can be found [here](https://github.com/JoshuaLight/Pocket.Json/blob/master/src/Benchmarks/Program.cs).
-``` ini
+```
 BenchmarkDotNet=v0.10.14, OS=Windows 8.1 (6.3.9600.0)
 Intel Core i5-4690 CPU 3.50GHz (Haswell), 1 CPU, 4 logical and 4 physical cores
 Frequency=3417974 Hz, Resolution=292.5710 ns, Timer=TSC
