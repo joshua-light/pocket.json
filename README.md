@@ -11,12 +11,15 @@ _(It doesn't match 100% of JSON spec, and was made just for learning purposes.)_
 ## Usage
 ### Data Format
 ```c#
-// Class should be `public` due to code generation.
+// Class should be `public`.
 public class Point
 {
-    // Fields should be raw and `public`.
+    // Fields should be just `public`.
     [Json] public int X;
     [Json] public int Y;
+    
+    // A public parameterless constructor should be defined (either implicitly or explicitly).
+    public Point() { }
 }
 ```
 
